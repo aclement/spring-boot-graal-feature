@@ -50,17 +50,7 @@ public class SpringFeature implements Feature {
     	return fs;
     }
 
-    /**
-     * Handler for initializations after all features have been registered and all options have been
-     * parsed; but before any initializations for the static analysis have happened.
-     *
-     * @param access The supported operations that the feature can perform at this time
-     *
-     * @since 1.0
-     */
-
     public void afterRegistration(AfterRegistrationAccess access) {
-//        ImageSingletons.add(ResourcesSupport.class, new ResourcesSupport());
     }
 
 //    /**
@@ -80,16 +70,10 @@ public class SpringFeature implements Feature {
     	DynamicProxies dynamicProxies = new DynamicProxies();
     	dynamicProxies.register(a);
     }
-
-    /**
-     * Handler for initializations before the static analysis.
-     *
-     * @param access The supported operations that the feature can perform at this time
-     *
-     * @since 1.0
-     */
+    
     public void beforeAnalysis(BeforeAnalysisAccess access) {
     	new Resources().register(access);
+    	new DelayInitialization().register(access);
     }
 
     /**
