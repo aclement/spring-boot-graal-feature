@@ -1,0 +1,20 @@
+{
+  "resources": [
+    {"pattern": "META-INF/spring.components"},
+    {"pattern": "META-INF/spring.factories"},
+    {"pattern": "application.properties"},
+    {"pattern": "logging.properties"},
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector\$ConfigurationPropertiesBeanRegistrar.class"},
+    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBindingPostProcessorRegistrar.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/.*/.*Configuration.class"},
+    {"pattern": "com/example/commandlinerunner/CLR.class"},
+    {"pattern": "com/example/commandlinerunner/CommandlinerunnerApplication.class"},
+    {"pattern": "org/springframework/boot/CommandLineRunner.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"},
+    {"pattern": "org/springframework/context/EnvironmentAware.class"},
+    {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
+    {"pattern": "org/springframework/beans/factory/Aware.class"}
+  ]
+}
+

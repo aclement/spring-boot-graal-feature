@@ -1,0 +1,17 @@
+{
+"delayClassInitialization":
+[
+{"class": "org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener\$LiquibasePresent"},
+{"class": "org.springframework.boot.json.JacksonJsonParser"},
+{"class": "org.springframework.boot.autoconfigure.jdbc.HikariDriverConfigurationFailureAnalyzer"},
+{"class": "org.springframework.boot.diagnostics.analyzer.ValidationExceptionFailureAnalyzer,"},
+{"class": "org.springframework.core.type.filter.AspectJTypeFilter"},
+{"class": "org.springframework.boot.autoconfigure.cache.JCacheCacheConfiguration"},
+{"class": "org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration"},
+{"class": "org.springframework.boot.autoconfigure.cache.InfinispanCacheConfiguration"},
+{"class": "org.springframework.boot.json.GsonJsonParser"},
+{"class": "org.springframework.core.io.VfsUtils"}
+]
+}
+
+
