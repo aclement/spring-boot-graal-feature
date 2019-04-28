@@ -7,7 +7,7 @@ import org.springframework.boot.graal.domain.delayinit.DelayInitJsonMarshaller;
 
 public class DelayInitialization {
 
-	public void load() throws Exception {
+	public void compute() throws Exception {
 		InputStream s = this.getClass().getResourceAsStream("/delayInitialization.json");
 		System.out.println(s);
 		DelayInitDescriptor read = DelayInitJsonMarshaller.read(s);

@@ -9,7 +9,7 @@ import org.springframework.boot.graal.domain.reflect.ReflectionDescriptor;
 
 public class Reflection {
 
-	public void load() throws Exception {
+	public void compute() throws Exception {
 		InputStream s = this.getClass().getResourceAsStream("/reflect.json");
 		System.out.println(s);
 		ReflectionDescriptor read = JsonMarshaller.read(s);

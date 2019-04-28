@@ -5,7 +5,8 @@
     {"pattern": "application.properties"},
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector\$ConfigurationPropertiesBeanRegistrar.class"},
+    // Using . rather tnan dollar as final separator on next line, $ seems to get chewed up even though \$ is waht I was suppling on command line
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.ConfigurationPropertiesBeanRegistrar.class"},
     {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBindingPostProcessorRegistrar.class"},
     {"pattern": "org/springframework/boot/autoconfigure/.*/.*Configuration.class"},
     {"pattern": "com/example/commandlinerunner/CLR.class"},

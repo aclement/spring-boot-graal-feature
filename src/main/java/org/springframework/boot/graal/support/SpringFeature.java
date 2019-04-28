@@ -1,28 +1,14 @@
 package org.springframework.boot.graal.support;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.function.Consumer;
 
 import org.graalvm.nativeimage.ImageSingletons;
 import org.graalvm.nativeimage.hosted.Feature;
-import org.springframework.boot.graal.domain.proxies.ProxiesDescriptor;
-import org.springframework.boot.graal.domain.resources.ResourcesDescriptor;
 
 import com.oracle.svm.core.annotate.AutomaticFeature;
-import com.oracle.svm.core.jdk.Resources;
-import com.oracle.svm.core.jdk.proxy.DynamicProxyRegistry;
-import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
-import com.oracle.svm.hosted.FeatureImpl.DuringSetupAccessImpl;
-import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.ResourcesFeature;
-import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
-import com.oracle.svm.hosted.config.ConfigurationDirectories;
-import com.oracle.svm.hosted.config.ConfigurationParser;
-import com.oracle.svm.hosted.config.ResourceConfigurationParser;
 import com.oracle.svm.reflect.proxy.hosted.DynamicProxyFeature;
-import com.oracle.svm.reflect.proxy.hosted.DynamicProxyFeature.Options;
 
 @AutomaticFeature // indicates it will be added just by being found on the classpath
 public class SpringFeature implements Feature {
@@ -59,8 +45,8 @@ public class SpringFeature implements Feature {
      */
     public List<Class<? extends Feature>> getRequiredFeatures() {
     	List<Class<? extends Feature>> fs = new ArrayList<>();
-    	fs.add(DynamicProxyFeature.class);
-    	fs.add(ResourcesFeature.class);
+    	fs.add(DynamicProxyFeature.class); // Ensures DynamicProxyRegistry available
+    	fs.add(ResourcesFeature.class); // Ensures ResourcesRegistry available
     	return fs;
     }
 
@@ -91,57 +77,8 @@ public class SpringFeature implements Feature {
 
     @Override
     public void duringSetup(DuringSetupAccess a) {
-    	ProxiesDescriptor pd = new DynamicProxies().compute();
-    	System.out.println("SBG: Proxy registration: #"+pd.getProxyDescriptors().size()+" proxies");
-    	DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
-    	ImageClassLoader imageClassLoader = access.getImageClassLoader();
-    	// Should have been registered by DynamicProxyFeature already
-    	DynamicProxyRegistry dynamicProxySupport = ImageSingletons.lookup(DynamicProxyRegistry.class);
-//      DynamicProxySupport dynamicProxySupport = new DynamicProxySupport(imageClassLoader.getClassLoader());
-//      ImageSingletons.add(DynamicProxyRegistry.class, dynamicProxySupport);
-    	Consumer<List<String>> proxyRegisteringConsumer = interfaceNames -> {
-    		System.out.println(interfaceNames);
-            Class<?>[] interfaces = new Class<?>[interfaceNames.size()];
-            for (int i = 0; i < interfaceNames.size(); i++) {
-                String className = interfaceNames.get(i);
-                Class<?> clazz = imageClassLoader.findClassByName(className, false);
-                if (clazz == null) {
-                    throw new RuntimeException("Class " + className + " not found");
-                }
-                if (!clazz.isInterface()) {
-                    throw new RuntimeException("The class \"" + className + "\" is not an interface.");
-                }
-                interfaces[i] = clazz;
-            }
-            /* The interfaces array can be empty. The java.lang.reflect.Proxy API allows it. */
-            dynamicProxySupport.addProxyClass(interfaces);
-    	};
-    	pd.consume(proxyRegisteringConsumer);
-//        DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
-//
-//        ImageClassLoader imageClassLoader = access.getImageClassLoader();
-//        DynamicProxySupport dynamicProxySupport = new DynamicProxySupport(imageClassLoader.getClassLoader());
-//        ImageSingletons.add(DynamicProxyRegistry.class, dynamicProxySupport);
-//
-//        Consumer<String[]> adapter = interfaceNames -> {
-//            Class<?>[] interfaces = new Class<?>[interfaceNames.length];
-//            for (int i = 0; i < interfaceNames.length; i++) {
-//                String className = interfaceNames[i];
-//                Class<?> clazz = imageClassLoader.findClassByName(className, false);
-//                if (clazz == null) {
-//                    throw new RuntimeException("Class " + className + " not found");
-//                }
-//                if (!clazz.isInterface()) {
-//                    throw new RuntimeException("The class \"" + className + "\" is not an interface.");
-//                }
-//                interfaces[i] = clazz;
-//            }
-//            /* The interfaces array can be empty. The java.lang.reflect.Proxy API allows it. */
-//            dynamicProxySupport.addProxyClass(interfaces);
-//        };
-//        ProxyConfigurationParser parser = new ProxyConfigurationParser(adapter);
-//        ConfigurationParser.parseAndRegisterConfigurations(parser, imageClassLoader, "dynamic proxy",
-//                        Options.DynamicProxyConfigurationFiles, Options.DynamicProxyConfigurationResources, ConfigurationDirectories.FileNames.DYNAMIC_PROXY_NAME);
+    	DynamicProxies dynamicProxies = new DynamicProxies();
+    	dynamicProxies.register(a);
     }
 
     /**
@@ -152,17 +89,7 @@ public class SpringFeature implements Feature {
      * @since 1.0
      */
     public void beforeAnalysis(BeforeAnalysisAccess access) {
-//        ImageClassLoader imageClassLoader = ((BeforeAnalysisAccessImpl) access).getImageClassLoader();
-//        ResourcesDescriptor rd = new Resources().load();
-//        ResourcesRegistry rr = ImageSingletons.lookup(ResourcesRegistry.class);
-//        rr.addResource
-//        
-//        Resources.registerResource(relativePath, is);
-//        ResourceConfigurationParser parser = new ResourceConfigurationParser(ImageSingletons.lookup(ResourcesRegistry.class));
-//        ConfigurationParser.parseAndRegisterConfigurations(parser, imageClassLoader, "resource",
-//                        Options.ResourceConfigurationFiles, Options.ResourceConfigurationResources, ConfigurationDirectories.FileNames.RESOURCES_NAME);
-//
-//        newResources.addAll(Arrays.asList(Options.IncludeResources.getValue()));
+    	new Resources().register(access);
     }
 
     /**
