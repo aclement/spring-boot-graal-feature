@@ -8,6 +8,7 @@ import org.graalvm.nativeimage.hosted.Feature;
 
 import com.oracle.svm.core.annotate.AutomaticFeature;
 import com.oracle.svm.hosted.ResourcesFeature;
+import com.oracle.svm.reflect.hosted.ReflectionFeature;
 import com.oracle.svm.reflect.proxy.hosted.DynamicProxyFeature;
 
 @AutomaticFeature // indicates it will be added just by being found on the classpath
@@ -47,6 +48,7 @@ public class SpringFeature implements Feature {
     	List<Class<? extends Feature>> fs = new ArrayList<>();
     	fs.add(DynamicProxyFeature.class); // Ensures DynamicProxyRegistry available
     	fs.add(ResourcesFeature.class); // Ensures ResourcesRegistry available
+    	fs.add(ReflectionFeature.class);
     	return fs;
     }
 
@@ -65,8 +67,11 @@ public class SpringFeature implements Feature {
 //    }
 //    
 
+
     @Override
     public void duringSetup(DuringSetupAccess a) {
+    	Reflection reflection = new Reflection();
+    	reflection.register(a);
     	DynamicProxies dynamicProxies = new DynamicProxies();
     	dynamicProxies.register(a);
     }

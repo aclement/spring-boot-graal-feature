@@ -7,7 +7,7 @@ as the native image is built:
 native-image \
   -Dorg.springframework.boot.logging.LoggingSystem=none \
   -Dio.netty.noUnsafe=true \
-  --no-server -H:Name=clr -H:ReflectionConfigurationFiles=../../../reflect.json \
+  --no-server -H:Name=clr \
   -H:+ReportExceptionStackTraces \
   --allow-incomplete-classpath \
   --report-unsupported-elements-at-runtime \
@@ -25,6 +25,7 @@ native-image \
 ╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝
 
 [clr:36189]        (cap):   1,084.62 ms
+SBG: reflection registering #144 entries
 SBG: Proxy registration: #3 proxies
 [org.springframework.boot.context.properties.ConfigurationProperties, org.springframework.core.annotation.SynthesizedAnnotation]
 [org.springframework.stereotype.Component]
