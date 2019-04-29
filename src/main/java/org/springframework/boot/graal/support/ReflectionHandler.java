@@ -34,7 +34,7 @@ import com.oracle.svm.hosted.FeatureImpl.DuringSetupAccessImpl;
 import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.config.ReflectionRegistryAdapter;
 
-public class Reflection {
+public class ReflectionHandler {
 
 	public ReflectionDescriptor compute() {
 		try {

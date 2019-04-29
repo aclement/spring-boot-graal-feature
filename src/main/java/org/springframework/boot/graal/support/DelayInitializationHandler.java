@@ -23,7 +23,7 @@ import org.graalvm.nativeimage.hosted.RuntimeClassInitialization;
 import org.springframework.boot.graal.domain.delayinit.DelayInitDescriptor;
 import org.springframework.boot.graal.domain.delayinit.DelayInitJsonMarshaller;
 
-public class DelayInitialization {
+public class DelayInitializationHandler {
 
 	public DelayInitDescriptor compute() {
 		try {

@@ -28,7 +28,7 @@ import com.oracle.svm.core.jdk.proxy.DynamicProxyRegistry;
 import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.FeatureImpl.DuringSetupAccessImpl;
 
-public class DynamicProxies {
+public class DynamicProxiesHandler {
 
 	public ProxiesDescriptor compute() {
 		try {

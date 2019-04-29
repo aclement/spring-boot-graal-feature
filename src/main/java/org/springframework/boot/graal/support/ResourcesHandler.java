@@ -26,7 +26,7 @@ import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
 import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
 
-public class Resources extends Support {
+public class ResourcesHandler extends Support {
 
 	public ResourcesDescriptor compute() {
 		try {
