@@ -47,4 +47,26 @@ SBG: delaying initialization of #10 classes
 [clr:36189]      [total]:  71,211.78 ms
 ```
 
-Work in progress
+29-Apr-2019
+Just added support to process META-INF/spring.factories files.  If they list any configurations then the `ResourcesHandler` class will check for `@ConditionalOnClass` on those configurations - if the classes aren't on the classpath then they can't be in the image. In this situation instead of registering the 'input' spring.factories file, it is modified to remove these unnecessary entries and this modified one is registered. 
+
+```
+Processing META-INF/spring.factories files...
+Spring.factories processing: looking at #20 configuration references
+  @COC check failed for org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.jsonb.JsonbAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
+  @COC check failed for org.springframework.boot.autoconfigure.session.SessionAutoConfiguration
+  removed 15 configurations
+```
