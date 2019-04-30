@@ -13,13 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.boot.graal.support;
+package org.springframework.boot.graal.type;
 
-public class App {
-	public static void main(String[] args) throws Exception {
-//		new ReflectionHandler().compute();
-//		new DynamicProxiesHandler().compute();
-//		new ResourcesHandler().compute();
-//		new DelayInitializationHandler().compute();
+public class MissingTypeException extends RuntimeException {
+	private static final long serialVersionUID = 1L;
+	private String typename;
+
+	public MissingTypeException(String slashedTypeName) {
+		this.typename = slashedTypeName;
+	}
+
+	@Override
+	public String getMessage() {
+		return "Unable to find class file for " + typename;
 	}
 }

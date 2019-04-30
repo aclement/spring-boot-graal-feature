@@ -22,6 +22,12 @@
 			<groupId>com.oracle.substratevm</groupId>
 			<artifactId>graal-hotspot-library</artifactId>
 			<version>1.0.0-rc16</version>
+			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.ow2.asm</groupId>
+			<artifactId>asm-tree</artifactId>
+			<version>7.1</version>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
@@ -51,6 +57,7 @@
 					</execution>
 				</executions>
 			</plugin>
+
 		</plugins>
 	</build>
 </project>

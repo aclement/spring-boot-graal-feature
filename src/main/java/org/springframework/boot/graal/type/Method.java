@@ -13,13 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.boot.graal.support;
 
-public class App {
-	public static void main(String[] args) throws Exception {
-//		new ReflectionHandler().compute();
-//		new DynamicProxiesHandler().compute();
-//		new ResourcesHandler().compute();
-//		new DelayInitializationHandler().compute();
+package org.springframework.boot.graal.type;
+
+import org.objectweb.asm.tree.MethodNode;
+
+public class Method {
+	
+	MethodNode mn;
+
+	public Method(MethodNode mn) {
+		this.mn = mn;
 	}
+	
+	public String toString() {
+		return mn.name+mn.desc;
+	}
+
+	public String getName() {
+		return mn.name;
+	}
+
+	public String getDesc() {
+		return mn.desc;
+	}
+	
 }
