@@ -16,10 +16,12 @@
 package org.springframework.boot.graal.type;
 
 import java.lang.reflect.Modifier;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -32,6 +34,8 @@ import org.objectweb.asm.tree.MethodNode;
  * @author Andy Clement
  */
 public class Type {
+	
+	public final static String AtBean = "org/springframework/context/annotation/Bean";
 
 	public final static Type MISSING = new Type(null, null);
 
@@ -98,6 +102,11 @@ public class Type {
 	public List<Method> getMethodsWithAnnotation(String string) {
 		return node.methods.stream().filter(m -> hasAnnotation(m, string)).map(m -> wrap(m))
 				.collect(Collectors.toList());
+	}
+	
+	public List<Method> getMethodsWithAtBean() {
+		return null;
+//		return getMethodsWithAnnotation("")
 	}
 
 	public Method wrap(MethodNode mn) {
@@ -375,7 +384,7 @@ public class Type {
 	public static final List<Type> NO_ANNOTATIONS = Collections.emptyList();
 
 	@SuppressWarnings("unchecked")
-	public List<String> findConditionalOnClassString() {
+	public List<String> findConditionalOnClassValue() {
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an : node.visibleAnnotations) {
 				if (an.desc.equals("Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;")) {
@@ -433,6 +442,56 @@ public class Type {
 		for (Type anno : annos) {
 			if (anno.equals(searchType)) {
 				return anno;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * @return true if meta annotated with org.springframework.stereotype.Indexed
+	 */
+	public Entry<String,String> isIndexed() {
+		Type indexedType = isMetaAnnotated2("Lorg/springframework/stereotype/Indexed;");
+		if (indexedType != null) {
+			return new AbstractMap.SimpleImmutableEntry<String,String>(this.node.name.replace("/", "."),indexedType.getName().replace("/", "."));
+		} else {
+			return null;
+		}
+//		public List<String> findConditionalOnClassValue() {
+//			if (node.visibleAnnotations != null) {
+//				for (AnnotationNode an : node.visibleAnnotations) {
+//					if (an.desc.equals("Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;")) {
+//						List<Object> values = an.values;
+//						for (int i=0;i<values.size();i+=2) {
+//							if (values.get(i).equals("value")) {
+//								return ( (List<org.objectweb.asm.Type>)values.get(i+1))
+//										.stream()
+//										.map(t -> t.getDescriptor())
+//										.collect(Collectors.toList());
+//							}
+//						}
+////						for (Object o: values) {
+////							System.out.println("<> "+o+"  "+(o==null?"":o.ge
+	}
+	
+	private Type isMetaAnnotated2(String Ldescriptor) {
+		return isMetaAnnotated2(Ldescriptor, new HashSet<>());
+	}
+	
+	private Type isMetaAnnotated2(String Ldescriptor, Set<String> seen) {
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an: node.visibleAnnotations) {
+				if (seen.add(an.desc)) { 
+					if (an.desc.equals(Ldescriptor)) {
+						return this;//typeSystem.Lresolve(an.desc);
+					} else {
+						Type annoType = typeSystem.Lresolve(an.desc);
+						Type meta = annoType.isMetaAnnotated2(Ldescriptor, seen);
+						if (meta != null) {
+							return meta;
+						}
+					}
+				}
 			}
 		}
 		return null;

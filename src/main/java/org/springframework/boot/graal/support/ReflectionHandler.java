@@ -35,13 +35,52 @@ import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.config.ReflectionRegistryAdapter;
 
 public class ReflectionHandler {
+	
+	ReflectionRegistryAdapter rra;
 
 	public ReflectionDescriptor compute() {
 		try {
 			InputStream s = this.getClass().getResourceAsStream("/reflect.json");
 			return JsonMarshaller.read(s);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public void addAccess(String typename, Flag...flags) {
+		System.out.println("Registering access for "+typename);
+		Class<?> type = rra.resolveType(typename);
+		if (type == null) {
+			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
+			return;
+		}
+		rra.registerType(type);
+		for (Flag flag: flags) {
+			if (flag==Flag.allDeclaredClasses) {
+				rra.registerDeclaredClasses(type);
+			}
+			if (flag==Flag.allDeclaredFields) {
+				rra.registerDeclaredFields(type);
+			}
+			if (flag==Flag.allPublicFields) {
+				rra.registerPublicFields(type);
+			}
+			if (flag==Flag.allDeclaredConstructors) {
+				rra.registerDeclaredConstructors(type);
+			}
+			if (flag==Flag.allPublicConstructors) {
+				rra.registerPublicConstructors(type);
+			}
+			if (flag==Flag.allDeclaredMethods) {
+				rra.registerDeclaredMethods(type);
+			}
+			if (flag==Flag.allPublicMethods) {
+				rra.registerPublicMethods(type);
+			}
+			if (flag==Flag.allPublicClasses) {
+				rra.registerPublicClasses(type);
+			}
 		}
 	}
 
@@ -49,11 +88,15 @@ public class ReflectionHandler {
 		DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
 		RuntimeReflectionSupport rrs = ImageSingletons.lookup(RuntimeReflectionSupport.class);
 		ImageClassLoader cl = access.getImageClassLoader();
-		ReflectionRegistryAdapter rra = new ReflectionRegistryAdapter(rrs, cl);
+		rra = new ReflectionRegistryAdapter(rrs, cl);
 		ReflectionDescriptor reflectionDescriptor = compute();
 		System.out.println("SBG: reflection registering #"+reflectionDescriptor.getClassDescriptors().size()+" entries");
 		for (ClassDescriptor classDescriptor : reflectionDescriptor.getClassDescriptors()) {
 			Class<?> type = rra.resolveType(classDescriptor.getName());
+			if (type == null) {
+				System.out.println("reflect.json included "+classDescriptor.getName()+" but it doesn't exist in this code, skipping...");
+				continue;
+			}
 	        rra.registerType(type);
 			Set<Flag> flags = classDescriptor.getFlags();
 			if (flags != null) {
@@ -121,6 +164,41 @@ public class ReflectionHandler {
 				for (FieldDescriptor fieldDescriptor : fields) {
 					throw new IllegalStateException(fieldDescriptor.toString());
 				}
+			}
+		}
+		registerLogback();
+	}
+
+	// TODO this is horrible
+	// from PatternLayout
+	private String logBackPatterns[] = new String[] { "ch.qos.logback.core.pattern.IdentityCompositeConverter", "ch.qos.logback.core.pattern.ReplacingCompositeConverter",
+			"DateConverter", "RelativeTimeConverter", "LevelConverter", "ThreadConverter", "LoggerConverter",
+			"MessageConverter", "ClassOfCallerConverter", "MethodOfCallerConverter", "LineOfCallerConverter",
+			"FileOfCallerConverter", "MDCConverter", "ThrowableProxyConverter", "RootCauseFirstThrowableProxyConverter",
+			"ExtendedThrowableProxyConverter", "NopThrowableInformationConverter", "ContextNameConverter",
+			"CallerDataConverter", "MarkerConverter", "PropertyConverter", "LineSeparatorConverter",
+			"color.BlackCompositeConverter", "color.RedCompositeConverter", "color.GreenCompositeConverter",
+			"color.YellowCompositeConverter", "color.BlueCompositeConverter", "color.MagentaCompositeConverter",
+			"color.CyanCompositeConverter", "color.WhiteCompositeConverter", "color.GrayCompositeConverter",
+			"color.BoldRedCompositeConverter", "color.BoldGreenCompositeConverter",
+			"color.BoldYellowCompositeConverter", "color.BoldBlueCompositeConverter",
+			"color.BoldMagentaCompositeConverter", "color.BoldCyanCompositeConverter",
+			"color.BoldWhiteCompositeConverter", "ch.qos.logback.classic.pattern.color.HighlightingCompositeConverter",
+			"LocalSequenceNumberConverter", "org.springframework.boot.logging.logback.ColorConverter",
+			"org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter",
+	"org.springframework.boot.logging.logback.ExtendedWhitespaceThrowableProxyConverter"};
+// what would a reflection hint look like here? Would it specify maven coords for logback as a requirement on the classpath?
+// does logback have a feature? or meta data files for graal?
+	private void registerLogback() {
+		for (String p: logBackPatterns) {
+			if (p.startsWith("org")) {
+				addAccess(p, Flag.allDeclaredConstructors,Flag.allDeclaredMethods);
+			} else if (p.startsWith("ch.")) {
+					addAccess(p, Flag.allDeclaredConstructors,Flag.allDeclaredMethods);
+			} else if (p.startsWith("color.")) {
+				addAccess("ch.qos.logback.core.pattern."+p,Flag.allDeclaredConstructors,Flag.allDeclaredMethods);
+			} else {
+				addAccess("ch.qos.logback.classic.pattern."+p,Flag.allDeclaredConstructors,Flag.allDeclaredMethods);
 			}
 		}
 	}

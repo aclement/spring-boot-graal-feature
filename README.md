@@ -70,3 +70,44 @@ Spring.factories processing: looking at #20 configuration references
   @COC check failed for org.springframework.boot.autoconfigure.session.SessionAutoConfiguration
   removed 15 configurations
 ```
+
+Sample app now runs successfully compiled with graal. The sample app is an annotation based webflux app:
+
+```
+cd samples/demo
+./compile.sh
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::
+
+2019-05-11 22:44:56.722  INFO 17672 --- [           main] com.example.demo.DemoApplication         :
+  Starting DemoApplication on Andys-MacBook-Pro-2018.local with PID 17672 (started by aclement in /Users/aclement/gits/spring-boot-graal-feature/samples/demo)
+2019-05-11 22:44:56.722  INFO 17672 --- [           main] com.example.demo.DemoApplication         :
+  No active profile set, falling back to default profiles: default
+2019-05-11 22:44:56.770  INFO 17672 --- [           main] o.s.b.web.embedded.netty.NettyWebServer  : 
+ Netty started on port(s): 8080
+2019-05-11 22:44:56.770  INFO 17672 --- [           main] com.example.demo.DemoApplication         : 
+ Started DemoApplication in 0.062 seconds (JVM running for 0.063)
+```
+
+The `compile.sh` script:
+
+- mvn compiles the project
+- unpacks the boot packaged jar
+- temporarily modifies one spring class (waiting on graal fix, need to try other workarounds)
+- runs native-image to compile the app
+- runs the compiled app
+
+
+TODO
+
+- tidy it all up!
+- review where the split would be framework vs boot
+- use the netty feature rather than having the netty config in here
+- generate more of what is in the json files rather than hard coding it
+- try other workarounds for the graal issue

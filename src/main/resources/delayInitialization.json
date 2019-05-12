@@ -10,7 +10,22 @@
 {"class": "org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration"},
 {"class": "org.springframework.boot.autoconfigure.cache.InfinispanCacheConfiguration"},
 {"class": "org.springframework.boot.json.GsonJsonParser"},
-{"class": "org.springframework.core.io.VfsUtils"}
+{"class": "org.springframework.core.io.VfsUtils"},
+{"class": "io.netty.handler.codec.http.HttpObjectEncoder"},
+{"class": "org.springframework.format.support.DefaultFormattingConversionService"},
+{"class": "org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext"},
+{"class": "org.springframework.format.datetime.joda.JodaTimeConverters$DateToReadableInstantConverter"},
+{"class": "org.springframework.format.number.money.Jsr354NumberFormatAnnotationFormatterFactory$PatternDecoratingFormatter"},
+// See https://medium.com/graalvm/instant-netty-startup-using-graalvm-native-image-generation-ed6f14ff7692
+{"class": "io.netty.handler.codec.http.HttpObjectEncoder"},
+{"class": "io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler"},
+{"class": "io.netty.handler.codec.http2.Http2CodecUtil"},
+{"class": "io.netty.handler.codec.http2.DefaultHttp2FrameWriter"},
+{"class": "io.netty.handler.codec.http2.Http2ServerUpgradeCodec"},
+{"class": "reactor.netty.http.client.HttpClient"},
+{"class": "reactor.netty.tcp.TcpClientSecure"},
+{"class": "io.netty.channel.AbstractChannelHandlerContext$AbstractWriteTask"},
+{"class": "io.netty.handler.codec.http.websocketx.WebSocket00FrameEncoder"}
 ]
 }
 

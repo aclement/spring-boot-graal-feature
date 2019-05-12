@@ -1,5 +1,301 @@
 [
-{
+
+	{
+		"name": "org.springframework.boot.env.PropertiesPropertySourceLoader",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.env.YamlPropertySourceLoader",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.validation.beanvalidation.LocalValidatorFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// See how ReactiveWebServerFactoryAutoConfiguration brings in ReactiveWebServerFactoryConfiguration.EmbeddedNetty
+	{
+		"name": "reactor.netty.http.server.HttpServer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedNetty",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.http.client.reactive.ReactorResourceFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$NettyWebServerFactoryCustomizerConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.web.server.WebServerFactoryCustomizerBeanPostProcessor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.web.embedded.netty.NettyReactiveWebServerFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorAutoConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.web.reactive.function.client.WebClient$Builder",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.ResourceProperties",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.web.client.RestTemplateBuilder",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.reactor.core.ReactorCoreProperties",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.reactor.core.ReactorCoreAutoConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.context.event.EventPublishingRunListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.FailureAnalyzers",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.ConfigurationWarningsApplicationContextInitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.ContextIdApplicationContextInitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.config.DelegatingApplicationContextInitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.ClearCachesApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.builder.ParentContextCloserApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.FileEncodingApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.config.AnsiOutputApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.config.ConfigFileApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.config.DelegatingApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.logging.ClasspathLoggingApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.context.logging.LoggingApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.env.SpringApplicationJsonEnvironmentPostProcessor",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.BeanCurrentlyInCreationFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.BeanDefinitionOverrideFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.BeanNotOfRequiredTypeFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.BindFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.BindValidationFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.UnboundConfigurationPropertyFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.ConnectorStartFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.NoSuchMethodFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.NoUniqueBeanDefinitionFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.PortInUseFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.ValidationExceptionFailureAnalyzer",
+		"methods": [
+			{
+				"name": "<init>",
+				"parameterTypes": []
+			}
+		]
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.InvalidConfigurationPropertyNameFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.analyzer.InvalidConfigurationPropertyValueFailureAnalyzer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.diagnostics.LoggingFailureAnalysisReporter",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer$SharedMetadataReaderFactoryBean",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.BackgroundPreinitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.condition.OnClassCondition",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.web.context.ServerPortInfoApplicationContextInitializer",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.liquibase.LiquibaseServiceLocatorApplicationListener",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.mustache.MustacheTemplateAvailabilityProvider",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAvailabilityProvider",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.servlet.JspTemplateAvailabilityProvider",
+		"allDeclaredConstructors": true
+	},
+	{
+		"name": "org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext",
+		"methods": [
+			{ "name": "<init>", "parameterTypes": [] }
+		]
+	},
+  {
     "name" : "java.util.logging.FileHandler",
     "methods" : [
       { "name" : "<init>", "parameterTypes" : [] }
@@ -12,6 +308,27 @@
   },
   {
     "name": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  // Need this next one due to adding previous one (due to it being unable to fail a COC check)
+  {
+    "name": "org.springframework.boot.autoconfigure.web.ServerProperties",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },  
+  {
+    "name": "com.example.commandlinerunner.CLR2",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.BackgroundPreinitializer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -164,6 +481,17 @@
   {
     "name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication$Type",
     "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredFields": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition",
+    "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
   {
@@ -192,11 +520,81 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.condition.OnClassCondition",
+    "name": "org.springframework.boot.logging.logback.LogbackLoggingSystem",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+		  {
+    "name": "ch.qos.logback.core.Appender",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
   {
+    "name": "org.springframework.validation.beanvalidation.OptionalValidatorFactoryBean",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.web.bind.annotation.GetMapping",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.web.bind.annotation.RequestMapping",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.stereotype.Controller",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.web.bind.annotation.RestController",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.context.annotation.Role",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.validation.beanvalidation.LocalValidatorFactoryBean",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.validation.PrimaryDefaultValidatorPostProcessor",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.condition.OnClassCondition",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {  
+    "name": "org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration$WebClientCodecsConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {  
+    "name": "org.springframework.validation.Validator",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {  
+    "name": "javax.validation.Validator",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {  
+    "name": "org.springframework.context.annotation.ImportSelector",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {  
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationImportSelector$AutoConfigurationGroup",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -419,6 +817,47 @@
     "allDeclaredMethods": true
   },
   {
+    "name": "org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.context.properties.EnableConfigurationProperties",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.context.annotation.ImportBeanDefinitionRegistrar",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true,
+    "allDeclaredClasses": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration$AnnotationConfig",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$WebFluxConfig",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
     "name": "com.example.commandlinerunner.CommandlinerunnerApplication",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -479,6 +918,36 @@
     "allDeclaredMethods": true
   },
   {
+    "name": "org.springframework.boot.autoconfigure.validation.PrimaryDefaultValidatorPostProcessor",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$LoggingCodecConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.validation.beanvalidation.MethodValidationPostProcessor",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$JacksonCodecConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.HttpProperties",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
     "name": "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -489,7 +958,92 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "com.example.commandlinerunner.CLR",
+    "name": "com.example.demo.DemoApplication$Foo",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonProperties",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorConfiguration$ReactorNetty",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.http.client.reactive.ClientHttpConnector",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "reactor.netty.http.client.HttpClient",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonProperties",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration$StandardJackson2ObjectMapperBuilderCustomizer",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.http.converter.json.Jackson2ObjectMapperBuilder",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "com.fasterxml.jackson.databind.ObjectMapper",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.web.reactive.HandlerResult",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration$BeanPostProcessorsRegistrar",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.http.ReactiveHttpInputMessage",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "com.example.demo.DemoApplication",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -545,12 +1099,74 @@
     "allDeclaredMethods": true
   },
   {
+    "name": "org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$EnableWebFluxConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$ResourceChainCustomizerConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.HttpMessageConverters",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$NotReactiveWebApplicationCondition",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration$NotReactiveWebApplicationCondition",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.diagnostics.analyzer.BindValidationFailureAnalyzer",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "io.netty.channel.socket.nio.NioServerSocketChannel",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "io.netty.channel.socket.nio.NioSocketChannel",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
     "name": "org.springframework.boot.diagnostics.analyzer.BindValidationFailureAnalyzer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
   {
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration",
+    "allDeclaredConstructors": true,
+    "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -643,6 +1259,18 @@
     "name": "org.springframework.core.annotation.Order",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
+  },
+  {
+    "name": "org.springframework.context.support.GenericApplicationContext",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
+  },
+  {
+    "name": "org.springframework.http.codec.support.DefaultServerCodecConfigurer",
+    "methods": [
+      { "name": "<init>", "parameterTypes": [] }
+    ]
   },
   {
     "name": "org.springframework.context.event.GenericApplicationListener",

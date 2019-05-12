@@ -25,8 +25,16 @@ import com.oracle.svm.hosted.ResourcesFeature;
 import com.oracle.svm.reflect.hosted.ReflectionFeature;
 import com.oracle.svm.reflect.proxy.hosted.DynamicProxyFeature;
 
-@AutomaticFeature // indicates it will be added just by being found on the classpath
+@AutomaticFeature
 public class SpringFeature implements Feature {
+	
+    private ReflectionHandler reflectionHandler;
+    
+    private DynamicProxiesHandler dynamicProxiesHandler;
+    
+    private ResourcesHandler resourcesHandler;
+    
+    private DelayInitializationHandler delayInitializationHandler;
 
 	public SpringFeature() {
 		System.out.println(
@@ -37,6 +45,10 @@ public class SpringFeature implements Feature {
 				"███████║██║     ██║  ██║██║██║ ╚████║╚██████╔╝    ██████╔╝╚██████╔╝╚██████╔╝   ██║       ╚██████╔╝██║  ██║██║  ██║██║  ██║███████╗\n" + 
 				"╚══════╝╚═╝     ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝ ╚═════╝     ╚═════╝  ╚═════╝  ╚═════╝    ╚═╝        ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚══════╝\n" + 
 				"                                                                                                                                  ");
+    	reflectionHandler = new ReflectionHandler();
+    	dynamicProxiesHandler = new DynamicProxiesHandler();
+    	resourcesHandler = new ResourcesHandler(reflectionHandler);
+    	delayInitializationHandler = new DelayInitializationHandler();
 	}
 
     public boolean isInConfiguration(IsInConfigurationAccess access) {
@@ -50,15 +62,15 @@ public class SpringFeature implements Feature {
     	fs.add(ReflectionFeature.class); // Ensures RuntimeReflectionSupport available
     	return fs;
     }
-
+    
     public void duringSetup(DuringSetupAccess access) {
-    	new ReflectionHandler().register(access);
-    	new DynamicProxiesHandler().register(access);
+    	reflectionHandler.register(access);
+    	dynamicProxiesHandler.register(access);
     }
     
     public void beforeAnalysis(BeforeAnalysisAccess access) {
-    	new ResourcesHandler().register(access);
-    	new DelayInitializationHandler().register(access);
+    	resourcesHandler.register(access);
+    	delayInitializationHandler.register(access);
     }
 
 }
