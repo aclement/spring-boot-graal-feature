@@ -21,7 +21,7 @@ export CP=.:$LIBPATH
 # This would run it here... (as an exploded jar)
 #java -classpath $CP com.example.demo.DemoApplication
 
-export CP=$CP:/Users/aclement/gits/spring-boot-graal-feature/target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar:/Users/aclement/.m2/repository/org/ow2/asm/asm-tree/7.1/asm-tree-7.1.jar:/Users/aclement/.m2/repository/org/ow2/asm/asm/7.1/asm-7.1.jar
+export CP=$CP:../../../../../target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar:$HOME/.m2/repository/org/ow2/asm/asm-tree/7.1/asm-tree-7.1.jar:$HOME/.m2/repository/org/ow2/asm/asm/7.1/asm-7.1.jar
 
 printf "\n\nCompile\n"
 #  -Dorg.springframework.boot.logging.LoggingSystem=org.springframework.boot.logging.java.JavaLoggingSystem \
