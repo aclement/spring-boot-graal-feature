@@ -38,12 +38,19 @@ public class Type {
 	
 	public final static String AtBean = "org/springframework/context/annotation/Bean";
 
+	public final static String AtEnableConfigurationProperties = "Lorg/springframework/boot/context/properties/EnableConfigurationProperties;";
+	
+	public final static String AtConditionalOnClass = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;";
+
 	public final static Type MISSING = new Type(null, null);
 
+	public final static Type[] NO_INTERFACES = new Type[0];
+
 	private TypeSystem typeSystem;
+
 	private ClassNode node;
+	
 	private Type[] interfaces;
-	private static Type[] NO_INTERFACES = new Type[0];
 
 	public Type(TypeSystem typeSystem, ClassNode node) {
 		this.typeSystem = typeSystem;
@@ -160,7 +167,6 @@ public class Type {
 			return true;
 		}
 
-//		System.out.println("XX:"+this.getName());
 		if (this.getName().equals("Ljava/lang/Object;")) {
 			return true;
 		}
@@ -394,25 +400,51 @@ public class Type {
 
 	@SuppressWarnings("unchecked")
 	public List<String> findConditionalOnClassValue() {
+		return findAnnotationValue(AtConditionalOnClass);
+//		if (node.visibleAnnotations != null) {
+//			for (AnnotationNode an : node.visibleAnnotations) {
+//				if (an.desc.equals("Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;")) {
+//					List<Object> values = an.values;
+//					for (int i=0;i<values.size();i+=2) {
+//						if (values.get(i).equals("value")) {
+//							return ( (List<org.objectweb.asm.Type>)values.get(i+1))
+//									.stream()
+//									.map(t -> t.getDescriptor())
+//									.collect(Collectors.toList());
+//						}
+//					}
+////					for (Object o: values) {
+////						System.out.println("<> "+o+"  "+(o==null?"":o.getClass()));
+////					}
+//					// value Class
+//					// name String
+//				}
+////					annotations.add(this.typeSystem.Lresolve(an.desc));
+//			}
+//		}
+//		return null;
+	}
+	
+	public List<String> findEnableConfigurationPropertiesValue() {
+		return findAnnotationValue(AtEnableConfigurationProperties);
+	}
+		
+	public List<String> findAnnotationValue(String annotationType) {
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an : node.visibleAnnotations) {
-				if (an.desc.equals("Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;")) {
+				if (an.desc.equals(annotationType)) {
 					List<Object> values = an.values;
-					for (int i=0;i<values.size();i+=2) {
-						if (values.get(i).equals("value")) {
-							return ( (List<org.objectweb.asm.Type>)values.get(i+1))
-									.stream()
-									.map(t -> t.getDescriptor())
-									.collect(Collectors.toList());
+					if (values != null) {
+						for (int i=0;i<values.size();i+=2) {
+							if (values.get(i).equals("value")) {
+								return ( (List<org.objectweb.asm.Type>)values.get(i+1))
+										.stream()
+										.map(t -> t.getDescriptor())
+										.collect(Collectors.toList());
+							}
 						}
 					}
-//					for (Object o: values) {
-//						System.out.println("<> "+o+"  "+(o==null?"":o.getClass()));
-//					}
-					// value Class
-					// name String
 				}
-//					annotations.add(this.typeSystem.Lresolve(an.desc));
 			}
 		}
 		return null;

@@ -9,11 +9,6 @@
 		"allDeclaredConstructors": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.validation.beanvalidation.LocalValidatorFactoryBean",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -60,17 +55,7 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.ResourceProperties",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.web.client.RestTemplateBuilder",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.reactor.core.ReactorCoreProperties",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -273,12 +258,6 @@
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
-  // Need this next one due to adding previous one (due to it being unable to fail a COC check)
-  {
-    "name": "org.springframework.boot.autoconfigure.web.ServerProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },  
   {
     "name": "org.springframework.boot.autoconfigure.BackgroundPreinitializer",
     "allDeclaredConstructors": true,
@@ -437,11 +416,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.info.ProjectInfoProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.AutoConfigureOrder",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -558,11 +532,6 @@
   },
   {
     "name": "org.springframework.boot.env.SystemEnvironmentPropertySourceEnvironmentPostProcessor",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.task.TaskSchedulingProperties",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -804,11 +773,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.task.TaskExecutionProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.validation.PrimaryDefaultValidatorPostProcessor",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -819,22 +783,12 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.http.HttpProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.cloud.CloudFoundryVcapEnvironmentPostProcessor",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
   {
     "name": "org.springframework.beans.ExtendedBeanInfoFactory",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonProperties",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },

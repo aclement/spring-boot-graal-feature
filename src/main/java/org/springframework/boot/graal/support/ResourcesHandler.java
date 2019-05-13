@@ -323,6 +323,15 @@ public class ResourcesHandler extends Support {
 		} catch (NoClassDefFoundError e) {
 			System.out.println("PROBLEM? Can't register "+configType+" because of "+e.getMessage());
 		}
+		
+		List<String> ecProperties = configType.findEnableConfigurationPropertiesValue();
+		if (ecProperties != null) {
+			for (String ld: ecProperties) {
+				System.out.println("ECP: "+fromLtoDotted(ld));
+				reflectionHandler.addAccess(fromLtoDotted(ld),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			}
+		}
+		
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
 			if (visited.add(t.getName())) {
@@ -330,6 +339,10 @@ public class ResourcesHandler extends Support {
 			}
 		}
 		return true;
+	}
+	
+	String fromLtoDotted(String lDescriptor) {
+		return lDescriptor.substring(1,lDescriptor.length()-1).replace("/", ".");
 	}
 
 	private Enumeration<URL> fetchResources(String resource) {
