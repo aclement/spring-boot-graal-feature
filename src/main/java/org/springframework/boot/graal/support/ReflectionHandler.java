@@ -37,15 +37,19 @@ import com.oracle.svm.hosted.config.ReflectionRegistryAdapter;
 public class ReflectionHandler {
 	
 	ReflectionRegistryAdapter rra;
+	ReflectionDescriptor loadedDescriptor;
 
 	public ReflectionDescriptor compute() {
-		try {
-			InputStream s = this.getClass().getResourceAsStream("/reflect.json");
-			return JsonMarshaller.read(s);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
+		if (loadedDescriptor == null) {
+			try {
+				InputStream s = this.getClass().getResourceAsStream("/reflect.json");
+				loadedDescriptor = JsonMarshaller.read(s);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
 		}
+		return loadedDescriptor;
 	}
 	
 	public void addAccess(String typename, Flag...flags) {
@@ -54,6 +58,9 @@ public class ReflectionHandler {
 		if (type == null) {
 			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
 			return;
+		}
+		if (compute().hasClassDescriptor(typename)) {
+			System.out.println("DELETEABLE: "+typename);
 		}
 		rra.registerType(type);
 		for (Flag flag: flags) {

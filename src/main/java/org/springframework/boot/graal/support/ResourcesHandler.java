@@ -24,11 +24,13 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -261,7 +263,7 @@ public class ResourcesHandler extends Support {
 					"Spring.factories processing: looking at #" + configs.size() + " configuration references");
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
 				String config = iterator.next();
-				if (!passesConditionalOnClassTest(ts, config)) {
+				if (!passesConditionalOnClassTest(ts, config, new HashSet<>())) {
 					System.out.println("  @COC check failed for " + config);
 					forRemoval.add(config);
 				} else {
@@ -296,38 +298,39 @@ public class ResourcesHandler extends Support {
 		}
 	}
 
-	private boolean passesConditionalOnClassTest(TypeSystem ts, String config) {
-		Type configType = ts.resolveDotted(config);
+	private boolean passesConditionalOnClassTest(TypeSystem ts, String config, Set<String> visited) {
+		return passesConditionalOnClassTest(ts, ts.resolveDotted(config), visited);
+	}
+
+	private boolean passesConditionalOnClassTest(TypeSystem ts, Type configType, Set<String> visited) {
 		List<String> conditionalTypes = configType.findConditionalOnClassValue();
 		if (conditionalTypes != null) {
 			// System.out.println(">> @COC on " + config+" for "+conditionalTypes);
 			for (String lDescriptor : conditionalTypes) {
-				boolean exists = ts.Lresolve(lDescriptor, true) != null;
+				Type t = ts.Lresolve(lDescriptor, true);
+				boolean exists = (t != null);
 				if (!exists) {
 					return false;
 				} else {
-					List<Type> types = collectWhatNeedsAccess(configType);
 					reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 				}
 			}
 		}
+		try {
+			System.out.println("- adding access for "+configType);
+			visited.add(configType.getName());
+			reflectionHandler.addAccess(configType.getName().replace("/","."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+		} catch (NoClassDefFoundError e) {
+			System.out.println("PROBLEM? Can't register "+configType+" because of "+e.getMessage());
+		}
+		List<Type> nestedTypes = configType.getNestedTypes();
+		for (Type t: nestedTypes) {
+			if (visited.add(t.getName())) {
+				System.out.println("XYZ: "+t);
+				passesConditionalOnClassTest(ts, t, visited);
+			}
+		}
 		return true;
-	}
-
-	/**
-	 * Collect the types that need referencing:
-	 * <ul>
-	 * <li>
-	 * </ul>
-	 * @param configType
-	 * @return
-	 */
-	private List<Type> collectWhatNeedsAccess(Type configType) {
-		List<Type> types = new ArrayList<>();
-		types.add(configType);
-		// Find methods that have @Bean
-//		configType.getMethodsWithAtBean();
-		return types;
 	}
 
 	private Enumeration<URL> fetchResources(String resource) {

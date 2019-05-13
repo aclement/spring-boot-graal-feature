@@ -67,6 +67,11 @@ public class Type {
 		}
 		return typeSystem.resolveSlashed(node.superName);
 	}
+	
+	@Override
+	public String toString() {
+		return "Type:"+getName();
+	}
 
 	public Type[] getInterfaces() {
 		if (interfaces == null) {
@@ -504,7 +509,14 @@ public class Type {
 	public List<Type> getNestedTypes() {
 		List<Type> result = null;
 		List<InnerClassNode> innerClasses = node.innerClasses;
-		for (InnerClassNode inner: innerClasses) {
+		for (InnerClassNode inner: innerClasses) {	
+			if (!inner.outerName.equals(getName())) {
+//				System.out.println("SKIPPPING "+inner.name+" because outer is "+inner.outerName+" and we are looking at "+getName());
+				continue;
+			}
+			if (inner.name.equals(getName())) {
+				continue;
+			}
 			Type t = typeSystem.resolve(inner.name); // aaa/bbb/ccc/Ddd$Eee
 			if (result == null) {
 				result = new ArrayList<>();

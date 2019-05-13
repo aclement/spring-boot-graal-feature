@@ -9,11 +9,6 @@
 		"allDeclaredConstructors": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxProperties",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -50,11 +45,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$NettyWebServerFactoryCustomizerConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.web.server.WebServerFactoryCustomizerBeanPostProcessor",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -75,11 +65,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.autoconfigure.web.ResourceProperties",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -96,11 +81,6 @@
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.reactor.core.ReactorCoreProperties",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.reactor.core.ReactorCoreAutoConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -254,14 +234,6 @@
 		"allDeclaredConstructors": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration",
-		"allDeclaredConstructors": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration",
-		"allDeclaredConstructors": true
-	},
-	{
 		"name": "org.springframework.boot.web.context.ServerPortInfoApplicationContextInitializer",
 		"allDeclaredConstructors": true
 	},
@@ -308,11 +280,6 @@
   },
   {
     "name": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -444,11 +411,6 @@
     "allDeclaredClasses": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration$GitResourceAvailableCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.jmx.export.MBeanExporter",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -486,11 +448,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.cache.CacheAutoConfiguration$CacheConfigurationImportSelector",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -570,11 +527,6 @@
     "allDeclaredMethods": true
   },
   {  
-    "name": "org.springframework.boot.autoconfigure.web.reactive.function.client.WebClientAutoConfiguration$WebClientCodecsConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {  
     "name": "org.springframework.validation.Validator",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -596,11 +548,6 @@
   },
   {
     "name": "com.sun.jmx.mbeanserver.JmxMBeanServer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -782,11 +729,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.task.TaskExecutorBuilder",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -802,17 +744,7 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.session.NonUniqueSessionRepositoryFailureAnalyzer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -832,23 +764,7 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true,
-    "allDeclaredClasses": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration$AnnotationConfig",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$WebFluxConfig",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.HttpHandlerAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -913,27 +829,12 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$LoggingCodecConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.validation.beanvalidation.MethodValidationPostProcessor",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration$JacksonCodecConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.http.HttpProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -973,37 +874,7 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration$StandardJackson2ObjectMapperBuilderCustomizer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.http.converter.json.Jackson2ObjectMapperBuilder",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "com.fasterxml.jackson.databind.ObjectMapper",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -1079,37 +950,7 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$EnableWebFluxConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$ResourceChainCustomizerConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.http.HttpMessageConverters",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.http.codec.CodecsAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$NotReactiveWebApplicationCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration$NotReactiveWebApplicationCondition",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -1137,11 +978,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -1187,11 +1023,6 @@
   },
   {
     "name": "org.springframework.boot.diagnostics.analyzer.PortInUseFailureAnalyzer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -1258,11 +1089,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.jmx.export.annotation.AnnotationMBeanExporter",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -1274,11 +1100,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.condition.OnResourceCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -1319,16 +1140,6 @@
   },
   {
     "name": "org.springframework.context.annotation.Bean",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.context.MessageSourceAutoConfiguration$ResourceBundleCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
