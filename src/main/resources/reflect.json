@@ -55,22 +55,12 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorAutoConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.web.reactive.function.client.WebClient$Builder",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.web.ResourceProperties",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.error.ErrorWebFluxAutoConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -409,11 +399,6 @@
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true,
     "allDeclaredClasses": true
-  },
-  {
-    "name": "org.springframework.jmx.export.MBeanExporter",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
   },
   {
     "name": "org.springframework.boot.diagnostics.analyzer.UnboundConfigurationPropertyFailureAnalyzer",
@@ -978,11 +963,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },

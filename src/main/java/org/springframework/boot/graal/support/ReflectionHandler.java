@@ -53,14 +53,11 @@ public class ReflectionHandler {
 	}
 	
 	public void addAccess(String typename, Flag...flags) {
-		System.out.println("Registering access for "+typename);
+		System.out.println("Registering reflective access to "+typename);
 		Class<?> type = rra.resolveType(typename);
 		if (type == null) {
 			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
 			return;
-		}
-		if (compute().hasClassDescriptor(typename)) {
-			System.out.println("DELETEABLE: "+typename);
 		}
 		rra.registerType(type);
 		for (Flag flag: flags) {

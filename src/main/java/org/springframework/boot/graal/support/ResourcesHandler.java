@@ -326,7 +326,6 @@ public class ResourcesHandler extends Support {
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
 			if (visited.add(t.getName())) {
-				System.out.println("XYZ: "+t);
 				passesConditionalOnClassTest(ts, t, visited);
 			}
 		}
