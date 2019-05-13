@@ -28,6 +28,7 @@ import java.util.stream.Collectors;
 
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
+import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
 /**
@@ -53,6 +54,9 @@ public class Type {
 		return new Type(typeSystem, node);
 	}
 
+	/**
+	 * @return typename, eg. aaa/bbb/ccc/Ddd$Eee
+	 */
 	public String getName() {
 		return node.name;
 	}
@@ -495,6 +499,19 @@ public class Type {
 			}
 		}
 		return null;
+	}
+
+	public List<Type> getNestedTypes() {
+		List<Type> result = null;
+		List<InnerClassNode> innerClasses = node.innerClasses;
+		for (InnerClassNode inner: innerClasses) {
+			Type t = typeSystem.resolve(inner.name); // aaa/bbb/ccc/Ddd$Eee
+			if (result == null) {
+				result = new ArrayList<>();
+			}
+			result.add(t);
+		}
+		return result==null?Collections.emptyList():result;
 	}
 
 }

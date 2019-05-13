@@ -323,11 +323,6 @@
     "allDeclaredMethods": true
   },  
   {
-    "name": "com.example.commandlinerunner.CLR2",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.BackgroundPreinitializer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -858,11 +853,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "com.example.commandlinerunner.CommandlinerunnerApplication",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.diagnostics.analyzer.BeanNotOfRequiredTypeFailureAnalyzer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -958,11 +948,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "com.example.demo.DemoApplication$Foo",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.jackson.JacksonProperties",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -1039,11 +1024,6 @@
   },
   {
     "name": "org.springframework.http.ReactiveHttpInputMessage",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "com.example.demo.DemoApplication",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },

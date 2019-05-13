@@ -156,49 +156,20 @@ public class ResourcesHandler extends Support {
 		// com.example.demo.Foobar=org.springframework.stereotype.Component
 		// com.example.demo.DemoApplication=org.springframework.stereotype.Component
 		Enumeration<Object> keys = p.keys();
+		ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
 		while (keys.hasMoreElements()) {
 			String k = (String)keys.nextElement();
 			System.out.println("Registering Spring Component: "+k);
 			reflectionHandler.addAccess(k,Flag.allDeclaredConstructors, Flag.allDeclaredMethods, Flag.allDeclaredClasses);
-			ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
 			resourcesRegistry.addResources(k.replace(".", "/")+".class");
+			// Register nested types of the component
+			Type baseType = ts.resolveDotted(k);
+			for (Type t: baseType.getNestedTypes()) {
+				String n = t.getName().replace("/", ".");
+				reflectionHandler.addAccess(n,Flag.allDeclaredConstructors, Flag.allDeclaredMethods, Flag.allDeclaredClasses);
+				resourcesRegistry.addResources(t.getName()+".class");
+			}
 		}
-//		List<String> forRemoval = new ArrayList<>();
-//		String configsString = (String) p.get("org.springframework.boot.autoconfigure.EnableAutoConfiguration");
-//		if (configsString != null) {
-//			List<String> configs = new ArrayList<>();
-//			for (String s: configsString.split(",")) {
-//				configs.add(s);
-//			}
-//			System.out.println(
-//					"Spring.factories processing: looking at #" + configs.size() + " configuration references");
-//			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
-//				String config = iterator.next();
-//				if (!passesConditionalOnClassTest(ts, config)) {
-//					System.out.println("  @COC check failed for " + config);
-//					forRemoval.add(config);
-//				} else {
-//					System.out.println("  @COC passed for "+config);
-//				}
-//			}
-//			configs.removeAll(forRemoval);
-//			p.put("org.springframework.boot.autoconfigure.EnableAutoConfiguration", String.join(",", configs));
-//		}
-//		try {
-//			if (forRemoval.size() == 0) {
-//				Resources.registerResource("META-INF/spring.factories", springFactory.openStream());
-//			} else {
-//				System.out.println("  removed " + forRemoval.size() + " configurations");
-//				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-//				p.store(baos,"");
-//				baos.close();
-//				byte[] bs = baos.toByteArray();
-//				ByteArrayInputStream bais = new ByteArrayInputStream(bs);
-//				Resources.registerResource("META-INF/spring.factories", bais);
-//			}
-//		} catch (IOException e) {
-//			throw new IllegalStateException(e);
-//		}
 	}
 
 	/**
