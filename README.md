@@ -73,7 +73,7 @@ Spring.factories processing: looking at #20 configuration references
 
 Sample app now runs successfully compiled with graal. The sample app is an annotation based webflux app:
 
-(Mostly tested on a locally built graal, commit #818cccb852ec - but early testing indicates works on the graal final release)
+(Mostly tested on a locally built graal, commit #818cccb852ec - not quite compatible with GA release yet)
 
 ```
 cd samples/demo
