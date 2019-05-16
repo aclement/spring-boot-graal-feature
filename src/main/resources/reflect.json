@@ -60,35 +60,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.diagnostics.analyzer.ValidationExceptionFailureAnalyzer",
-		"methods": [
-			{
-				"name": "<init>",
-				"parameterTypes": []
-			}
-		]
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.freemarker.FreeMarkerTemplateAvailabilityProvider",
-		"allDeclaredConstructors": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.mustache.MustacheTemplateAvailabilityProvider",
-		"allDeclaredConstructors": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.groovy.template.GroovyTemplateAvailabilityProvider",
-		"allDeclaredConstructors": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.thymeleaf.ThymeleafTemplateAvailabilityProvider",
-		"allDeclaredConstructors": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.web.servlet.JspTemplateAvailabilityProvider",
-		"allDeclaredConstructors": true
-	},
-	{
 		"name": "org.springframework.boot.web.reactive.context.ReactiveWebServerApplicationContext",
 		"methods": [
 			{ "name": "<init>", "parameterTypes": [] }
@@ -107,16 +78,6 @@
   },
   {
     "name": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.BackgroundPreinitializer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.logging.ConditionEvaluationReportLoggingListener",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -552,11 +513,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.SharedMetadataReaderFactoryContextInitializer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },

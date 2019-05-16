@@ -266,7 +266,7 @@ public class ResourcesHandler {
 					try {
 						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					} catch (NoClassDefFoundError ncdfe) {
-						System.out.println("Couldnt find that factory entry");
+						System.out.println("Couldnt find that factory entry: "+s);
 					}
 				}				
 			}
@@ -352,20 +352,21 @@ public class ResourcesHandler {
 		}
 		
 		// Find @Bean methods and add them
-		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
-		if (methodsWithAtBean.size() != 0) {
-			System.out.println(configType+" here they are: "+
-			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
-			for (Method m: methodsWithAtBean) {
-				String desc = m.getDesc();
-				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
-				System.out.println("@Bean return type "+retType);
-				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-			}
-		}
+//		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
+//		if (methodsWithAtBean.size() != 0) {
+//			System.out.println(configType+" here they are: "+
+//			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
+//			for (Method m: methodsWithAtBean) {
+//				String desc = m.getDesc();
+//				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
+//				System.out.println("@Bean return type "+retType);
+//				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+//			}
+//		}
 		
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
+			System.out.println("- processing nested type: "+t.getName());
 			if (visited.add(t.getName())) {
 				passesConditionalOnClassTest(ts, t, visited);
 			}
