@@ -50,7 +50,7 @@ public class DynamicProxiesHandler {
 //      DynamicProxySupport dynamicProxySupport = new DynamicProxySupport(imageClassLoader.getClassLoader());
 //      ImageSingletons.add(DynamicProxyRegistry.class, dynamicProxySupport);
     	Consumer<List<String>> proxyRegisteringConsumer = interfaceNames -> {
-    		System.out.println(interfaceNames);
+    		System.out.println("- "+interfaceNames);
             Class<?>[] interfaces = new Class<?>[interfaceNames.size()];
             for (int i = 0; i < interfaceNames.size(); i++) {
                 String className = interfaceNames.get(i);

@@ -7,7 +7,8 @@
 {"class": "io.netty.handler.codec.http.websocketx.WebSocket00FrameEncoder"},
 {"class": "io.netty.handler.codec.http2.DefaultHttp2FrameWriter"},
 {"class": "io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler"},
-{"class": "reactor.netty.tcp.TcpClientSecure"},
+{"class": "reactor.netty.tcp.TcpClientSecure"},{"package": "io.netty.channel.unix"},
+
 {"class": "reactor.netty.http.client.HttpClientSecure"}
 ],
 "buildTimeInitialization":
@@ -24,7 +25,6 @@
 {"package": "io.netty.handler.timeout"},
 {"package": "io.netty.handler.traffic"},
 {"package": "reactor.netty.resources"},
-{"package": "io.netty.channel.unix"},
 {"package": "io.netty.channel.epoll"},
 {"package": "io.netty.resolver"},
 {"package": "io.netty.channel.epoll"},

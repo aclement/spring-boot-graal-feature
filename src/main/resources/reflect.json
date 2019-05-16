@@ -20,11 +20,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.hibernate.validator.messageinterpolation.ParameterMessageInterpolator",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "reactor.netty.http.server.HttpServer",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -201,11 +196,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.condition.OnWebApplicationCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.autoconfigure.AutoConfigureOrder",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -252,11 +242,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.validation.PrimaryDefaultValidatorPostProcessor",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.condition.OnClassCondition",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -378,11 +363,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.jdbc.DataSourceBeanCreationFailureAnalyzer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.context.event.EventListenerMethodProcessor",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -419,11 +399,6 @@
   },
   {
     "name": "org.springframework.boot.task.TaskExecutorBuilder",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.session.NonUniqueSessionRepositoryFailureAnalyzer",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -529,11 +504,6 @@
   },
   {
     "name": "org.springframework.http.ReactiveHttpInputMessage",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.condition.ConditionEvaluationReportAutoConfigurationImportListener",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -749,11 +719,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.diagnostics.analyzer.NoSuchBeanDefinitionFailureAnalyzer",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.stereotype.Component",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -770,11 +735,6 @@
   },
   {
     "name": "java.lang.Class",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.condition.OnBeanCondition",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },

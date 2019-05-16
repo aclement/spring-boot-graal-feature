@@ -53,7 +53,7 @@ public class ReflectionHandler {
 	}
 	
 	public void addAccess(String typename, Flag...flags) {
-		System.out.println("Registering reflective access to "+typename);
+//		System.out.println("Registering reflective access to "+typename);
 		Class<?> type = rra.resolveType(typename);
 		if (type == null) {
 			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
@@ -106,7 +106,6 @@ public class ReflectionHandler {
 				continue;
 			}
 	        rra.registerType(type);
-	        System.out.println("From reflect.json, registering: "+classDescriptor.getName());
 			Set<Flag> flags = classDescriptor.getFlags();
 			if (flags != null) {
 				if (flags.contains(Flag.allDeclaredClasses)) {

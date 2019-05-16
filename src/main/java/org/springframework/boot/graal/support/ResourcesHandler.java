@@ -77,7 +77,7 @@ public class ResourcesHandler {
 		// against Resources
 		// resourcesRegistry.addResources("*");
 		// Resources.registerResource(relativePath, inputstream);
-		System.out.println("SBG: adding resources, patterns: #" + rd.getPatterns().size());
+		System.out.println("SBG: adding resources - #" + rd.getPatterns().size()+" patterns");
 //		logging();
 
 		for (String pattern : rd.getPatterns()) {
@@ -256,15 +256,17 @@ public class ResourcesHandler {
 		loadSpringFactoryFile(springFactory, p);
 		
 		Enumeration<Object> keyz = p.keys();
+		// Handle all keys except EnableAutoConfiguration
 		while (keyz.hasMoreElements()) {
 			String k = (String)keyz.nextElement();
 			if (!k.equals("org.springframework.boot.autoconfigure.EnableAutoConfiguration")) {
 				String classesList = p.getProperty(k);
+				System.out.println("Processing "+k+" = "+classesList);
 				for (String s: classesList.split(",")) {
 					try {
 						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					} catch (NoClassDefFoundError ncdfe) {
-						System.out.println("COuldnt find that factory entry");
+						System.out.println("Couldnt find that factory entry");
 					}
 				}				
 			}
