@@ -263,7 +263,7 @@ public class ResourcesHandler {
 					try {
 						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					} catch (NoClassDefFoundError ncdfe) {
-						System.out.println("SBG: WARNING: Whilst processing "+k+" cannot find type: "+s);
+						System.out.println("SBG: WARNING: Whilst processing "+k+" problem adding access for type: "+s+" because of missing "+ncdfe.getMessage());
 					}
 				}				
 			}

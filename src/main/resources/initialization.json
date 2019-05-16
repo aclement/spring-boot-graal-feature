@@ -14,6 +14,7 @@
 "buildTimeInitialization":
 [
 {"package": "io.netty.handler.address"},
+{"class": "io.netty.channel.unix.Errors"},
 {"package": "io.netty.handler.flow"},
 {"package": "io.netty.handler.flush"},
 {"package": "io.netty.handler.ipfilter"},

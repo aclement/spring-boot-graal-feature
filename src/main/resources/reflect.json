@@ -61,17 +61,6 @@
 		]
 	},
   {
-    "name" : "java.util.logging.FileHandler",
-    "methods" : [
-      { "name" : "<init>", "parameterTypes" : [] }
-    ]
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.couchbase.CouchbaseAutoConfiguration$CouchbaseCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.context.properties.ConfigurationPropertiesBinder",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -103,16 +92,16 @@
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
-  {
-    "name": "org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$HibernateEntityManagerCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration$EmbeddedLdapCondition",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
+//  {
+ //   "name": "org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration$HibernateEntityManagerCondition",
+ //   "allDeclaredConstructors": true,
+//    "allDeclaredMethods": true
+//  },
+//  {
+//    "name": "org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration$EmbeddedLdapCondition",
+//    "allDeclaredConstructors": true,
+//    "allDeclaredMethods": true
+//  },
   {
     "name": "org.springframework.context.annotation.CommonAnnotationBeanPostProcessor",
     "allDeclaredConstructors": true,
