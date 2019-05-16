@@ -50,8 +50,10 @@ import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
 
 public class ResourcesHandler {
 
-	TypeSystem ts;
-	ImageClassLoader cl;
+	private TypeSystem ts;
+	
+	private ImageClassLoader cl;
+	
 	private ReflectionHandler reflectionHandler;
 
 	public ResourcesHandler(ReflectionHandler reflectionHandler) {
@@ -93,29 +95,25 @@ public class ResourcesHandler {
 		processSpringFactories();
 		processSpringComponents();
 	}
-	
-//	public static void main(String[] args) {
-//		new ResourcesHandler(null).logging();
+//	
+//	public void logging() {
+//		try {
+//			InputStream s = this.getClass().getResourceAsStream("/abc.txt");
+//			byte[] bs = new byte[100000];
+//			int i = -1;
+//			byte[] buf = new byte[10000];
+//			int offset=0;
+//			while ((i=s.read(buf))!=-1) {
+//				System.arraycopy(buf, 0, bs, offset, i);
+//				offset+=i;
+//			}
+//			System.out.println("read "+offset+" bytes");
+//			ByteArrayInputStream bais = new ByteArrayInputStream(bs);
+//			Resources.registerResource("org/springframework/boot/logging/java/logging.properties", bais);
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 //	}
-	
-	public void logging() {
-		try {
-			InputStream s = this.getClass().getResourceAsStream("/abc.txt");
-			byte[] bs = new byte[100000];
-			int i = -1;
-			byte[] buf = new byte[10000];
-			int offset=0;
-			while ((i=s.read(buf))!=-1) {
-				System.arraycopy(buf, 0, bs, offset, i);
-				offset+=i;
-			}
-			System.out.println("read "+offset+" bytes");
-			ByteArrayInputStream bais = new ByteArrayInputStream(bs);
-			Resources.registerResource("org/springframework/boot/logging/java/logging.properties", bais);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
 	
 	public void processSpringComponents() {
 		TypeSystem ts = TypeSystem.get(cl.getClasspath());
@@ -261,12 +259,11 @@ public class ResourcesHandler {
 			String k = (String)keyz.nextElement();
 			if (!k.equals("org.springframework.boot.autoconfigure.EnableAutoConfiguration")) {
 				String classesList = p.getProperty(k);
-				System.out.println("Processing "+k+" = "+classesList);
 				for (String s: classesList.split(",")) {
 					try {
 						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					} catch (NoClassDefFoundError ncdfe) {
-						System.out.println("Couldnt find that factory entry: "+s);
+						System.out.println("SBG: WARNING: Whilst processing "+k+" cannot find type: "+s);
 					}
 				}				
 			}
@@ -283,10 +280,8 @@ public class ResourcesHandler {
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
 				String config = iterator.next();
 				if (!passesConditionalOnClassTest(ts, config, new HashSet<>())) {
-					System.out.println("  @COC check failed for " + config);
+					System.out.println("Excluding auto-configuration " + config);
 					forRemoval.add(config);
-				} else {
-					System.out.println("  @COC passed for "+config);
 				}
 			}
 			configs.removeAll(forRemoval);
@@ -324,30 +319,46 @@ public class ResourcesHandler {
 	private boolean passesConditionalOnClassTest(TypeSystem ts, Type configType, Set<String> visited) {
 		List<String> conditionalTypes = configType.findConditionalOnClassValue();
 		if (conditionalTypes != null) {
-			// System.out.println(">> @COC on " + config+" for "+conditionalTypes);
 			for (String lDescriptor : conditionalTypes) {
 				Type t = ts.Lresolve(lDescriptor, true);
 				boolean exists = (t != null);
 				if (!exists) {
 					return false;
 				} else {
-					reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					try {
+						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					} catch (NoClassDefFoundError e) {
+						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not found for configuration "+configType.getName());
+					}
+					
 				}
 			}
 		}
 		try {
-			System.out.println("- adding access for "+configType);
+			String configNameDotted = configType.getName().replace("/",".");
+			System.out.println("Including auto-configuration "+configNameDotted);
 			visited.add(configType.getName());
-			reflectionHandler.addAccess(configType.getName().replace("/","."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 		} catch (NoClassDefFoundError e) {
-			System.out.println("PROBLEM? Can't register "+configType+" because of "+e.getMessage());
+			// Example:
+			// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter
+			// java.lang.NoClassDefFoundError: javax/servlet/Filter
+			// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
+			System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
 		}
 		
+		// Without this code, error at:
+		// java.lang.ClassNotFoundException cannot be cast to java.lang.Class[]
+		// at org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar.lambda$collectClasses$1(EnableConfigurationPropertiesImportSelector.java:80)
 		List<String> ecProperties = configType.findEnableConfigurationPropertiesValue();
 		if (ecProperties != null) {
-			for (String ld: ecProperties) {
-				System.out.println("ECP: "+fromLtoDotted(ld));
-				reflectionHandler.addAccess(fromLtoDotted(ld),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			for (String ecPropertyDescriptor: ecProperties) {
+				String ecPropertyName = fromLtoDotted(ecPropertyDescriptor);
+				try {
+					reflectionHandler.addAccess(ecPropertyName,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+				} catch (NoClassDefFoundError e) {
+					System.out.println("Not found for registration: "+ecPropertyName);
+				}
 			}
 		}
 		
@@ -366,7 +377,6 @@ public class ResourcesHandler {
 		
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
-			System.out.println("- processing nested type: "+t.getName());
 			if (visited.add(t.getName())) {
 				passesConditionalOnClassTest(ts, t, visited);
 			}

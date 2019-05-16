@@ -46,6 +46,9 @@ public class Type {
 
 	public final static Type[] NO_INTERFACES = new Type[0];
 
+	protected static Set<String> validBoxing = new HashSet<String>();
+
+
 	private TypeSystem typeSystem;
 
 	private ClassNode node;
@@ -62,7 +65,7 @@ public class Type {
 	}
 
 	/**
-	 * @return typename, eg. aaa/bbb/ccc/Ddd$Eee
+	 * @return typename in slashed form (aaa/bbb/ccc/Ddd$Eee)
 	 */
 	public String getName() {
 		return node.name;
@@ -134,8 +137,6 @@ public class Type {
 				: visibleAnnotations.stream().filter(a -> a.desc.equals(string)).findFirst();
 		return findAny.isPresent();
 	}
-
-	protected static Set<String> validBoxing = new HashSet<String>();
 
 	static {
 		validBoxing.add("Ljava/lang/Byte;B");
@@ -339,7 +340,6 @@ public class Type {
 	}
 
 	private boolean isPrimitiveType() {
-//		System.out.println("is primitive? "+this.getName());
 		return false;
 	}
 
@@ -352,21 +352,23 @@ public class Type {
 	}
 
 	public boolean hasAnnotationInHierarchy(String lookingFor, List<String> seen) {
-		for (AnnotationNode anno : node.visibleAnnotations) {
-			if (seen.contains(anno.desc))
-				continue;
-			seen.add(anno.desc);
-//			System.out.println("Comparing "+anno.desc+" with "+lookingFor);
-			if (anno.desc.equals(lookingFor)) {
-				return true;
-			}
-			try {
-				Type resolve = typeSystem.Lresolve(anno.desc);
-				if (resolve.hasAnnotationInHierarchy(lookingFor, seen)) {
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode anno : node.visibleAnnotations) {
+				if (seen.contains(anno.desc))
+					continue;
+				seen.add(anno.desc);
+	//			System.out.println("Comparing "+anno.desc+" with "+lookingFor);
+				if (anno.desc.equals(lookingFor)) {
 					return true;
 				}
-			} catch (MissingTypeException mte) {
-				// not on classpath, that's ok
+				try {
+					Type resolve = typeSystem.Lresolve(anno.desc);
+					if (resolve.hasAnnotationInHierarchy(lookingFor, seen)) {
+						return true;
+					}
+				} catch (MissingTypeException mte) {
+					// not on classpath, that's ok
+				}
 			}
 		}
 		return false;
@@ -397,15 +399,26 @@ public class Type {
 
 	public static final List<Type> NO_ANNOTATIONS = Collections.emptyList();
 
-	@SuppressWarnings("unchecked")
 	public List<String> findConditionalOnClassValue() {
-		return findAnnotationValue(AtConditionalOnClass);
+		 List<String> findAnnotationValue = findAnnotationValue(AtConditionalOnClass);
+		 if (findAnnotationValue==null) {
+			 if (node.visibleAnnotations != null) {
+					for (AnnotationNode an : node.visibleAnnotations) {
+						if (an.desc.equals(AtConditionalOnClass)) {
+							System.out.println("??? found nothing on this @COC annotated thing "+this.getName());
+						}
+					}
+				}
+		 }
+		 return findAnnotationValue;
 	}
 	
 	public List<String> findEnableConfigurationPropertiesValue() {
-		return findAnnotationValue(AtEnableConfigurationProperties);
+		 List<String> values = findAnnotationValue(AtEnableConfigurationProperties);
+		 return values;
 	}
 		
+	@SuppressWarnings("unchecked")
 	public List<String> findAnnotationValue(String annotationType) {
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an : node.visibleAnnotations) {
@@ -519,7 +532,7 @@ public class Type {
 		List<Type> result = null;
 		List<InnerClassNode> innerClasses = node.innerClasses;
 		for (InnerClassNode inner: innerClasses) {	
-			if (!inner.outerName.equals(getName())) {
+			if (inner.outerName==null || !inner.outerName.equals(getName())) {
 //				System.out.println("SKIPPPING "+inner.name+" because outer is "+inner.outerName+" and we are looking at "+getName());
 				continue;
 			}

@@ -50,8 +50,9 @@ public class InitializationHandler {
 		id.getRuntimeClasses().stream()
 				.map(access::findClassByName).filter(Objects::nonNull)
 				.forEach(RuntimeClassInitialization::initializeAtRunTime);
-		System.out.println("Registering these packages: "+id.getBuildtimePackages());
+		System.out.println("Registering these packages for buildtime initialization: \n"+id.getBuildtimePackages());
 		RuntimeClassInitialization.initializeAtBuildTime(id.getBuildtimePackages().toArray(new String[] {}));
+		System.out.println("Registering these packages for runtime initialization: \n"+id.getRuntimePackages());
 		RuntimeClassInitialization.initializeAtRunTime(id.getRuntimePackages().toArray(new String[] {}));
 	}
 

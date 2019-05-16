@@ -20,11 +20,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "reactor.netty.http.server.HttpServer",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedNetty",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -379,11 +374,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.WebFluxAutoConfiguration$WebFluxConfig",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -439,11 +429,6 @@
     "allDeclaredMethods": true
   },
   {
-    "name": "org.springframework.boot.autoconfigure.jackson.JacksonProperties",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
     "name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
@@ -455,16 +440,6 @@
   },
   {
     "name": "org.springframework.boot.web.reactive.context.AnnotationConfigReactiveWebServerApplicationContext",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryAutoConfiguration$BeanPostProcessorsRegistrar",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "org.springframework.http.ReactiveHttpInputMessage",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
@@ -513,11 +488,6 @@
   },
   {
     "name": "org.springframework.boot.autoconfigure.AutoConfigurationExcludeFilter",
-    "allDeclaredConstructors": true,
-    "allDeclaredMethods": true
-  },
-  {
-    "name": "javax.el.ExpressionFactory",
     "allDeclaredConstructors": true,
     "allDeclaredMethods": true
   },
