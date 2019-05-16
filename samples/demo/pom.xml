@@ -30,6 +30,22 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context-indexer</artifactId>
 		</dependency>
+<!--
+<dependency><groupId>io.netty</groupId><artifactId>netty-codec</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-codec-http2</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-codec-http</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-handler</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-handler-proxy</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-transport-native-epoll</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-common</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-buffer</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-transport</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-resolver</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-resolver</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-codec-socks</artifactId><version>4.1.36.Final</version></dependency>
+<dependency><groupId>io.netty</groupId><artifactId>netty-transport-native-unix-common</artifactId><version>4.1.36.Final</version></dependency>
+-->
+
 		<!-- <dependency> <groupId>org.springframework.boot</groupId> <artifactId>spring-boot-starter-test</artifactId> 
 			<scope>test</scope> </dependency> <dependency> <groupId>io.projectreactor</groupId> 
 			<artifactId>reactor-test</artifactId> <scope>test</scope> </dependency> -->

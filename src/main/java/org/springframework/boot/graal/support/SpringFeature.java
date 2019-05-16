@@ -15,6 +15,7 @@
  */
 package org.springframework.boot.graal.support;
 
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,7 +35,7 @@ public class SpringFeature implements Feature {
     
     private ResourcesHandler resourcesHandler;
     
-    private DelayInitializationHandler delayInitializationHandler;
+    private InitializationHandler buildTimeInitializationHandler;
 
 	public SpringFeature() {
 		System.out.println(
@@ -48,7 +49,7 @@ public class SpringFeature implements Feature {
     	reflectionHandler = new ReflectionHandler();
     	dynamicProxiesHandler = new DynamicProxiesHandler();
     	resourcesHandler = new ResourcesHandler(reflectionHandler);
-    	delayInitializationHandler = new DelayInitializationHandler();
+    	buildTimeInitializationHandler = new InitializationHandler();
 	}
 
     public boolean isInConfiguration(IsInConfigurationAccess access) {
@@ -70,7 +71,14 @@ public class SpringFeature implements Feature {
     
     public void beforeAnalysis(BeforeAnalysisAccess access) {
     	resourcesHandler.register(access);
-    	delayInitializationHandler.register(access);
+    	buildTimeInitializationHandler.register(access);
+    	try {
+			access.registerAsUnsafeAccessed(Buffer.class.getDeclaredField("address"));
+		} catch (NoSuchFieldException e) {
+			e.printStackTrace();
+		} catch (SecurityException e) {
+			e.printStackTrace();
+		}
     }
 
 }

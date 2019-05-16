@@ -20,6 +20,6 @@ public class App {
 //		new ReflectionHandler().compute();
 //		new DynamicProxiesHandler().compute();
 //		new ResourcesHandler().compute();
-//		new DelayInitializationHandler().compute();
+//		new BuildTimeInitializationHandler().compute();
 	}
 }

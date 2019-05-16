@@ -39,6 +39,7 @@ import org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
 import org.springframework.boot.graal.domain.resources.ResourcesDescriptor;
 import org.springframework.boot.graal.domain.resources.ResourcesJsonMarshaller;
+import org.springframework.boot.graal.type.Method;
 import org.springframework.boot.graal.type.Type;
 import org.springframework.boot.graal.type.TypeSystem;
 
@@ -47,7 +48,7 @@ import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
 import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
 
-public class ResourcesHandler extends Support {
+public class ResourcesHandler {
 
 	TypeSystem ts;
 	ImageClassLoader cl;
@@ -253,6 +254,22 @@ public class ResourcesHandler extends Support {
 		List<String> forRemoval = new ArrayList<>();
 		Properties p = new Properties();
 		loadSpringFactoryFile(springFactory, p);
+		
+		Enumeration<Object> keyz = p.keys();
+		while (keyz.hasMoreElements()) {
+			String k = (String)keyz.nextElement();
+			if (!k.equals("org.springframework.boot.autoconfigure.EnableAutoConfiguration")) {
+				String classesList = p.getProperty(k);
+				for (String s: classesList.split(",")) {
+					try {
+						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					} catch (NoClassDefFoundError ncdfe) {
+						System.out.println("COuldnt find that factory entry");
+					}
+				}				
+			}
+		}
+		
 		String configsString = (String) p.get("org.springframework.boot.autoconfigure.EnableAutoConfiguration");
 		if (configsString != null) {
 			List<String> configs = new ArrayList<>();
@@ -329,6 +346,19 @@ public class ResourcesHandler extends Support {
 			for (String ld: ecProperties) {
 				System.out.println("ECP: "+fromLtoDotted(ld));
 				reflectionHandler.addAccess(fromLtoDotted(ld),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			}
+		}
+		
+		// Find @Bean methods and add them
+		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
+		if (methodsWithAtBean.size() != 0) {
+			System.out.println(configType+" here they are: "+
+			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
+			for (Method m: methodsWithAtBean) {
+				String desc = m.getDesc();
+				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
+				System.out.println("@Bean return type "+retType);
+				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 			}
 		}
 		

@@ -36,7 +36,7 @@ import org.objectweb.asm.tree.MethodNode;
  */
 public class Type {
 	
-	public final static String AtBean = "org/springframework/context/annotation/Bean";
+	public final static String AtBean = "Lorg/springframework/context/annotation/Bean;";
 
 	public final static String AtEnableConfigurationProperties = "Lorg/springframework/boot/context/properties/EnableConfigurationProperties;";
 	
@@ -121,8 +121,7 @@ public class Type {
 	}
 	
 	public List<Method> getMethodsWithAtBean() {
-		return null;
-//		return getMethodsWithAnnotation("")
+		return getMethodsWithAnnotation(AtBean);
 	}
 
 	public Method wrap(MethodNode mn) {
@@ -401,28 +400,6 @@ public class Type {
 	@SuppressWarnings("unchecked")
 	public List<String> findConditionalOnClassValue() {
 		return findAnnotationValue(AtConditionalOnClass);
-//		if (node.visibleAnnotations != null) {
-//			for (AnnotationNode an : node.visibleAnnotations) {
-//				if (an.desc.equals("Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;")) {
-//					List<Object> values = an.values;
-//					for (int i=0;i<values.size();i+=2) {
-//						if (values.get(i).equals("value")) {
-//							return ( (List<org.objectweb.asm.Type>)values.get(i+1))
-//									.stream()
-//									.map(t -> t.getDescriptor())
-//									.collect(Collectors.toList());
-//						}
-//					}
-////					for (Object o: values) {
-////						System.out.println("<> "+o+"  "+(o==null?"":o.getClass()));
-////					}
-//					// value Class
-//					// name String
-//				}
-////					annotations.add(this.typeSystem.Lresolve(an.desc));
-//			}
-//		}
-//		return null;
 	}
 	
 	public List<String> findEnableConfigurationPropertiesValue() {

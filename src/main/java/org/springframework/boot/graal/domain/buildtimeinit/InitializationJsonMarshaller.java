@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.springframework.boot.graal.domain.delayinit;
+package org.springframework.boot.graal.domain.buildtimeinit;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -27,18 +27,18 @@ import org.springframework.boot.configurationprocessor.json.JSONArray;
 import org.springframework.boot.configurationprocessor.json.JSONObject;
 
 /**
- * Marshaller to write {@link DelayInitDescriptor} as JSON.
+ * Marshaller to write {@link InitializationDescriptor} as JSON.
  *
  * @author Andy Clement
  */
-public class DelayInitJsonMarshaller {
+public class InitializationJsonMarshaller {
 
 	private static final int BUFFER_SIZE = 4098;
 
-	public void write(DelayInitDescriptor metadata, OutputStream outputStream)
+	public void write(InitializationDescriptor metadata, OutputStream outputStream)
 			throws IOException {
 		try {
-			DelayInitJsonConverter converter = new DelayInitJsonConverter();
+			InitializationJsonConverter converter = new InitializationJsonConverter();
 			JSONObject jsonObject = converter.toJsonArray(metadata);
 			outputStream.write(jsonObject.toString(2).getBytes(StandardCharsets.UTF_8));
 		}
@@ -53,28 +53,46 @@ public class DelayInitJsonMarshaller {
 		}
 	}
 	
-	public static DelayInitDescriptor read(String input) throws Exception {
+	public static InitializationDescriptor read(String input) throws Exception {
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(input.getBytes(StandardCharsets.UTF_8))) {
 			return read(bais);
 		}
 	}
 
-	public static DelayInitDescriptor read(byte[] input) throws Exception {
+	public static InitializationDescriptor read(byte[] input) throws Exception {
 		try (ByteArrayInputStream bais = new ByteArrayInputStream(input)) {
 			return read(bais);
 		}
 	}
 
-	public static DelayInitDescriptor read(InputStream inputStream) throws Exception {
-		DelayInitDescriptor metadata = toDelayInitDescriptor(new JSONObject(toString(inputStream)));
+	public static InitializationDescriptor read(InputStream inputStream) throws Exception {
+		InitializationDescriptor metadata = toDelayInitDescriptor(new JSONObject(toString(inputStream)));
 		return metadata;
 	}
 	
-	private static DelayInitDescriptor toDelayInitDescriptor(JSONObject object) throws Exception {
-		DelayInitDescriptor rd = new DelayInitDescriptor();
-		JSONArray array = object.getJSONArray("delayClassInitialization");
+	private static InitializationDescriptor toDelayInitDescriptor(JSONObject object) throws Exception {
+		InitializationDescriptor rd = new InitializationDescriptor();
+		JSONArray array = object.getJSONArray("buildTimeInitialization");
 		for (int i=0;i<array.length();i++) {
-			rd.add(array.getJSONObject(i).getString("class"));
+			JSONObject jsonObject = array.getJSONObject(i);
+			if (jsonObject.has("class")) {
+				rd.addBuildtimeClass(jsonObject.getString("class"));
+			} else if (jsonObject.has("package")) {
+				rd.addBuildtimePackage(jsonObject.getString("package"));
+			} else {
+				throw new IllegalStateException("Unrecognized entry in JSON: "+jsonObject.toString());
+			}
+		}
+		array = object.getJSONArray("runtimeInitialization");
+		for (int i=0;i<array.length();i++) {
+			JSONObject jsonObject = array.getJSONObject(i);
+			if (jsonObject.has("class")) {
+				rd.addRuntimeClass(jsonObject.getString("class"));
+			} else if (jsonObject.has("package")) {
+				rd.addRuntimePackage(jsonObject.getString("package"));
+			} else {
+				throw new IllegalStateException("Unrecognized entry in JSON: "+jsonObject.toString());
+			}
 		}
 		return rd;
 	}

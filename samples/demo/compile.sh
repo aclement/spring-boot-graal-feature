@@ -15,6 +15,12 @@ printf "\n\nRemoving a class from spring-boot-2.2.0.M2.jar because of an open gr
 # spring-boot-2.2.0.M2.jar 
 ../adjustConfigurationSpringBoot.sh org.springframework.boot.jdbc.EmbeddedDatabaseConnection
 
+
+# Tiny temporary patch to spring whilst work out the ordering of what can be init'd build vs runtime
+# during image build
+jar -xf ../spring-boot.jar
+jar -uMf BOOT-INF/lib/spring-boot-2.2.0.M2.jar org/springframework/boot/validation/MessageInterpolatorFactory.class
+
 cd BOOT-INF/classes
 export LIBPATH=`find ../../BOOT-INF/lib | tr '\n' ':'`
 export CP=.:$LIBPATH
@@ -24,12 +30,13 @@ export CP=.:$LIBPATH
 export CP=$CP:../../../../../target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar:$HOME/.m2/repository/org/ow2/asm/asm-tree/7.1/asm-tree-7.1.jar:$HOME/.m2/repository/org/ow2/asm/asm/7.1/asm-7.1.jar
 
 printf "\n\nCompile\n"
-#  -Dorg.springframework.boot.logging.LoggingSystem=org.springframework.boot.logging.java.JavaLoggingSystem \
 native-image \
   -Dio.netty.noUnsafe=true \
   --no-server -H:Name=demo -H:+ReportExceptionStackTraces \
+  --no-fallback \
   --allow-incomplete-classpath --report-unsupported-elements-at-runtime \
   -cp $CP com.example.demo.DemoApplication
+
 
 mv demo ../../..
 

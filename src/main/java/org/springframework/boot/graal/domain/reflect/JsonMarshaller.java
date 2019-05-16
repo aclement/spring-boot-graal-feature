@@ -76,7 +76,11 @@ public class JsonMarshaller {
 	private static ReflectionDescriptor toReflectionDescriptor(JSONArray array) throws Exception {
 		ReflectionDescriptor rd = new ReflectionDescriptor();
 		for (int i=0;i<array.length();i++) {
-			rd.add(toClassDescriptor((JSONObject)array.get(i)));
+			ClassDescriptor cd = toClassDescriptor((JSONObject)array.get(i));
+			if (rd.hasClassDescriptor(cd.getName())) {
+				System.out.println("DUPLICATE: "+cd.getName());
+			}
+			rd.add(cd);
 		}
 		return rd;
 	}

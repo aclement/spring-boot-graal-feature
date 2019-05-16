@@ -59,6 +59,9 @@ public class ReflectionHandler {
 			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
 			return;
 		}
+		if (loadedDescriptor.hasClassDescriptor(typename)) {
+			System.out.println("JSON FILE CONTAINS THIS ALREADY "+typename);
+		}
 		rra.registerType(type);
 		for (Flag flag: flags) {
 			if (flag==Flag.allDeclaredClasses) {
@@ -86,6 +89,7 @@ public class ReflectionHandler {
 				rra.registerPublicClasses(type);
 			}
 		}
+		
 	}
 
 	public void register(DuringSetupAccess a) {
@@ -102,6 +106,7 @@ public class ReflectionHandler {
 				continue;
 			}
 	        rra.registerType(type);
+	        System.out.println("From reflect.json, registering: "+classDescriptor.getName());
 			Set<Flag> flags = classDescriptor.getFlags();
 			if (flags != null) {
 				if (flags.contains(Flag.allDeclaredClasses)) {
@@ -194,6 +199,8 @@ public class ReflectionHandler {
 // what would a reflection hint look like here? Would it specify maven coords for logback as a requirement on the classpath?
 // does logback have a feature? or meta data files for graal?
 	private void registerLogback() {
+		addAccess("ch.qos.logback.core.Appender", Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+		addAccess("org.springframework.boot.logging.logback.LogbackLoggingSystem", Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 		for (String p: logBackPatterns) {
 			if (p.startsWith("org")) {
 				addAccess(p, Flag.allDeclaredConstructors,Flag.allDeclaredMethods);
