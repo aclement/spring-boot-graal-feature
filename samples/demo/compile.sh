@@ -10,17 +10,6 @@ cd unpack
 jar -xvf ../target/$JAR >/dev/null 2>&1
 cp -R META-INF BOOT-INF/classes
 
-printf "\n\nRemoving a class from spring-boot-2.2.0.M2.jar because of an open graal issue."
-# try other options to fix this whilst waiting on fix: add the jar containing that to the build just to get round this? 
-# spring-boot-2.2.0.M2.jar 
-../adjustConfigurationSpringBoot.sh org.springframework.boot.jdbc.EmbeddedDatabaseConnection
-
-
-# Tiny temporary patch to spring whilst work out the ordering of what can be init'd build vs runtime
-# during image build
-jar -xf ../spring-boot.jar
-jar -uMf BOOT-INF/lib/spring-boot-2.2.0.M2.jar org/springframework/boot/validation/MessageInterpolatorFactory.class
-
 cd BOOT-INF/classes
 export LIBPATH=`find ../../BOOT-INF/lib | tr '\n' ':'`
 export CP=.:$LIBPATH

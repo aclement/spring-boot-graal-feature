@@ -11,6 +11,15 @@
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
     {"pattern": "org/springframework/boot/logging/java/logging.properties"},
     {"pattern": "logging.properties"},
+    // These next 3 come in when trying to cope with graal#1196
+    {"pattern": "org/springframework/context/ApplicationListener.class"},
+    {"pattern": "org/springframework/beans/factory/InitializingBean.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceInitializationConfiguration.Registrar.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceInitializerInvoker.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.ExplicitType.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.PooledDataSourceAvailable.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.class"},
+    
     {"pattern": "org/springframework/boot/autoconfigure/web/reactive/WebFluxAutoConfiguration.EnableWebFluxConfiguration.class"},
     {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
     // Using . rather than dollar as final separator on next line, $ seems to get chewed up even though \$ is waht I was suppling on command line
