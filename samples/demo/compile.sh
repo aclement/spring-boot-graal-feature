@@ -13,19 +13,23 @@ cp -R META-INF BOOT-INF/classes
 cd BOOT-INF/classes
 export LIBPATH=`find ../../BOOT-INF/lib | tr '\n' ':'`
 export CP=.:$LIBPATH
+
 # This would run it here... (as an exploded jar)
 #java -classpath $CP com.example.demo.DemoApplication
 
-export CP=$CP:../../../../../target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar:$HOME/.m2/repository/org/ow2/asm/asm-tree/7.1/asm-tree-7.1.jar:$HOME/.m2/repository/org/ow2/asm/asm/7.1/asm-7.1.jar
+# Our feature being on the classpath is what triggers it
+export CP=$CP:../../../../../target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar
 
 printf "\n\nCompile\n"
 native-image \
   -Dio.netty.noUnsafe=true \
-  --no-server -H:Name=demo -H:+ReportExceptionStackTraces \
+  --no-server \
+  -H:Name=demo \
+  -H:+ReportExceptionStackTraces \
   --no-fallback \
-  --allow-incomplete-classpath --report-unsupported-elements-at-runtime \
+  --allow-incomplete-classpath \
+  --report-unsupported-elements-at-runtime \
   -cp $CP com.example.demo.DemoApplication
-
 
 mv demo ../../..
 

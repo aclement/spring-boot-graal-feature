@@ -18,7 +18,7 @@
 	</properties>
 
 	<dependencies>
-	<!-- these two are only here to support the substrate substitution -->
+		<!-- these two are only here to support the substrate substitution -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
@@ -72,6 +72,33 @@
 				</executions>
 			</plugin>
 
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>3.2.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<relocations>
+								<relocation>
+									<pattern>org.objectweb.asm</pattern>
+									<shadedPattern>sbg.asm</shadedPattern>
+								</relocation>
+							</relocations>
+							<artifactSet>
+								<includes>
+									<include>org.ow2.asm:asm-tree</include>
+									<include>org.ow2.asm:asm</include>
+								</includes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 	<pluginRepositories>
@@ -140,4 +167,6 @@
 			</snapshots>
 		</repository>
 	</repositories>
+
+
 </project>
