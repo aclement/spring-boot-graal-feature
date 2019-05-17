@@ -14,6 +14,12 @@ native-image \
   -cp $CP com.example.commandlinerunner.CommandlinerunnerApplication
 ```
 
+Latest notes:
+17-May-2019: 
+- now works with Graal 19 release
+- now no longer 'patches' spring jars (using a different workaround for Graal #1196 issue)
+- now computing much more based on spring.factories, not hard coded just for this app
+
 ```
 
 [clr:36189]    classlist:   3,381.06 ms
@@ -47,34 +53,6 @@ SBG: delaying initialization of #10 classes
 [clr:36189]      [total]:  71,211.78 ms
 ```
 
-29-Apr-2019
-Just added support to process META-INF/spring.factories files.  If they list any configurations then the `ResourcesHandler` class will check for `@ConditionalOnClass` on those configurations - if the classes aren't on the classpath then they can't be in the image. In this situation instead of registering the 'input' spring.factories file, it is modified to remove these unnecessary entries and this modified one is registered. 
-
-```
-Processing META-INF/spring.factories files...
-Spring.factories processing: looking at #20 configuration references
-  @COC check failed for org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.batch.BatchAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.dao.PersistenceExceptionTranslationAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.flyway.FlywayAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.freemarker.FreeMarkerAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.hateoas.HypermediaAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.integration.IntegrationAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.jersey.JerseyAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.jsonb.JsonbAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.ldap.embedded.EmbeddedLdapAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.ldap.LdapAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.mustache.MustacheAutoConfiguration
-  @COC check failed for org.springframework.boot.autoconfigure.session.SessionAutoConfiguration
-  removed 15 configurations
-```
-
-Sample app now runs successfully compiled with graal. The sample app is an annotation based webflux app:
-
-(Mostly tested on a locally built graal, commit #818cccb852ec - but early testing indicates works on the graal final release)
-
 ```
 cd samples/demo
 ./compile.sh
@@ -101,7 +79,6 @@ The `compile.sh` script:
 
 - mvn compiles the project
 - unpacks the boot packaged jar
-- temporarily modifies one spring class (waiting on graal fix, need to try other workarounds)
 - runs native-image to compile the app
 - runs the compiled app
 
