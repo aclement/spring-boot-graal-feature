@@ -53,6 +53,7 @@ SBG: delaying initialization of #10 classes
 [clr:36189]      [total]:  71,211.78 ms
 ```
 
+The demo project is a webflux based app using annotation based configuration for the controllers:
 ```
 cd samples/demo
 ./compile.sh
