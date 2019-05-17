@@ -19,6 +19,8 @@ Latest notes:
 - now works with Graal 19 release
 - now no longer 'patches' spring jars (using a different workaround for Graal #1196 issue)
 - now computing much more based on spring.factories, not hard coded just for this app
+- added more samples using the same graal feature for both
+- added sample showing maven native-image invocation
 
 ```
 
@@ -53,7 +55,7 @@ SBG: delaying initialization of #10 classes
 [clr:36189]      [total]:  71,211.78 ms
 ```
 
-The demo project is a webflux based app using annotation based configuration for the controllers:
+The samples/demo project is a webflux based app using annotation based configuration for the controllers:
 ```
 cd samples/demo
 ./compile.sh
