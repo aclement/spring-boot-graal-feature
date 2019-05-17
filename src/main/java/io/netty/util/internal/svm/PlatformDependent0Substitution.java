@@ -19,7 +19,7 @@ import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.TargetClass;
 
-@TargetClass(className = "io.netty.util.internal.PlatformDependent0")
+@TargetClass(className = "io.netty.util.internal.PlatformDependent0",onlyWith=NettyIsAround.class)
 final class PlatformDependent0Substitution {
     private PlatformDependent0Substitution() {
     }

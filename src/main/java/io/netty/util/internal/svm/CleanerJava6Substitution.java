@@ -19,7 +19,7 @@ import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.TargetClass;
 
-@TargetClass(className = "io.netty.util.internal.CleanerJava6")
+@TargetClass(className = "io.netty.util.internal.CleanerJava6",onlyWith= NettyIsAround.class)
 final class CleanerJava6Substitution {
     private CleanerJava6Substitution() {
     }

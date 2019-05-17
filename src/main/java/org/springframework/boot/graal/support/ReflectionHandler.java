@@ -107,39 +107,43 @@ public class ReflectionHandler {
 			}
 	        rra.registerType(type);
 			Set<Flag> flags = classDescriptor.getFlags();
-			if (flags != null) {
-				if (flags.contains(Flag.allDeclaredClasses)) {
-//					System.out.println("DeclaredClasses: " + type);
-					rra.registerDeclaredClasses(type);
+			try {
+				if (flags != null) {
+					if (flags.contains(Flag.allDeclaredClasses)) {
+	//					System.out.println("DeclaredClasses: " + type);
+						rra.registerDeclaredClasses(type);
+					}
+					if (flags.contains(Flag.allDeclaredFields)) {
+	//					System.out.println("DeclaredFields: " + type);
+						rra.registerDeclaredFields(type);
+					}
+					if (flags.contains(Flag.allPublicFields)) {
+	//					System.out.println("PublicFields: " + type);
+						rra.registerPublicFields(type);
+					}
+					if (flags.contains(Flag.allDeclaredConstructors)) {
+	//					System.out.println("DeclaredConstructors: " + type);
+						rra.registerDeclaredConstructors(type);
+					}
+					if (flags.contains(Flag.allPublicConstructors)) {
+	//					System.out.println("PublicConstructors: " + type);
+						rra.registerPublicConstructors(type);
+					}
+					if (flags.contains(Flag.allDeclaredMethods)) {
+	//					System.out.println("DeclaredMethods: " + type);
+						rra.registerDeclaredMethods(type);
+					}
+					if (flags.contains(Flag.allPublicMethods)) {
+	//					System.out.println("PublicMethods: " + type);
+						rra.registerPublicMethods(type);
+					}
+					if (flags.contains(Flag.allPublicClasses)) {
+	//					System.out.println("PublicClasses: " + type);
+						rra.registerPublicClasses(type);
+					}
 				}
-				if (flags.contains(Flag.allDeclaredFields)) {
-//					System.out.println("DeclaredFields: " + type);
-					rra.registerDeclaredFields(type);
-				}
-				if (flags.contains(Flag.allPublicFields)) {
-//					System.out.println("PublicFields: " + type);
-					rra.registerPublicFields(type);
-				}
-				if (flags.contains(Flag.allDeclaredConstructors)) {
-//					System.out.println("DeclaredConstructors: " + type);
-					rra.registerDeclaredConstructors(type);
-				}
-				if (flags.contains(Flag.allPublicConstructors)) {
-//					System.out.println("PublicConstructors: " + type);
-					rra.registerPublicConstructors(type);
-				}
-				if (flags.contains(Flag.allDeclaredMethods)) {
-//					System.out.println("DeclaredMethods: " + type);
-					rra.registerDeclaredMethods(type);
-				}
-				if (flags.contains(Flag.allPublicMethods)) {
-//					System.out.println("PublicMethods: " + type);
-					rra.registerPublicMethods(type);
-				}
-				if (flags.contains(Flag.allPublicClasses)) {
-//					System.out.println("PublicClasses: " + type);
-					rra.registerPublicClasses(type);
-				}
+			} catch (NoClassDefFoundError ncdfe) {
+				System.out.println("Problem handling flags for "+type.getName()+" because of missing "+ncdfe.getMessage());
 			}
 			List<MethodDescriptor> methods = classDescriptor.getMethods();
 			if (methods != null) {

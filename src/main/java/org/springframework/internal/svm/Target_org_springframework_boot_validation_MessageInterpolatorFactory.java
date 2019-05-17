@@ -29,7 +29,7 @@ import com.oracle.svm.core.annotate.TargetClass;
  * 
  * @author Andy Clement
  */
-@TargetClass(org.springframework.boot.validation.MessageInterpolatorFactory.class)
+@TargetClass(value=org.springframework.boot.validation.MessageInterpolatorFactory.class,onlyWith=MessageInterpolatorIsAround.class)
 public final class Target_org_springframework_boot_validation_MessageInterpolatorFactory {
 
 	@Substitute

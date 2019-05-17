@@ -19,7 +19,7 @@ import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.TargetClass;
 
-@TargetClass(className = "io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess")
+@TargetClass(className = "io.netty.util.internal.shaded.org.jctools.util.UnsafeRefArrayAccess", onlyWith=NettyIsAround.class)
 final class UnsafeRefArrayAccessSubstitution {
     private UnsafeRefArrayAccessSubstitution() {
     }

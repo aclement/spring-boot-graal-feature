@@ -51,20 +51,25 @@ public class DynamicProxiesHandler {
 //      ImageSingletons.add(DynamicProxyRegistry.class, dynamicProxySupport);
     	Consumer<List<String>> proxyRegisteringConsumer = interfaceNames -> {
     		System.out.println("- "+interfaceNames);
+    		boolean isOK= true;
             Class<?>[] interfaces = new Class<?>[interfaceNames.size()];
             for (int i = 0; i < interfaceNames.size(); i++) {
                 String className = interfaceNames.get(i);
                 Class<?> clazz = imageClassLoader.findClassByName(className, false);
                 if (clazz == null) {
-                    throw new RuntimeException("Class " + className + " not found");
+                	System.out.println("Skipping dynamic proxy registration due to missing type: "+className);
+                    isOK=false;
+                    break;
                 }
                 if (!clazz.isInterface()) {
                     throw new RuntimeException("The class \"" + className + "\" is not an interface.");
                 }
                 interfaces[i] = clazz;
             }
-            /* The interfaces array can be empty. The java.lang.reflect.Proxy API allows it. */
-            dynamicProxySupport.addProxyClass(interfaces);
+            if (isOK) {
+	            /* The interfaces array can be empty. The java.lang.reflect.Proxy API allows it. */
+	            dynamicProxySupport.addProxyClass(interfaces);
+            }
     	};
     	pd.consume(proxyRegisteringConsumer);
 	}
