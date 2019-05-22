@@ -174,7 +174,11 @@ public class ReflectionHandler {
 			List<FieldDescriptor> fields = classDescriptor.getFields();
 			if (fields != null) {
 				for (FieldDescriptor fieldDescriptor : fields) {
-					throw new IllegalStateException(fieldDescriptor.toString());
+					try {
+						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite());
+					} catch (NoSuchFieldException nsfe) {
+						System.out.println("Skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");
+					}
 				}
 			}
 		}
