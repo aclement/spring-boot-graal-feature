@@ -202,7 +202,12 @@ public class ReflectionHandler {
 // what would a reflection hint look like here? Would it specify maven coords for logback as a requirement on the classpath?
 // does logback have a feature? or meta data files for graal?
 	private void registerLogback() {
-		addAccess("ch.qos.logback.core.Appender", Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+		try {
+			addAccess("ch.qos.logback.core.Appender", Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+		} catch (NoClassDefFoundError e) {
+			System.out.println("Logback not found, skipping registration logback types");
+			return;
+		}
 		addAccess("org.springframework.boot.logging.logback.LogbackLoggingSystem", Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 		for (String p: logBackPatterns) {
 			if (p.startsWith("org")) {

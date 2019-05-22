@@ -38,6 +38,8 @@ public class Type {
 	
 	public final static String AtBean = "Lorg/springframework/context/annotation/Bean;";
 
+	public final static String AtImports = "Lorg/springframework/context/annotation/Import;";
+
 	public final static String AtEnableConfigurationProperties = "Lorg/springframework/boot/context/properties/EnableConfigurationProperties;";
 	
 	public final static String AtConditionalOnClass = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;";
@@ -415,6 +417,11 @@ public class Type {
 	
 	public List<String> findEnableConfigurationPropertiesValue() {
 		 List<String> values = findAnnotationValue(AtEnableConfigurationProperties);
+		 return values;
+	}
+
+	public List<String> findImports() {
+		 List<String> values = findAnnotationValue(AtImports);
 		 return values;
 	}
 		

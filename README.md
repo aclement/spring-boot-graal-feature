@@ -18,7 +18,7 @@ Latest notes:
 17-May-2019: 
 - now works with Graal 19 release
 - now no longer 'patches' spring jars (using a different workaround for Graal #1196 issue)
-- now computing much more based on spring.factories, not hard coded just for this app
+- now computing much more based on spring.factories, not hard coded just for one app
 - added more samples using the same graal feature for both
 - added sample showing maven native-image invocation
 

@@ -8,10 +8,18 @@
 		"name": "org.springframework.http.codec.support.DefaultServerCodecConfigurer",
 		"methods": [{"name": "<init>","parameterTypes": []}]
 	},
-	
-	
+	{
+		"name": "com.google.gson.GsonBuilder",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
 	{
 		"name": "org.hibernate.validator.HibernateValidatorConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.SpringBootVersion",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},

@@ -40,6 +40,7 @@ import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
 import org.springframework.boot.graal.domain.resources.ResourcesDescriptor;
 import org.springframework.boot.graal.domain.resources.ResourcesJsonMarshaller;
 import org.springframework.boot.graal.type.Method;
+import org.springframework.boot.graal.type.MissingTypeException;
 import org.springframework.boot.graal.type.Type;
 import org.springframework.boot.graal.type.TypeSystem;
 
@@ -116,7 +117,7 @@ public class ResourcesHandler {
 //	}
 	
 	public void processSpringComponents() {
-		TypeSystem ts = TypeSystem.get(cl.getClasspath());
+		ts = TypeSystem.get(cl.getClasspath());
 		Enumeration<URL> springComponents = fetchResources("META-INF/spring.components");
 		if (springComponents.hasMoreElements()) {
 			log("Processing META-INF/spring.components files...");
@@ -125,6 +126,7 @@ public class ResourcesHandler {
 				processSpringComponents(ts, springFactory);
 			}
 		} else {
+//			System.out.println("No META-INF/spring.components found");
 			System.out.println("Found no META-INF/spring.components -> fall back to custom scan...");
 			List<Entry<String, String>> components = scanClasspathForIndexedStereotypes();
 			List<Entry<String,String>> filteredComponents = filterComponents(components);
@@ -345,6 +347,19 @@ public class ResourcesHandler {
 			// java.lang.NoClassDefFoundError: javax/servlet/Filter
 			// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
 			System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
+		}
+		
+		List<String> imports = configType.findImports();
+		if (imports != null) {
+			for (String imported: imports) {
+				String importedName = fromLtoDotted(imported);
+				try {
+				Type t = ts.resolveDotted(importedName);
+				passesConditionalOnClassTest(ts, t, visited);
+				} catch (MissingTypeException mte) {
+					System.out.println("Cannot find imported "+importedName+" so skipping processing that");
+				}
+			}
 		}
 		
 		// Without this code, error at:
