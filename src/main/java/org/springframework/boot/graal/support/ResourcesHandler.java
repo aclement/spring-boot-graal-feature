@@ -351,6 +351,7 @@ public class ResourcesHandler {
 		
 		List<String> imports = configType.findImports();
 		if (imports != null) {
+			System.out.println("Imports found on "+configType.getName()+" are "+imports);
 			for (String imported: imports) {
 				String importedName = fromLtoDotted(imported);
 				try {

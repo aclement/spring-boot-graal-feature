@@ -149,6 +149,12 @@
 		"allDeclaredFields": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication$Type",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true,
+		"allDeclaredFields": true
+	},
+	{
 		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -312,6 +318,16 @@
 	},
 	{
 		"name": "org.springframework.beans.factory.xml.XmlBeanDefinitionReader",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.web.reactive.config.DelegatingWebFluxConfiguration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.web.reactive.config.EnableWebFlux",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},

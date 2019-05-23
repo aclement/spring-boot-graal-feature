@@ -402,7 +402,7 @@ public class Type {
 	public static final List<Type> NO_ANNOTATIONS = Collections.emptyList();
 
 	public List<String> findConditionalOnClassValue() {
-		 List<String> findAnnotationValue = findAnnotationValue(AtConditionalOnClass);
+		 List<String> findAnnotationValue = findAnnotationValue(AtConditionalOnClass, false);
 		 if (findAnnotationValue==null) {
 			 if (node.visibleAnnotations != null) {
 					for (AnnotationNode an : node.visibleAnnotations) {
@@ -416,17 +416,25 @@ public class Type {
 	}
 	
 	public List<String> findEnableConfigurationPropertiesValue() {
-		 List<String> values = findAnnotationValue(AtEnableConfigurationProperties);
+		 List<String> values = findAnnotationValue(AtEnableConfigurationProperties, false);
 		 return values;
 	}
 
 	public List<String> findImports() {
-		 List<String> values = findAnnotationValue(AtImports);
+		 List<String> values = findAnnotationValue(AtImports, true);
 		 return values;
 	}
 		
+	public List<String> findAnnotationValue(String annotationType, boolean searchMeta) {		
+		return findAnnotationValue(annotationType, searchMeta, new HashSet<>());
+	}
+	
 	@SuppressWarnings("unchecked")
-	public List<String> findAnnotationValue(String annotationType) {
+	public List<String> findAnnotationValue(String annotationType, boolean searchMeta, Set<String> visited) {		
+		if (!visited.add(this.getName())) {
+			return Collections.emptyList();
+		}
+		List<String> collectedResults = new ArrayList<>();
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an : node.visibleAnnotations) {
 				if (an.desc.equals(annotationType)) {
@@ -437,14 +445,21 @@ public class Type {
 								return ( (List<org.objectweb.asm.Type>)values.get(i+1))
 										.stream()
 										.map(t -> t.getDescriptor())
-										.collect(Collectors.toList());
+										.collect(Collectors.toCollection(() -> collectedResults));
 							}
 						}
 					}
 				}
 			}
+			if (searchMeta) {
+				for (AnnotationNode an: node.visibleAnnotations) {
+					// For example @EnableSomething might have @Import on it
+					Type annoType = typeSystem.Lresolve(an.desc);
+					collectedResults.addAll(annoType.findAnnotationValue(annotationType, searchMeta, visited));
+				}
+			}
 		}
-		return null;
+		return collectedResults;
 	}
 
 	private List<Type> getAnnotations() {
