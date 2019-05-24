@@ -19,6 +19,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.context.annotation.Configuration",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.SpringBootVersion",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -326,6 +331,12 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// Is this just a parameter of an autowired method in the one above?
+	{
+		"name": "org.springframework.web.reactive.config.WebFluxConfigurer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
 	{
 		"name": "org.springframework.web.reactive.config.EnableWebFlux",
 		"allDeclaredConstructors": true,
@@ -465,6 +476,11 @@
 		"name": "org.springframework.context.annotation.Configuration",
 		"allDeclaredConstructors": true,
 		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.beans.factory.annotation.Autowired",
+		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
 	{

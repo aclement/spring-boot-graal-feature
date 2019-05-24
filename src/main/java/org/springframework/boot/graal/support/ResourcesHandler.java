@@ -27,6 +27,7 @@ import java.util.Enumeration;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
@@ -39,7 +40,6 @@ import org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
 import org.springframework.boot.graal.domain.resources.ResourcesDescriptor;
 import org.springframework.boot.graal.domain.resources.ResourcesJsonMarshaller;
-import org.springframework.boot.graal.type.Method;
 import org.springframework.boot.graal.type.MissingTypeException;
 import org.springframework.boot.graal.type.Type;
 import org.springframework.boot.graal.type.TypeSystem;
@@ -138,6 +138,7 @@ public class ResourcesHandler {
 				reflectionHandler.addAccess(k,Flag.allDeclaredConstructors, Flag.allDeclaredMethods, Flag.allDeclaredClasses);
 				ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
 				resourcesRegistry.addResources(k.replace(".", "/")+".class");
+				processComponent(k, new HashSet<>());
 			}
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -148,6 +149,99 @@ public class ResourcesHandler {
 				Resources.registerResource("META-INF/spring.components", bais);
 			} catch (IOException e) {
 				throw new IllegalStateException(e);
+			}
+		}
+	}
+
+	private void processComponent(String typename, Set<String> visited) {
+		if (!visited.add(typename)) {
+			return;
+		}
+		ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
+		Type componentType = ts.resolveDotted(typename);
+		System.out.println("> Component processing: "+typename);
+		List<String> conditionalTypes = componentType.findConditionalOnClassValue();
+		if (conditionalTypes != null) {
+			for (String lDescriptor : conditionalTypes) {
+				Type t = ts.Lresolve(lDescriptor, true);
+				boolean exists = (t != null);
+				if (!exists) {
+					return;
+				} else {
+					try {
+						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+						resourcesRegistry.addResources(lDescriptor.substring(1,lDescriptor.length()-1)+".class");
+					} catch (NoClassDefFoundError e) {
+						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not found for component "+componentType.getName());
+					}
+					
+				}
+			}
+		}
+		try {
+			// String configNameDotted = configType.getName().replace("/",".");
+			System.out.println("Including auto-configuration "+typename);
+			reflectionHandler.addAccess(typename,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			resourcesRegistry.addResources(typename.replace(".", "/")+".class");
+		} catch (NoClassDefFoundError e) {
+			// Example:
+			// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter
+			// java.lang.NoClassDefFoundError: javax/servlet/Filter
+			// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
+			System.out.println("PROBLEM? Can't register "+typename+" because cannot find "+e.getMessage());
+		}
+		
+		Map<String,List<String>> imports = componentType.findImports();
+		if (imports != null) {
+			System.out.println("Imports found on "+typename+" are "+imports);
+			for (Map.Entry<String,List<String>> importsEntry: imports.entrySet()) {
+				reflectionHandler.addAccess(importsEntry.getKey(),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+				for (String imported: importsEntry.getValue()) {
+					String importedName = fromLtoDotted(imported);
+					try {
+						Type t = ts.resolveDotted(importedName);
+						processComponent( t.getName().replace("/", "."), visited);
+					} catch (MissingTypeException mte) {
+						System.out.println("Cannot find imported "+importedName+" so skipping processing that");
+					}
+				}
+			}
+		}
+		
+		// Without this code, error at:
+		// java.lang.ClassNotFoundException cannot be cast to java.lang.Class[]
+		// at org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar.lambda$collectClasses$1(EnableConfigurationPropertiesImportSelector.java:80)
+		List<String> ecProperties = componentType.findEnableConfigurationPropertiesValue();
+		if (ecProperties != null) {
+			for (String ecPropertyDescriptor: ecProperties) {
+				String ecPropertyName = fromLtoDotted(ecPropertyDescriptor);
+				System.out.println("ECP "+ecPropertyName);
+				try {
+					reflectionHandler.addAccess(ecPropertyName,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					resourcesRegistry.addResources(ecPropertyName.replace(".", "/")+".class");
+				} catch (NoClassDefFoundError e) {
+					System.out.println("Not found for registration: "+ecPropertyName);
+				}
+			}
+		}
+		
+		// Find @Bean methods and add them
+//		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
+//		if (methodsWithAtBean.size() != 0) {
+//			System.out.println(configType+" here they are: "+
+//			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
+//			for (Method m: methodsWithAtBean) {
+//				String desc = m.getDesc();
+//				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
+//				System.out.println("@Bean return type "+retType);
+//				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+//			}
+//		}
+		
+		List<Type> nestedTypes = componentType.getNestedTypes();
+		for (Type t: nestedTypes) {
+			if (visited.add(t.getName())) {
+				processComponent(t.getName().replace("/", "."), visited);
 			}
 		}
 	}
@@ -332,7 +426,7 @@ public class ResourcesHandler {
 					} catch (NoClassDefFoundError e) {
 						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not found for configuration "+configType.getName());
 					}
-					
+
 				}
 			}
 		}
@@ -348,21 +442,23 @@ public class ResourcesHandler {
 			// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
 			System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
 		}
-		
-		List<String> imports = configType.findImports();
+
+		Map<String,List<String>> imports = configType.findImports();
 		if (imports != null) {
 			System.out.println("Imports found on "+configType.getName()+" are "+imports);
-			for (String imported: imports) {
-				String importedName = fromLtoDotted(imported);
-				try {
-				Type t = ts.resolveDotted(importedName);
-				passesConditionalOnClassTest(ts, t, visited);
-				} catch (MissingTypeException mte) {
-					System.out.println("Cannot find imported "+importedName+" so skipping processing that");
+			for (Map.Entry<String,List<String>> importsEntry: imports.entrySet()) {
+				for (String imported: importsEntry.getValue()) {
+					String importedName = fromLtoDotted(imported);
+					try {
+						Type t = ts.resolveDotted(importedName);
+						passesConditionalOnClassTest(ts, t, visited);
+					} catch (MissingTypeException mte) {
+						System.out.println("Cannot find imported "+importedName+" so skipping processing that");
+					}
 				}
 			}
 		}
-		
+
 		// Without this code, error at:
 		// java.lang.ClassNotFoundException cannot be cast to java.lang.Class[]
 		// at org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar.lambda$collectClasses$1(EnableConfigurationPropertiesImportSelector.java:80)
@@ -377,20 +473,20 @@ public class ResourcesHandler {
 				}
 			}
 		}
-		
+
 		// Find @Bean methods and add them
-//		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
-//		if (methodsWithAtBean.size() != 0) {
-//			System.out.println(configType+" here they are: "+
-//			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
-//			for (Method m: methodsWithAtBean) {
-//				String desc = m.getDesc();
-//				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
-//				System.out.println("@Bean return type "+retType);
-//				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-//			}
-//		}
-		
+		//		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
+		//		if (methodsWithAtBean.size() != 0) {
+		//			System.out.println(configType+" here they are: "+
+		//			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
+		//			for (Method m: methodsWithAtBean) {
+		//				String desc = m.getDesc();
+		//				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
+		//				System.out.println("@Bean return type "+retType);
+		//				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+		//			}
+		//		}
+
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
 			if (visited.add(t.getName())) {

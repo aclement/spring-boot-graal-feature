@@ -20,7 +20,9 @@ import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
@@ -420,15 +422,49 @@ public class Type {
 		 return values;
 	}
 
-	public List<String> findImports() {
-		 List<String> values = findAnnotationValue(AtImports, true);
-		 return values;
+	public Map<String,List<String>> findImports() {
+		 return findAnnotationValueWithHostAnnotation(AtImports, true, new HashSet<>());
 	}
 		
 	public List<String> findAnnotationValue(String annotationType, boolean searchMeta) {		
 		return findAnnotationValue(annotationType, searchMeta, new HashSet<>());
 	}
 	
+	@SuppressWarnings("unchecked")
+	public Map<String,List<String>> findAnnotationValueWithHostAnnotation(String annotationType, boolean searchMeta, Set<String> visited) {		
+		if (!visited.add(this.getName())) {
+			return Collections.emptyMap();
+		}
+		Map<String,List<String>> collectedResults = new LinkedHashMap<>();
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an : node.visibleAnnotations) {
+				if (an.desc.equals(annotationType)) {
+					List<Object> values = an.values;
+					if (values != null) {
+						for (int i=0;i<values.size();i+=2) {
+							if (values.get(i).equals("value")) {
+								 List<String> importedReferences = ((List<org.objectweb.asm.Type>)values.get(i+1))
+										.stream()
+										.map(t -> t.getDescriptor())
+										.collect(Collectors.toList());
+								collectedResults.put(this.getName().replace("/", "."), importedReferences);
+							}
+						}
+					}
+				}
+			}
+			if (searchMeta) {
+				for (AnnotationNode an: node.visibleAnnotations) {
+					// For example @EnableSomething might have @Import on it
+					Type annoType = typeSystem.Lresolve(an.desc);
+					collectedResults.putAll(annoType.findAnnotationValueWithHostAnnotation(annotationType, searchMeta, visited));
+				}
+			}
+		}
+		return collectedResults;
+	}
+	
+
 	@SuppressWarnings("unchecked")
 	public List<String> findAnnotationValue(String annotationType, boolean searchMeta, Set<String> visited) {		
 		if (!visited.add(this.getName())) {
