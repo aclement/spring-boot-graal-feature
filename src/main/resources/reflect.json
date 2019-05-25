@@ -53,6 +53,7 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	
 	{
 		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedUndertow",
 		"allDeclaredConstructors": true,
@@ -311,6 +312,11 @@
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.cache.CacheCondition",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
