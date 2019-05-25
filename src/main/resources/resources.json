@@ -11,6 +11,7 @@
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
     {"pattern": "org/springframework/boot/logging/java/logging.properties"},
     {"pattern": "logging.properties"},
+    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBeanRegistrar.class"},
     // These next 3 come in when trying to cope with graal#1196
     {"pattern": "org/springframework/context/ApplicationListener.class"},
     {"pattern": "org/springframework/beans/factory/InitializingBean.class"},

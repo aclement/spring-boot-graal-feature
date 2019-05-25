@@ -44,7 +44,32 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorConfiguration$JettyClient",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedTomcat",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedUndertow",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedNetty",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedJetty",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.web.reactive.server.ReactiveWebServerFactory",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -504,7 +529,32 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "reactor.netty.http.server.HttpTrafficHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "reactor.netty.channel.ChannelOperationsHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.ChannelDuplexHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.autoconfigure.http.HttpMessageConverters",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.CombinedChannelDuplexHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.handler.codec.http.HttpServerCodec",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -620,6 +670,41 @@
 	},
 	{
 		"name": "java.lang.management.RuntimeMXBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "reactor.netty.channel.BootstrapHandlers$BootstrapInitializerHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.bootstrap.ServerBootstrap$ServerBootstrapAcceptor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.bootstrap.ServerBootstrap",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.ChannelHandlerAdapter",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.ChannelInboundHandlerAdapter",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.ChannelInitializer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.bootstrap.ServerBootstrap$1",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
