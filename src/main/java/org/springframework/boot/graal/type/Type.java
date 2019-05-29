@@ -46,6 +46,8 @@ public class Type {
 	
 	public final static String AtConditionalOnClass = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;";
 
+	public final static String AtConditionalOnMissingBean = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean;";
+
 	public final static Type MISSING = new Type(null, null);
 
 	public final static Type[] NO_INTERFACES = new Type[0];
@@ -402,6 +404,21 @@ public class Type {
 	List<Type> annotations = null;
 
 	public static final List<Type> NO_ANNOTATIONS = Collections.emptyList();
+
+	
+	public List<String> findConditionalOnMissingBeanValue() {
+		 List<String> findAnnotationValue = findAnnotationValue(AtConditionalOnMissingBean, false);
+		 if (findAnnotationValue==null) {
+			 if (node.visibleAnnotations != null) {
+					for (AnnotationNode an : node.visibleAnnotations) {
+						if (an.desc.equals(AtConditionalOnMissingBean)) {
+							System.out.println("??? found nothing on this @COC annotated thing "+this.getName());
+						}
+					}
+				}
+		 }
+		 return findAnnotationValue;
+	}
 
 	public List<String> findConditionalOnClassValue() {
 		 List<String> findAnnotationValue = findAnnotationValue(AtConditionalOnClass, false);

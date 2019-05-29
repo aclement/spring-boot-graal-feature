@@ -81,7 +81,6 @@ public class ResourcesHandler {
 		// resourcesRegistry.addResources("*");
 		// Resources.registerResource(relativePath, inputstream);
 		System.out.println("SBG: adding resources - #" + rd.getPatterns().size()+" patterns");
-//		logging();
 
 		for (String pattern : rd.getPatterns()) {
 			if (pattern.equals("META-INF/spring.factories")) {
@@ -371,6 +370,7 @@ public class ResourcesHandler {
 			for (String s: configsString.split(",")) {
 				configs.add(s);
 			}
+			// TODO what about ConditionalOnResource?
 			System.out.println(
 					"Spring.factories processing: looking at #" + configs.size() + " configuration references");
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {

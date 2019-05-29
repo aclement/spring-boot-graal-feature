@@ -72,6 +72,7 @@ public class SpringFeature implements Feature {
     public void beforeAnalysis(BeforeAnalysisAccess access) {
     	resourcesHandler.register(access);
     	buildTimeInitializationHandler.register(access);
+    	// TODO who requires this, is it a netty thing?
     	try {
 			access.registerAsUnsafeAccessed(Buffer.class.getDeclaredField("address"));
 		} catch (NoSuchFieldException e) {

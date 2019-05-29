@@ -34,22 +34,33 @@ import com.oracle.svm.hosted.FeatureImpl.DuringSetupAccessImpl;
 import com.oracle.svm.hosted.ImageClassLoader;
 import com.oracle.svm.hosted.config.ReflectionRegistryAdapter;
 
+/**
+ * Loads up the constant data defined in resource file and registers reflective access being
+ * necessary with the image build. Also provides an method (<tt>addAccess(String typename, Flag... flags)</tt>}
+ * usable from elsewhere when needing to register reflective access to a type (e.g. used when resource
+ * processing).
+ *
+ * @author Andy Clement
+ */
 public class ReflectionHandler {
 	
+	private final static String RESOURCE_FILE = "/reflect.json";
+	
 	ReflectionRegistryAdapter rra;
-	ReflectionDescriptor loadedDescriptor;
 
-	public ReflectionDescriptor compute() {
-		if (loadedDescriptor == null) {
+	ReflectionDescriptor constantReflectionDescriptor;
+
+
+	public ReflectionDescriptor getConstantData() {
+		if (constantReflectionDescriptor == null) {
 			try {
-				InputStream s = this.getClass().getResourceAsStream("/reflect.json");
-				loadedDescriptor = JsonMarshaller.read(s);
+				InputStream s = this.getClass().getResourceAsStream(RESOURCE_FILE);
+				constantReflectionDescriptor = JsonMarshaller.read(s);
 			} catch (Exception e) {
-				e.printStackTrace();
-				return null;
+				throw new IllegalStateException("Unexpectedly can't load "+RESOURCE_FILE, e);
 			}
 		}
-		return loadedDescriptor;
+		return constantReflectionDescriptor;
 	}
 	
 	public void addAccess(String typename, Flag...flags) {
@@ -59,7 +70,7 @@ public class ReflectionHandler {
 			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
 			return;
 		}
-		if (loadedDescriptor.hasClassDescriptor(typename)) {
+		if (constantReflectionDescriptor.hasClassDescriptor(typename)) {
 			System.out.println("JSON FILE CONTAINS THIS ALREADY "+typename);
 		}
 		rra.registerType(type);
@@ -97,7 +108,8 @@ public class ReflectionHandler {
 		RuntimeReflectionSupport rrs = ImageSingletons.lookup(RuntimeReflectionSupport.class);
 		ImageClassLoader cl = access.getImageClassLoader();
 		rra = new ReflectionRegistryAdapter(rrs, cl);
-		ReflectionDescriptor reflectionDescriptor = compute();
+		ReflectionDescriptor reflectionDescriptor = getConstantData();
+
 		System.out.println("SBG: reflection registering #"+reflectionDescriptor.getClassDescriptors().size()+" entries");
 		for (ClassDescriptor classDescriptor : reflectionDescriptor.getClassDescriptors()) {
 			Class<?> type = rra.resolveType(classDescriptor.getName());

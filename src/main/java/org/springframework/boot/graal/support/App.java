@@ -15,11 +15,14 @@
  */
 package org.springframework.boot.graal.support;
 
+import org.springframework.boot.graal.domain.reflect.JsonMarshaller;
+import org.springframework.boot.graal.domain.reflect.ReflectionDescriptor;
+
 public class App {
 	public static void main(String[] args) throws Exception {
-//		new ReflectionHandler().compute();
-//		new DynamicProxiesHandler().compute();
-//		new ResourcesHandler().compute();
-//		new BuildTimeInitializationHandler().compute();
+		// Sort some entries
+		ReflectionDescriptor rd = new ReflectionHandler().getConstantData();
+		rd.sort();
+		new JsonMarshaller().write(rd, System.out);
 	}
 }

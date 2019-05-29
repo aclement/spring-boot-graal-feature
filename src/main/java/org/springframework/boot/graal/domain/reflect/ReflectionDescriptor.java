@@ -35,6 +35,10 @@ public class ReflectionDescriptor {
 	public ReflectionDescriptor(ReflectionDescriptor metadata) {
 		this.classDescriptors = new ArrayList<>(metadata.classDescriptors);
 	}
+	
+	public void sort() {
+		classDescriptors.sort((a,b) -> a.getName().compareTo(b.getName()));
+	}
 
 	public List<ClassDescriptor> getClassDescriptors() {
 		return this.classDescriptors;
