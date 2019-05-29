@@ -16,6 +16,12 @@
 package org.springframework.boot.graal.support;
 
 import java.io.InputStream;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Executable;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -23,6 +29,7 @@ import java.util.stream.Collectors;
 import org.graalvm.nativeimage.ImageSingletons;
 import org.graalvm.nativeimage.hosted.Feature.DuringSetupAccess;
 import org.graalvm.nativeimage.impl.RuntimeReflectionSupport;
+import org.graalvm.util.GuardedAnnotationAccess;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
 import org.springframework.boot.graal.domain.reflect.FieldDescriptor;
@@ -39,7 +46,7 @@ import com.oracle.svm.hosted.config.ReflectionRegistryAdapter;
  * necessary with the image build. Also provides an method (<tt>addAccess(String typename, Flag... flags)</tt>}
  * usable from elsewhere when needing to register reflective access to a type (e.g. used when resource
  * processing).
- *
+ * 
  * @author Andy Clement
  */
 public class ReflectionHandler {
@@ -49,7 +56,6 @@ public class ReflectionHandler {
 	ReflectionRegistryAdapter rra;
 
 	ReflectionDescriptor constantReflectionDescriptor;
-
 
 	public ReflectionDescriptor getConstantData() {
 		if (constantReflectionDescriptor == null) {
@@ -63,6 +69,100 @@ public class ReflectionHandler {
 		return constantReflectionDescriptor;
 	}
 	
+	public void register(DuringSetupAccess a) {
+		DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
+		RuntimeReflectionSupport rrs = ImageSingletons.lookup(RuntimeReflectionSupport.class);
+		ImageClassLoader cl = access.getImageClassLoader();
+		rra = new ReflectionRegistryAdapter(rrs, cl);
+		ReflectionDescriptor reflectionDescriptor = getConstantData();
+
+		System.out.println("SBG: reflection registering #"+reflectionDescriptor.getClassDescriptors().size()+" entries");
+		for (ClassDescriptor classDescriptor : reflectionDescriptor.getClassDescriptors()) {
+			Class<?> type = rra.resolveType(classDescriptor.getName());
+			if (type == null) {
+				System.out.println("SBG: WARNING: "+RESOURCE_FILE+" included "+classDescriptor.getName()+" but it doesn't exist on the classpath, skipping...");
+				continue;
+			}
+	        rra.registerType(type);
+			Set<Flag> flags = classDescriptor.getFlags();
+			if (flags != null) {
+				for (Flag flag: flags) {
+					try {
+						switch (flag) {
+						case allDeclaredClasses:
+							rra.registerDeclaredClasses(type);
+							break;
+						case allDeclaredFields:
+							rra.registerDeclaredFields(type);
+							break;
+						case allPublicFields:
+							rra.registerPublicFields(type);
+							break;
+						case allDeclaredConstructors:
+							rra.registerDeclaredConstructors(type);
+							break;
+						case allPublicConstructors:
+							rra.registerPublicConstructors(type);
+							break;
+						case allDeclaredMethods:
+							rra.registerDeclaredMethods(type);
+							break;
+						case allPublicMethods:
+							rra.registerPublicMethods(type);
+							break;
+						case allPublicClasses:
+							rra.registerPublicClasses(type);
+							break;						
+						}
+					} catch (NoClassDefFoundError ncdfe) {
+						System.out.println("SBG: ERROR: problem handling flag: "+flag+" for "+type.getName()+" because of missing "+ncdfe.getMessage());
+					}
+				}
+			}
+			
+			// Process all specific methods defined in the input class descriptor (including constructors)
+			List<MethodDescriptor> methods = classDescriptor.getMethods();
+			if (methods != null) {
+				for (MethodDescriptor methodDescriptor : methods) {
+					String n = methodDescriptor.getName();
+					List<String> parameterTypes = methodDescriptor.getParameterTypes();
+					if (parameterTypes == null) {
+						if (n.equals("<init>")) {
+							rra.registerAllConstructors(type);
+						} else {
+							rra.registerAllMethodsWithName(type, n);
+						}
+					} else {
+						List<Class<?>> collect = parameterTypes.stream().map(pname -> rra.resolveType(pname))
+								.collect(Collectors.toList());
+						try {
+							if (n.equals("<init>")) {
+								rra.registerConstructor(type, collect);
+							} else {
+								rra.registerMethod(type, n, collect);
+							}
+						} catch (NoSuchMethodException nsme) {
+							throw new IllegalStateException("Couldn't find: " + methodDescriptor.toString(), nsme);
+						}
+					}
+				}
+			}
+			
+			// Process all specific fields defined in the input class descriptor
+			List<FieldDescriptor> fields = classDescriptor.getFields();
+			if (fields != null) {
+				for (FieldDescriptor fieldDescriptor : fields) {
+					try {
+						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite());
+					} catch (NoSuchFieldException nsfe) {
+						System.out.println("Skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");
+					}
+				}
+			}
+		}
+		registerLogback();
+	}
+
 	public void addAccess(String typename, Flag...flags) {
 //		System.out.println("Registering reflective access to "+typename);
 		Class<?> type = rra.resolveType(typename);
@@ -102,102 +202,42 @@ public class ReflectionHandler {
 		}
 		
 	}
-
-	public void register(DuringSetupAccess a) {
-		DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
-		RuntimeReflectionSupport rrs = ImageSingletons.lookup(RuntimeReflectionSupport.class);
-		ImageClassLoader cl = access.getImageClassLoader();
-		rra = new ReflectionRegistryAdapter(rrs, cl);
-		ReflectionDescriptor reflectionDescriptor = getConstantData();
-
-		System.out.println("SBG: reflection registering #"+reflectionDescriptor.getClassDescriptors().size()+" entries");
-		for (ClassDescriptor classDescriptor : reflectionDescriptor.getClassDescriptors()) {
-			Class<?> type = rra.resolveType(classDescriptor.getName());
-			if (type == null) {
-				System.out.println("reflect.json included "+classDescriptor.getName()+" but it doesn't exist in this code, skipping...");
-				continue;
-			}
-	        rra.registerType(type);
-			Set<Flag> flags = classDescriptor.getFlags();
-			try {
-				if (flags != null) {
-					if (flags.contains(Flag.allDeclaredClasses)) {
-	//					System.out.println("DeclaredClasses: " + type);
-						rra.registerDeclaredClasses(type);
+	
+	private boolean verify(Object[] things) {
+			for (Object o: things) {
+				try {
+			        if (o instanceof Method) {
+			            ((Method)o).getGenericReturnType();
+			        }
+			        if (o instanceof Field) {
+			            ((Field)o).getGenericType();
+			        }
+			        if (o instanceof AccessibleObject) {
+			            AccessibleObject accessibleObject = (AccessibleObject) o;
+			            GuardedAnnotationAccess.getDeclaredAnnotations(accessibleObject);
+			        }
+	
+			        if (o instanceof Parameter) {
+			            Parameter parameter = (Parameter) o;
+			            parameter.getType();
+			        }
+					if (o instanceof Executable) {
+						Executable e = (Executable)o;
+						e.getGenericParameterTypes();
+						e.getGenericExceptionTypes();
+						e.getParameters();
 					}
-					if (flags.contains(Flag.allDeclaredFields)) {
-	//					System.out.println("DeclaredFields: " + type);
-						rra.registerDeclaredFields(type);
-					}
-					if (flags.contains(Flag.allPublicFields)) {
-	//					System.out.println("PublicFields: " + type);
-						rra.registerPublicFields(type);
-					}
-					if (flags.contains(Flag.allDeclaredConstructors)) {
-	//					System.out.println("DeclaredConstructors: " + type);
-						rra.registerDeclaredConstructors(type);
-					}
-					if (flags.contains(Flag.allPublicConstructors)) {
-	//					System.out.println("PublicConstructors: " + type);
-						rra.registerPublicConstructors(type);
-					}
-					if (flags.contains(Flag.allDeclaredMethods)) {
-	//					System.out.println("DeclaredMethods: " + type);
-						rra.registerDeclaredMethods(type);
-					}
-					if (flags.contains(Flag.allPublicMethods)) {
-	//					System.out.println("PublicMethods: " + type);
-						rra.registerPublicMethods(type);
-					}
-					if (flags.contains(Flag.allPublicClasses)) {
-	//					System.out.println("PublicClasses: " + type);
-						rra.registerPublicClasses(type);
-					}
-				}
-			} catch (NoClassDefFoundError ncdfe) {
-				System.out.println("Problem handling flags for "+type.getName()+" because of missing "+ncdfe.getMessage());
-			}
-			List<MethodDescriptor> methods = classDescriptor.getMethods();
-			if (methods != null) {
-				for (MethodDescriptor methodDescriptor : methods) {
-					String n = methodDescriptor.getName();
-					List<String> parameterTypes = methodDescriptor.getParameterTypes();
-					if (parameterTypes == null) {
-						if (n.equals("<init>")) {
-							rra.registerAllConstructors(type);
-						} else {
-							rra.registerAllMethodsWithName(type, n);
-						}
-					} else {
-						List<Class<?>> collect = parameterTypes.stream().map(pname -> rra.resolveType(pname))
-								.collect(Collectors.toList());
-						try {
-							if (n.equals("<init>")) {
-								rra.registerConstructor(type, collect);
-							} else {
-								rra.registerMethod(type, n, collect);
-							}
-						} catch (NoSuchMethodException nsme) {
-							throw new IllegalStateException("Couldn't find: " + methodDescriptor.toString(), nsme);
-						}
-					}
+				} catch (Exception e) {
+					System.out.println("REFLECTION PROBLEM LATER due to reference from "+o+" to "+e.getMessage());
+					return false;
 				}
 			}
-			List<FieldDescriptor> fields = classDescriptor.getFields();
-			if (fields != null) {
-				for (FieldDescriptor fieldDescriptor : fields) {
-					try {
-						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite());
-					} catch (NoSuchFieldException nsfe) {
-						System.out.println("Skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");
-					}
-				}
-			}
-		}
-		registerLogback();
+			return true;
 	}
 
-	// TODO this is horrible
+
+
+	// TODO this is horrible, it should be packaged with logback
 	// from PatternLayout
 	private String logBackPatterns[] = new String[] { "ch.qos.logback.core.pattern.IdentityCompositeConverter", "ch.qos.logback.core.pattern.ReplacingCompositeConverter",
 			"DateConverter", "RelativeTimeConverter", "LevelConverter", "ThreadConverter", "LoggerConverter",
