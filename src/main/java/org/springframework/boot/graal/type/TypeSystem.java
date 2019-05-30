@@ -28,8 +28,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -91,9 +94,17 @@ public class TypeSystem {
 	}
 
 	public Type resolveSlashed(String slashedTypeName) {
+		return resolveSlashed(slashedTypeName, false);
+	}
+
+	public Type resolveSlashed(String slashedTypeName, boolean allowNotFound) {
 		Type type = typeCache.get(slashedTypeName);
 		if (type == Type.MISSING) {
-			throw new MissingTypeException(slashedTypeName);
+			if (allowNotFound) {
+				return null;
+			} else {
+				throw new MissingTypeException(slashedTypeName);
+			}
 		}
 		if (type != null) {
 			return type;
@@ -106,7 +117,11 @@ public class TypeSystem {
 			if (resourceAsStream == null) {
 				// cache a missingtype so we don't go looking again!
 				typeCache.put(slashedTypeName, Type.MISSING);
-				throw new MissingTypeException(slashedTypeName);
+				if (allowNotFound) {
+					return null;
+				} else {
+					throw new MissingTypeException(slashedTypeName);
+				}
 			}
 			try {
 				bytes = loadFromStream(resourceAsStream);
@@ -133,11 +148,15 @@ public class TypeSystem {
 		return canResolveSlashed(classname);
 	}
 
-	public Type resolve(String classname) {
+	public Type resolve(String classname, boolean allowNotFound) {
 		if (classname.contains(".")) {
 			throw new RuntimeException("Dont pass dotted names to resolve() :" + classname);
 		}
-		return resolveSlashed(classname);
+		return resolveSlashed(classname, allowNotFound);
+	}
+	
+	public Type resolve(String classname) {
+		return resolve(classname, false);
 	}
 
 	public Type Lresolve(String desc) {
@@ -152,6 +171,45 @@ public class TypeSystem {
 				return null;
 			else
 				throw mte;
+		}
+	}
+
+	public Set<String> resolveCompleteFindMissingTypes(Type type) {
+		return resolveComplete(type.getDescriptor());
+	}
+
+	/**
+	 * Verifies the type plus all its super types, interfaces and any type references in generic specifications exist.
+	 * @return List of missing types, empty if all good!
+	 */
+	public Set<String> resolveComplete(String desc) {
+		Set<String> missingTypes = new LinkedHashSet<>();
+		resolveComplete(desc.substring(1, desc.length()-1), missingTypes, new HashSet<>());
+		return missingTypes;
+	}
+	
+	private void resolveComplete(String slashedDescriptor, Set<String> missingTypes, Set<String> visited) {
+		if (visited.add(slashedDescriptor)) {
+			Type baseType = resolve(slashedDescriptor, true);
+			if (baseType == null) {
+				missingTypes.add(slashedDescriptor);
+			} else {
+				// Check generics
+				List<String> typesInSignature = baseType.getTypesInSignature();
+				for (String t: typesInSignature) {
+					System.out.println("Found this "+t+" in signature of "+baseType.getName());
+				}
+				String superclassString = baseType.getSuperclassString();
+				if (superclassString != null) {
+					resolveComplete(superclassString, missingTypes, visited);
+				}
+				List<String> interfaces = baseType.getInterfacesStrings();
+				if (interfaces != null) {
+					for (String interfce: interfaces) {
+						resolveComplete(interfce, missingTypes, visited);				
+					}
+				}
+			}
 		}
 	}
 

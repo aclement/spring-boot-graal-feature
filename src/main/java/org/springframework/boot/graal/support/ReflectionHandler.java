@@ -53,9 +53,11 @@ public class ReflectionHandler {
 	
 	private final static String RESOURCE_FILE = "/reflect.json";
 	
-	ReflectionRegistryAdapter rra;
+	private ReflectionRegistryAdapter rra;
 
-	ReflectionDescriptor constantReflectionDescriptor;
+	private ReflectionDescriptor constantReflectionDescriptor;
+
+	private ImageClassLoader cl;
 
 	public ReflectionDescriptor getConstantData() {
 		if (constantReflectionDescriptor == null) {
@@ -72,7 +74,7 @@ public class ReflectionHandler {
 	public void register(DuringSetupAccess a) {
 		DuringSetupAccessImpl access = (DuringSetupAccessImpl) a;
 		RuntimeReflectionSupport rrs = ImageSingletons.lookup(RuntimeReflectionSupport.class);
-		ImageClassLoader cl = access.getImageClassLoader();
+		cl = access.getImageClassLoader();
 		rra = new ReflectionRegistryAdapter(rrs, cl);
 		ReflectionDescriptor reflectionDescriptor = getConstantData();
 
@@ -155,7 +157,8 @@ public class ReflectionHandler {
 					try {
 						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite());
 					} catch (NoSuchFieldException nsfe) {
-						System.out.println("Skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");
+						throw new IllegalStateException("Couldn't find field: " + type.getName()+"."+fieldDescriptor.getName(), nsfe);
+//						System.out.println("SBG: WARNING: skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");
 					}
 				}
 			}
@@ -163,46 +166,87 @@ public class ReflectionHandler {
 		registerLogback();
 	}
 
-	public void addAccess(String typename, Flag...flags) {
-//		System.out.println("Registering reflective access to "+typename);
+
+	/**
+	 * Record that reflective access to a type (and a selection of its members based on the flags) should
+	 * be possible at runtime. This method will pre-emptively check all type references to ensure later
+	 * native-image processing will not fail if, for example, it trips up over a type reference in a
+	 * generic type that isn't on the image building classpath. NOTE: it is assumed that if elements are
+	 * not accessible that the runtime doesn't need them (this is done under the spring model where
+	 * conditional checks on auto configuration would cause no attempts to be made to types/members that
+	 * aren't added here).
+	 * 
+	 * @param typename the dotted type name for which to add reflective access
+	 * @param flags any members that should be accessible via reflection
+	 * @return the class, if the type was successfully registered for reflective access, otherwise null
+	 */
+	public Class<?> addAccess(String typename, Flag...flags) {
+		System.out.println("SBG: INFO: Registering reflective access to "+typename);
+		// This can return null if, for example, the supertype of the specified type is not
+		// on the classpath. In a simple app there may be a number of types coming in from
+		// spring-boot-autoconfigure but they extend types not on the classpath.
 		Class<?> type = rra.resolveType(typename);
 		if (type == null) {
-			System.out.println("ERROR: CANNOT RESOLVE "+typename+" ???");
-			return;
+			System.out.println("SBG: ERROR: CANNOT RESOLVE "+typename+" ???");
+			return null;
 		}
 		if (constantReflectionDescriptor.hasClassDescriptor(typename)) {
-			System.out.println("JSON FILE CONTAINS THIS ALREADY "+typename);
+			System.out.println("SBG: WARNING: type "+typename+" being added dynamically whilst "+RESOURCE_FILE+
+					" already contains it - does it need to be in the file? ");
 		}
 		rra.registerType(type);
 		for (Flag flag: flags) {
-			if (flag==Flag.allDeclaredClasses) {
-				rra.registerDeclaredClasses(type);
-			}
-			if (flag==Flag.allDeclaredFields) {
-				rra.registerDeclaredFields(type);
-			}
-			if (flag==Flag.allPublicFields) {
-				rra.registerPublicFields(type);
-			}
-			if (flag==Flag.allDeclaredConstructors) {
-				rra.registerDeclaredConstructors(type);
-			}
-			if (flag==Flag.allPublicConstructors) {
-				rra.registerPublicConstructors(type);
-			}
-			if (flag==Flag.allDeclaredMethods) {
-				rra.registerDeclaredMethods(type);
-			}
-			if (flag==Flag.allPublicMethods) {
-				rra.registerPublicMethods(type);
-			}
-			if (flag==Flag.allPublicClasses) {
-				rra.registerPublicClasses(type);
+			try {
+				switch (flag) {
+				case allDeclaredClasses:
+					if (verify(type.getDeclaredClasses())) {
+						rra.registerDeclaredClasses(type);
+					}
+					break;
+				case allDeclaredFields:
+					if (verify(type.getDeclaredFields())) {
+						rra.registerDeclaredFields(type);
+					}
+					break;
+				case allPublicFields:
+					if (verify(type.getFields())) {
+						rra.registerPublicFields(type);
+					}
+					break;
+				case allDeclaredConstructors:
+					if (verify(type.getDeclaredConstructors())) {
+						rra.registerDeclaredConstructors(type);	
+					}
+					break;
+				case allPublicConstructors:
+					if (verify(type.getConstructors())) {
+						rra.registerPublicConstructors(type);
+					}
+					break;
+				case allDeclaredMethods:
+					if (verify(type.getDeclaredMethods())) {
+						rra.registerDeclaredMethods(type);
+					}
+					break;
+				case allPublicMethods:
+					if (verify(type.getMethods())) {
+						rra.registerPublicMethods(type);
+					}
+					break;
+				case allPublicClasses:
+					if (verify(type.getClasses())) {
+						rra.registerPublicClasses(type);
+					}
+					break;
+				}
+			} catch (NoClassDefFoundError ncdfe) {
+				System.out.println("SBG: ERROR: problem handling flag: "+flag+" for "+type.getName()+" because of missing "+ncdfe.getMessage());
 			}
 		}
-		
+		return type;
 	}
-	
+
+
 	private boolean verify(Object[] things) {
 			for (Object o: things) {
 				try {
@@ -234,7 +278,6 @@ public class ReflectionHandler {
 			}
 			return true;
 	}
-
 
 
 	// TODO this is horrible, it should be packaged with logback

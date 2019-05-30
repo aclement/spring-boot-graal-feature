@@ -74,6 +74,7 @@ public class ResourcesHandler {
 
 	public void register(BeforeAnalysisAccess access) {
 		cl = ((BeforeAnalysisAccessImpl) access).getImageClassLoader();
+		ts = TypeSystem.get(cl.getClasspath());
 		ResourcesDescriptor rd = compute();
 		ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
 		// Patterns can be added to the registry, resources can be directly registered
@@ -116,7 +117,6 @@ public class ResourcesHandler {
 //	}
 	
 	public void processSpringComponents() {
-		ts = TypeSystem.get(cl.getClasspath());
 		Enumeration<URL> springComponents = fetchResources("META-INF/spring.components");
 		if (springComponents.hasMoreElements()) {
 			log("Processing META-INF/spring.components files...");
@@ -275,13 +275,11 @@ public class ResourcesHandler {
 	 */
 	public void processSpringFactories() {
 		log("Processing META-INF/spring.factories files...");
-		TypeSystem ts = TypeSystem.get(cl.getClasspath());
 		Enumeration<URL> springFactories = fetchResources("META-INF/spring.factories");
 		while (springFactories.hasMoreElements()) {
 			URL springFactory = springFactories.nextElement();
 			processSpringFactory(ts, springFactory);
 		}
-		List<String> classpath = ts.getClasspath();
 	}
 	
 	
@@ -342,7 +340,7 @@ public class ResourcesHandler {
 		}
 		return directories.stream();
 	}
-
+	
 	private void processSpringFactory(TypeSystem ts, URL springFactory) {
 		List<String> forRemoval = new ArrayList<>();
 		Properties p = new Properties();
@@ -357,6 +355,7 @@ public class ResourcesHandler {
 				for (String s: classesList.split(",")) {
 					try {
 						reflectionHandler.addAccess(s,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+						System.out.println("NEEDS ADDING TO RESOURCE LIST? "+s);
 					} catch (NoClassDefFoundError ncdfe) {
 						System.out.println("SBG: WARNING: Whilst processing "+k+" problem adding access for type: "+s+" because of missing "+ncdfe.getMessage());
 					}
@@ -375,9 +374,11 @@ public class ResourcesHandler {
 					"Spring.factories processing: looking at #" + configs.size() + " configuration references");
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
 				String config = iterator.next();
-				if (!passesConditionalOnClassTest(ts, config, new HashSet<>())) {
+				if (!verifyType(config)) {
 					System.out.println("Excluding auto-configuration " + config);
-					forRemoval.add(config);
+					System.out.println("= COC failed so just adding class forname access (no methods/ctors)");
+					reflectionHandler.addAccess(config); // no flags as it isn't going to trigger
+//					forRemoval.add(config);
 				}
 			}
 			configs.removeAll(forRemoval);
@@ -407,42 +408,76 @@ public class ResourcesHandler {
 			throw new IllegalStateException("Unable to load spring.factories", e);
 		}
 	}
-
-	private boolean passesConditionalOnClassTest(TypeSystem ts, String config, Set<String> visited) {
-		return passesConditionalOnClassTest(ts, ts.resolveDotted(config), visited);
+	
+	/**
+	 * For the specified type (dotted name) determine which types must be reflectable at runtime. This means
+	 * looking at annotations and following any type references within those.
+	 */
+	private boolean verifyType(String name) {
+		return processType(name, new HashSet<>());
 	}
 
-	private boolean passesConditionalOnClassTest(TypeSystem ts, Type configType, Set<String> visited) {
+	private boolean processType(String config, Set<String> visited) {
+		return processType(ts.resolveDotted(config), visited, 0);
+	}
+
+	private boolean processType(Type configType, Set<String> visited, int depth) {	
+		System.out.println(spaces(depth)+"processing "+configType.getName());
+		
+		// This would fetch 'things we care about from a graal point of view'
+		// a list
+		// ConditionalOnClass (annotation instance)
+		// configType.getRelevantAnnotations();
+		// Then for each of those give me the relevant 'types i have to look around for'
+		
+		Map<HintDescriptor, List<String>> hints = configType.getHints();
+
+		Set<String> missing = ts.resolveCompleteFindMissingTypes(configType);
+		if (!missing.isEmpty()) {
+			// No point continuing with this type, it cannot be resolved against current classpath
+			// The assumption is it will never need to be accessed anyway
+			System.out.println(spaces(depth)+" for "+configType.getName()+" missing types are "+missing);
+			return false;
+		}
+		
 		List<String> conditionalTypes = configType.findConditionalOnClassValue();
+		boolean passesTests = true;
 		if (conditionalTypes != null) {
 			for (String lDescriptor : conditionalTypes) {
 				Type t = ts.Lresolve(lDescriptor, true);
 				boolean exists = (t != null);
+				System.out.println(spaces(depth)+"@COC checking existence of "+lDescriptor+"  exists?"+(exists?"yes":"no"));
 				if (!exists) {
-					return false;
+					passesTests = false;
 				} else {
 					try {
 						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					} catch (NoClassDefFoundError e) {
-						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not found for configuration "+configType.getName());
+						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
 					}
-
 				}
 			}
 		}
-		try {
-			String configNameDotted = configType.getName().replace("/",".");
-			System.out.println("Including auto-configuration "+configNameDotted);
-			visited.add(configType.getName());
-			reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-		} catch (NoClassDefFoundError e) {
-			// Example:
-			// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter
-			// java.lang.NoClassDefFoundError: javax/servlet/Filter
-			// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
-			System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
+		
+		// @ConditionalOnMissingBean - check the referenced class exists
+		conditionalTypes = configType.findConditionalOnMissingBeanValue();
+		if (conditionalTypes != null) {
+			for (String lDescriptor : conditionalTypes) {
+				Type t = ts.Lresolve(lDescriptor, true);
+				boolean exists = (t != null);
+				System.out.println("= COMB check: "+lDescriptor+" exists? "+(exists?"yes":"no"));
+				if (!exists) {
+					passesTests = false;
+				} else {
+					try {
+						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					} catch (NoClassDefFoundError e) {
+						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
+					}
+				}
+			}
 		}
-
+		
 		Map<String,List<String>> imports = configType.findImports();
 		if (imports != null) {
 			System.out.println("Imports found on "+configType.getName()+" are "+imports);
@@ -451,13 +486,29 @@ public class ResourcesHandler {
 					String importedName = fromLtoDotted(imported);
 					try {
 						Type t = ts.resolveDotted(importedName);
-						passesConditionalOnClassTest(ts, t, visited);
+						processType(t, visited, depth+1);
 					} catch (MissingTypeException mte) {
 						System.out.println("Cannot find imported "+importedName+" so skipping processing that");
 					}
 				}
 			}
 		}
+		
+		if (passesTests) {
+			try {
+				String configNameDotted = configType.getName().replace("/",".");
+				System.out.println("Including auto-configuration "+configNameDotted);
+				visited.add(configType.getName());
+				reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			} catch (NoClassDefFoundError e) {
+				// Example:
+				// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter
+				// java.lang.NoClassDefFoundError: javax/servlet/Filter
+				// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
+				System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
+			}
+		}
+
 
 		// Without this code, error at:
 		// java.lang.ClassNotFoundException cannot be cast to java.lang.Class[]
@@ -490,10 +541,10 @@ public class ResourcesHandler {
 		List<Type> nestedTypes = configType.getNestedTypes();
 		for (Type t: nestedTypes) {
 			if (visited.add(t.getName())) {
-				passesConditionalOnClassTest(ts, t, visited);
+				processType(t, visited, depth+1);
 			}
 		}
-		return true;
+		return passesTests;
 	}
 	
 	String fromLtoDotted(String lDescriptor) {
@@ -512,4 +563,9 @@ public class ResourcesHandler {
 	private void log(String msg) {
 		System.out.println(msg);
 	}
+
+	private String spaces(int depth) {
+		return "                                                  ".substring(0,depth*2);
+	}
+	
 }

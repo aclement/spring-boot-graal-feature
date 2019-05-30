@@ -28,6 +28,9 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.signature.SignatureReader;
+import org.objectweb.asm.signature.SignatureVisitor;
 import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InnerClassNode;
@@ -102,6 +105,53 @@ public class Type {
 			}
 		}
 		return interfaces;
+	}
+	
+	/** @return List of slashed interface types */
+	public List<String> getInterfacesStrings() {
+		return node.interfaces;
+	}
+
+	/** @return slashed supertype name */
+	public String getSuperclassString() {
+		return node.superName;
+	}
+	
+	public List<String> getTypesInSignature() {
+		if (node.signature == null) {
+			return Collections.emptyList();
+		} else {
+			SignatureReader reader = new SignatureReader(node.signature);
+			TypeCollector tc = new TypeCollector();
+			reader.accept(tc);
+			return tc.getTypes();
+		}
+	}
+	
+	static class TypeCollector extends SignatureVisitor {
+
+		List<String> types = null;
+		
+		public TypeCollector() {
+			super(Opcodes.ASM7);
+		}
+		
+		@Override
+		public void visitClassType(String name) {
+			if (types == null) {
+				types = new ArrayList<String>();
+			}
+			types.add(name);
+		}
+		
+		public List<String> getTypes() {
+			if (types == null) {
+				return Collections.emptyList();
+			} else {
+				return types;
+			}
+		}
+				
 	}
 
 	public boolean implementsInterface(String interfaceName) {
@@ -473,7 +523,13 @@ public class Type {
 			if (searchMeta) {
 				for (AnnotationNode an: node.visibleAnnotations) {
 					// For example @EnableSomething might have @Import on it
-					Type annoType = typeSystem.Lresolve(an.desc);
+					Type annoType = null;
+					try {
+						annoType = typeSystem.Lresolve(an.desc);
+					} catch (MissingTypeException mte) { 
+						System.out.println("SBG: WARNING: Unable to find "+an.desc+" skipping...");
+						continue;
+					}
 					collectedResults.putAll(annoType.findAnnotationValueWithHostAnnotation(annotationType, searchMeta, visited));
 				}
 			}
@@ -622,5 +678,14 @@ public class Type {
 		}
 		return result==null?Collections.emptyList():result;
 	}
+
+	public String getDescriptor() {
+		return "L"+node.name.replace(".", "/")+";";
+	}
+
+//	public Map<Type, > getRelevantAnnotations() {
+//		// TODO Auto-generated method stub
+//		
+//	}
 
 }
