@@ -776,10 +776,9 @@ public class Type {
 		return Collections.emptyList();
 	}
 
-	static Map<String, CompilationHint> proposedAnnotations = new HashMap<>();
+	private static Map<String, CompilationHint> proposedAnnotations = new HashMap<>();
 	
 	static {
-		
 		// @ConditionalOnClass has @CompilationHint(skipIfTypesMissing=true, follow=false)
 		proposedAnnotations.put(AtConditionalOnClass, new CompilationHint(true,false));
 		
@@ -793,6 +792,9 @@ public class Type {
 		// @Conditional has @CompilationHint(skipIfTypesMissing=false, follow=false)
 		proposedAnnotations.put(AtConditional, new CompilationHint(false, false));
 		
+		// TODO do configuration properties chain?
+		// @EnableConfigurationProperties has @CompilationHint(skipIfTypesMissing=false, follow=false)
+		proposedAnnotations.put(AtEnableConfigurationProperties, new CompilationHint(false, false));
 	}
 		
 	private CompilationHint findCompilationHint(Type annotationType) {

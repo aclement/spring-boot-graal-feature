@@ -423,7 +423,7 @@ public class ResourcesHandler {
 	}
 
 	private boolean processType(Type configType, Set<String> visited, int depth) {	
-		System.out.println(spaces(depth)+"processing "+configType.getName());
+		System.out.println(spaces(depth)+"Processing type "+configType.getName());
 		
 		// This would fetch 'things we care about from a graal point of view'
 		// a list
@@ -436,7 +436,7 @@ public class ResourcesHandler {
 		if (!missing.isEmpty()) {
 			// No point continuing with this type, it cannot be resolved against current classpath
 			// The assumption is it will never need to be accessed anyway
-			System.out.println(spaces(depth)+" for "+configType.getName()+" missing types are "+missing);
+			System.out.println(spaces(depth)+"for "+configType.getName()+" missing types are "+missing);
 			return false;
 		}
 		
@@ -444,7 +444,7 @@ public class ResourcesHandler {
 		if (!missingAnnotationTypes.isEmpty()) {
 			// If only the annotations are missing, it is ok to reflect on the existence of the type, it is
 			// just not safe to reflect on the annotations on that type.
-			System.out.println(spaces(depth)+" for "+configType.getName()+" missing annotation types are "+missingAnnotationTypes);
+			System.out.println(spaces(depth)+"for "+configType.getName()+" missing annotation types are "+missingAnnotationTypes);
 		}
 		boolean passesTests = true;
 		Set<String> toMakeAccessible = new HashSet<>();
@@ -454,7 +454,7 @@ public class ResourcesHandler {
 			for (Map.Entry<HintDescriptor, List<String>> hint: hints.entrySet()) {
 				HintDescriptor hintDescriptor = hint.getKey();
 				List<String> typeReferences = hint.getValue();
-				System.out.println(spaces(depth)+"Checking compilation hint "+h+"/"+hints.size()+" "+hintDescriptor.getAnnotationChain());
+				System.out.println(spaces(depth)+"checking @CompilationHint "+h+"/"+hints.size()+" "+hintDescriptor.getAnnotationChain());
 				for (String typeReference: typeReferences) { // La/b/C;
 					Type t = ts.Lresolve(typeReference, true);
 					boolean exists = (t != null);
@@ -466,10 +466,10 @@ public class ResourcesHandler {
 							processType(t, visited, depth+1);
 						}
 					} else if (hintDescriptor.isSkipIfTypesMissing()) {
-						System.out.println("Passes tests set to FAIL");
 						passesTests = false;
 					}
 				}
+				h++;
 			}
 		}
 		
@@ -484,7 +484,7 @@ public class ResourcesHandler {
 		if (passesTests) {
 			try {
 				String configNameDotted = configType.getName().replace("/",".");
-				System.out.println("Including auto-configuration "+configNameDotted);
+				System.out.println(spaces(depth)+"including auto-configuration "+configNameDotted);
 				visited.add(configType.getName());
 				reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 			} catch (NoClassDefFoundError e) {
@@ -493,22 +493,6 @@ public class ResourcesHandler {
 				// java.lang.NoClassDefFoundError: javax/servlet/Filter
 				// ... at com.oracle.svm.hosted.config.ReflectionRegistryAdapter.registerDeclaredConstructors(ReflectionRegistryAdapter.java:97)
 				System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
-			}
-		}
-
-
-		// Without this code, error at:
-		// java.lang.ClassNotFoundException cannot be cast to java.lang.Class[]
-		// at org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar.lambda$collectClasses$1(EnableConfigurationPropertiesImportSelector.java:80)
-		List<String> ecProperties = configType.findEnableConfigurationPropertiesValue();
-		if (ecProperties != null) {
-			for (String ecPropertyDescriptor: ecProperties) {
-				String ecPropertyName = fromLtoDotted(ecPropertyDescriptor);
-				try {
-					reflectionHandler.addAccess(ecPropertyName,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-				} catch (NoClassDefFoundError e) {
-					System.out.println("Not found for registration: "+ecPropertyName);
-				}
 			}
 		}
 
