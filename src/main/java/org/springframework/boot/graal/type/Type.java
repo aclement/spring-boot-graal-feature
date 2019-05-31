@@ -38,6 +38,7 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.context.annotation.ImportSelector;
@@ -795,6 +796,12 @@ public class Type {
 		// TODO do configuration properties chain?
 		// @EnableConfigurationProperties has @CompilationHint(skipIfTypesMissing=false, follow=false)
 		proposedAnnotations.put(AtEnableConfigurationProperties, new CompilationHint(false, false));
+		
+		// @EnableConfigurationPropertiesImportSelector has
+		// @CompilationHint(skipIfTypesMissing=false, follow=false, name={
+		//   ConfigurationPropertiesBeanRegistrar.class.getName(),
+		//   ConfigurationPropertiesBindingPostProcessorRegistrar.class.getName() })
+		// proposedAnnotations.put(AtEnableConfigurationProperties, new CompilationHint(false, false));
 	}
 		
 	private CompilationHint findCompilationHint(Type annotationType) {

@@ -44,11 +44,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactoryConfiguration$EmbeddedNetty",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.autoconfigure.web.reactive.ReactiveWebServerFactory",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -108,11 +103,6 @@
 		"name": "org.springframework.context.annotation.ScopedProxyMode",
 		"allDeclaredConstructors": true,
 		"allDeclaredFields": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.condition.OnPropertyCondition",
-		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
 	{
@@ -206,11 +196,6 @@
 	},
 	{
 		"name": "org.springframework.context.annotation.Role",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.validation.PrimaryDefaultValidatorPostProcessor",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -332,11 +317,11 @@
 		"allDeclaredMethods": true
 	},
 	// Is this just a parameter of an autowired method in the one above?
-	{
-		"name": "org.springframework.web.reactive.config.WebFluxConfigurer",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
+//	{
+//		"name": "org.springframework.web.reactive.config.WebFluxConfigurer",
+//		"allDeclaredConstructors": true,
+//		"allDeclaredMethods": true
+//	},
 	{
 		"name": "org.springframework.web.reactive.config.EnableWebFlux",
 		"allDeclaredConstructors": true,
@@ -363,11 +348,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "java.lang.reflect.ParameterizedType",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -384,11 +364,6 @@
 	},
 	{
 		"name": "org.springframework.boot.task.TaskExecutorBuilder",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -442,26 +417,16 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
-	{
-		"name": "org.springframework.boot.autoconfigure.web.reactive.function.client.ClientHttpConnectorConfiguration$ReactorNetty",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.http.client.reactive.ClientHttpConnector",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "reactor.netty.http.client.HttpClient",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
+//	{
+//		"name": "reactor.netty.http.client.HttpClient",
+//		"allDeclaredConstructors": true,
+//		"allDeclaredMethods": true
+//	},
+//	{
+//		"name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
+//		"allDeclaredConstructors": true,
+//		"allDeclaredMethods": true
+//	},
 	{
 		"name": "org.springframework.web.reactive.HandlerResult",
 		"allDeclaredConstructors": true,
@@ -599,11 +564,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "java.lang.annotation.Repeatable",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -696,26 +656,6 @@
 	
 	{
 		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerPostProcessor",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializationConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.jdbc.metadata.DataSourcePoolMetadataProvidersConfiguration",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializationConfiguration$Registrar",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
