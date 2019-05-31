@@ -450,10 +450,11 @@ public class ResourcesHandler {
 		Set<String> toMakeAccessible = new HashSet<>();
 		Map<HintDescriptor, List<String>> hints = configType.getHints();
 		if (!hints.isEmpty()) {
+			int h=1;
 			for (Map.Entry<HintDescriptor, List<String>> hint: hints.entrySet()) {
 				HintDescriptor hintDescriptor = hint.getKey();
 				List<String> typeReferences = hint.getValue();
-				System.out.println(spaces(depth)+"Checking compilation hint "+hintDescriptor.getAnnotationChain());
+				System.out.println(spaces(depth)+"Checking compilation hint "+h+"/"+hints.size()+" "+hintDescriptor.getAnnotationChain());
 				for (String typeReference: typeReferences) { // La/b/C;
 					Type t = ts.Lresolve(typeReference, true);
 					boolean exists = (t != null);
@@ -461,7 +462,11 @@ public class ResourcesHandler {
 					if (exists) {
 						// TODO should this specify what aspects of reflection are required (methods/fields/ctors/annotations)
 						toMakeAccessible.add(typeReference);
+						if (hintDescriptor.isFollow()) {
+							processType(t, visited, depth+1);
+						}
 					} else if (hintDescriptor.isSkipIfTypesMissing()) {
+						System.out.println("Passes tests set to FAIL");
 						passesTests = false;
 					}
 				}
@@ -473,41 +478,6 @@ public class ResourcesHandler {
 				reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 			} catch (NoClassDefFoundError e) {
 				System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
-			}
-		}
-		
-//		// @ConditionalOnMissingBean - check the referenced class exists
-//		List<String> conditionalTypes = configType.findConditionalOnMissingBeanValue();
-//		if (conditionalTypes != null) {
-//			for (String lDescriptor : conditionalTypes) {
-//				Type t = ts.Lresolve(lDescriptor, true);
-//				boolean exists = (t != null);
-//				System.out.println(spaces(depth)+"= COMB check: "+lDescriptor+" exists? "+(exists?"yes":"no"));
-//				if (!exists) {
-//					passesTests = false;
-//				} else {
-//					try {
-//						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-//					} catch (NoClassDefFoundError e) {
-//						System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
-//					}
-//				}
-//			}
-//		}
-		
-		Map<String,List<String>> imports = configType.findImports();
-		if (imports != null) {
-			System.out.println("Imports found on "+configType.getName()+" are "+imports);
-			for (Map.Entry<String,List<String>> importsEntry: imports.entrySet()) {
-				for (String imported: importsEntry.getValue()) {
-					String importedName = fromLtoDotted(imported);
-					try {
-						Type t = ts.resolveDotted(importedName);
-						processType(t, visited, depth+1);
-					} catch (MissingTypeException mte) {
-						System.out.println("Cannot find imported "+importedName+" so skipping processing that");
-					}
-				}
 			}
 		}
 		
@@ -542,24 +512,16 @@ public class ResourcesHandler {
 			}
 		}
 
-		// Find @Bean methods and add them
-		//		List<Method> methodsWithAtBean = configType.getMethodsWithAtBean();
-		//		if (methodsWithAtBean.size() != 0) {
-		//			System.out.println(configType+" here they are: "+
-		//			methodsWithAtBean.stream().map(m -> m.getName()+m.getDesc()).collect(Collectors.toList()));
-		//			for (Method m: methodsWithAtBean) {
-		//				String desc = m.getDesc();
-		//				String retType = desc.substring(desc.lastIndexOf(")")+1); //Lorg/springframework/boot/task/TaskExecutorBuilder;
-		//				System.out.println("@Bean return type "+retType);
-		//				reflectionHandler.addAccess(fromLtoDotted(retType), Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-		//			}
-		//		}
-
-		List<Type> nestedTypes = configType.getNestedTypes();
-		for (Type t: nestedTypes) {
-			if (visited.add(t.getName())) {
-				processType(t, visited, depth+1);
+		// If the outer type is failing a test, we don't need to recurse...
+		if (passesTests) {
+			List<Type> nestedTypes = configType.getNestedTypes();
+			for (Type t: nestedTypes) {
+				if (visited.add(t.getName())) {
+					processType(t, visited, depth+1);
+				}
 			}
+		} else {
+			System.out.println("INFO: tests failed on "+configType.getName()+" so not going into nested types");
 		}
 		return passesTests;
 	}

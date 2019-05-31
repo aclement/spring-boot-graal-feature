@@ -55,6 +55,8 @@ public class Type {
 	
 	public final static String AtConditionalOnClass = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnClass;";
 
+	public final static String AtConditional = "Lorg/springframework/context/annotation/Conditional;";
+
 	public final static String AtConditionalOnMissingBean = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean;";
 
 	public final static Type MISSING = new Type(null, null);
@@ -785,8 +787,12 @@ public class Type {
 		proposedAnnotations.put(AtConditionalOnMissingBean, new CompilationHint(true, false));
 		
 		// TODO can be {@link Configuration}, {@link ImportSelector}, {@link ImportBeanDefinitionRegistrar}
-		// @Imports  has @CompilationHint(skipIfTypesMissing=false?, follow=true)
+		// @Imports has @CompilationHint(skipIfTypesMissing=false?, follow=true)
 		proposedAnnotations.put(AtImports, new CompilationHint(false, true));
+		
+		// @Conditional has @CompilationHint(skipIfTypesMissing=false, follow=false)
+		proposedAnnotations.put(AtConditional, new CompilationHint(false, false));
+		
 	}
 		
 	private CompilationHint findCompilationHint(Type annotationType) {
