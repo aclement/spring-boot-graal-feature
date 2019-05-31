@@ -57,6 +57,13 @@ public class ResourcesHandler {
 	private ImageClassLoader cl;
 	
 	private ReflectionHandler reflectionHandler;
+	
+	private static boolean REMOVE_UNNECESSARY_CONFIGURATIONS;
+	
+	static {
+		REMOVE_UNNECESSARY_CONFIGURATIONS = Boolean.valueOf(System.getProperty("removeUnusedAutoconfig","false"));
+		System.out.println("Remove unused config = "+REMOVE_UNNECESSARY_CONFIGURATIONS);
+	}
 
 	public ResourcesHandler(ReflectionHandler reflectionHandler) {
 		this.reflectionHandler = reflectionHandler;
@@ -378,8 +385,11 @@ public class ResourcesHandler {
 				if (!verifyType(config)) {
 					System.out.println("Excluding auto-configuration " + config);
 					System.out.println("= COC failed so just adding class forname access (no methods/ctors)");
-					reflectionHandler.addAccess(config); // no flags as it isn't going to trigger
-//					forRemoval.add(config);
+					if (REMOVE_UNNECESSARY_CONFIGURATIONS) {
+						forRemoval.add(config);
+					} else {
+						reflectionHandler.addAccess(config); // no flags as it isn't going to trigger
+					}
 				}
 			}
 			configs.removeAll(forRemoval);
@@ -473,11 +483,13 @@ public class ResourcesHandler {
 			}
 		}
 		
-		for (String t: toMakeAccessible) {
-			try {
-				reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-			} catch (NoClassDefFoundError e) {
-				System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
+		if (passesTests || !REMOVE_UNNECESSARY_CONFIGURATIONS) {
+			for (String t: toMakeAccessible) {
+				try {
+					reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+				} catch (NoClassDefFoundError e) {
+					System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
+				}
 			}
 		}
 		
