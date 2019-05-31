@@ -178,6 +178,12 @@ public class TypeSystem {
 		return resolveComplete(type.getDescriptor());
 	}
 
+	public Set<String> resolveCompleteFindMissingAnnotationTypes(Type type) {
+		Set<String> missingAnnotationTypes = new LinkedHashSet<>();
+		type.collectMissingAnnotationTypesHelper(missingAnnotationTypes, new HashSet<>());
+		return missingAnnotationTypes;
+	}
+
 	/**
 	 * Verifies the type plus all its super types, interfaces and any type references in generic specifications exist.
 	 * @return List of missing types, empty if all good!

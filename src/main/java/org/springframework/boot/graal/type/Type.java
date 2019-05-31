@@ -16,9 +16,11 @@
 package org.springframework.boot.graal.type;
 
 import java.lang.reflect.Modifier;
+import java.sql.Types;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +28,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Set;
+import java.util.Stack;
 import java.util.stream.Collectors;
 
 import org.objectweb.asm.Opcodes;
@@ -35,6 +38,9 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.context.annotation.ImportSelector;
 
 /**
  * @author Andy Clement
@@ -683,9 +689,190 @@ public class Type {
 		return "L"+node.name.replace(".", "/")+";";
 	}
 
-//	public Map<Type, > getRelevantAnnotations() {
-//		// TODO Auto-generated method stub
-//		
+	/**
+	 * Find @CompilationHints directly on this type or used as a meta-annotation on annotations on this type.
+	 */
+	public Map<HintDescriptor, List<String>> getHints() {
+		Map<HintDescriptor, List<String>> hints = new LinkedHashMap<>();
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an: node.visibleAnnotations) {
+				Type annotationType = typeSystem.Lresolve(an.desc, true);
+				if (annotationType == null) {
+					System.out.println("Couldn't resolve "+an.desc);
+				} else {
+					Stack<Type> s = new Stack<>();
+					s.push(this);
+					annotationType.collectHints(an, hints, new HashSet<>(), s);
+				}
+			}
+		}
+		return hints == null? Collections.emptyMap():hints;
+	}
+	
+	// TODO repeatable annotations...
+	
+	private void collectHints(AnnotationNode an, Map<HintDescriptor, List<String>> hints, Set<AnnotationNode> visited, Stack<Type> annotationChain) {
+		if (!visited.add(an)) {
+			return;
+		}
+		try {
+			annotationChain.push(this);
+			// Am I a compilation hint?
+			CompilationHint hint = proposedAnnotations.get(an.desc);
+			if (hint !=null) {
+				hints.put(new HintDescriptor(new ArrayList<>(annotationChain), hint.skipIfTypesMissing, hint.follow), collectTypes(an));
+			}
+			// check for meta annotation
+			if (node.visibleAnnotations != null) {
+					for (AnnotationNode an2: node.visibleAnnotations) {
+						Type annotationType = typeSystem.Lresolve(an2.desc, true);
+						if (annotationType == null) {
+							System.out.println("Couldn't resolve "+an2.desc);
+						} else {
+							annotationType.collectHints(an2, hints, visited, annotationChain);
+						}
+					}
+			}
+		} finally {
+			annotationChain.pop();
+		}
+	}
+
+	private CompilationHint findCompilationHintHelper(HashSet<Type> visited) {
+		if (!visited.add(this)) {
+			return null;
+		}
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an : node.visibleAnnotations) {
+				CompilationHint compilationHint = proposedAnnotations.get(an.desc);
+				if (compilationHint != null) {
+					return compilationHint;
+				}
+				Type resolvedAnnotation = typeSystem.Lresolve(an.desc);
+				compilationHint = resolvedAnnotation.findCompilationHintHelper(visited);
+				if (compilationHint != null) {
+					return compilationHint;
+				}
+			}
+		}
+		return null;
+	}
+
+	private List<String> collectTypes(AnnotationNode an) {
+		List<Object> values = an.values;
+		if (values != null) {
+			for (int i=0;i<values.size();i+=2) {
+				if (values.get(i).equals("value")) {
+					 List<String> importedReferences = ((List<org.objectweb.asm.Type>)values.get(i+1))
+							.stream()
+							.map(t -> t.getDescriptor())
+							.collect(Collectors.toList());
+					 return importedReferences;
+				}
+			}
+		}
+		return Collections.emptyList();
+	}
+
+	static Map<String, CompilationHint> proposedAnnotations = new HashMap<>();
+	
+	static {
+		
+		// @ConditionalOnClass has @CompilationHint(skipIfTypesMissing=true, follow=false)
+		proposedAnnotations.put(AtConditionalOnClass, new CompilationHint(true,false));
+		
+		// @ConditionalOnMissingBean has @CompilationHint(skipIfTypesMissing=true, follow=false)
+		proposedAnnotations.put(AtConditionalOnMissingBean, new CompilationHint(true, false));
+		
+		// TODO can be {@link Configuration}, {@link ImportSelector}, {@link ImportBeanDefinitionRegistrar}
+		// @Imports  has @CompilationHint(skipIfTypesMissing=false?, follow=true)
+		proposedAnnotations.put(AtImports, new CompilationHint(false, true));
+	}
+		
+	private CompilationHint findCompilationHint(Type annotationType) {
+		String descriptor = "L"+annotationType.getName().replace(".", "/")+";";
+		CompilationHint hint = proposedAnnotations.get(descriptor);
+		if (hint !=null) {
+			return hint;
+		} else {
+			// check for meta annotation
+			return annotationType.findCompilationHintHelper(new HashSet<>());
+		}
+	}		
+	
+	// TODO what about AliasFor usage in spring annotations themselves? does that trip this code up when we start looking at particular fields?
+
+	static class CompilationHint {
+		boolean follow;
+		boolean skipIfTypesMissing;
+		
+		// TODO what about whether you need to reflect on ctors/methods/fields?
+		public CompilationHint(boolean skipIfTypesMissing, boolean follow) {
+			this.skipIfTypesMissing = skipIfTypesMissing;
+			this.follow = follow;
+		}
+	}
+
+	public void collectMissingAnnotationTypesHelper(Set<String> missingAnnotationTypes, HashSet<Type> visited) {
+		if (!visited.add(this)) {
+			return;
+		}
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an: node.visibleAnnotations) {
+				Type annotationType = typeSystem.Lresolve(an.desc, true);
+				if (annotationType == null) {
+					missingAnnotationTypes.add(an.desc.substring(0,an.desc.length()-1).replace("/", "."));
+				} else {
+					annotationType.collectMissingAnnotationTypesHelper(missingAnnotationTypes, visited);
+				}
+			}
+		}
+	}
+	
+//	@SuppressWarnings("unchecked")
+//	public void findCompilationHints(String annotationType, Map<String,List<String>> hintCollector, Set<String> visited) {		
+//		if (!visited.add(this.getName())) {
+//			return Collections.emptyMap();
+//		}
+//		Map<String,List<String>> collectedResults = new LinkedHashMap<>();
+//		if (node.visibleAnnotations != null) {
+//			for (AnnotationNode an : node.visibleAnnotations) {
+//				if (an.desc.equals(annotationType)) {
+//					List<Object> values = an.values;
+//					if (values != null) {
+//						for (int i=0;i<values.size();i+=2) {
+//							if (values.get(i).equals("value")) {
+//								 List<String> importedReferences = ((List<org.objectweb.asm.Type>)values.get(i+1))
+//										.stream()
+//										.map(t -> t.getDescriptor())
+//										.collect(Collectors.toList());
+//								collectedResults.put(this.getName().replace("/", "."), importedReferences);
+//							}
+//						}
+//					}
+//				}
+//			}
+//			if (searchMeta) {
+//				for (AnnotationNode an: node.visibleAnnotations) {
+//					// For example @EnableSomething might have @Import on it
+//					Type annoType = null;
+//					try {
+//						annoType = typeSystem.Lresolve(an.desc);
+//					} catch (MissingTypeException mte) { 
+//						System.out.println("SBG: WARNING: Unable to find "+an.desc+" skipping...");
+//						continue;
+//					}
+//					collectedResults.putAll(annoType.findCompilationHints(annotationType, visited));
+//				}
+//			}
+//		}
+//		return collectedResults;
 //	}
+
+	
+	// Assume @ConditionalOnClass has @CompilationHint(skipIfTypesMissing=true) and both value() and name() in
+	// the annotation would have @CompilationTypeList
+
+	
 
 }

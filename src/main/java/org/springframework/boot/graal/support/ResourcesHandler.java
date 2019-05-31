@@ -40,6 +40,7 @@ import org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
 import org.springframework.boot.graal.domain.resources.ResourcesDescriptor;
 import org.springframework.boot.graal.domain.resources.ResourcesJsonMarshaller;
+import org.springframework.boot.graal.type.HintDescriptor;
 import org.springframework.boot.graal.type.MissingTypeException;
 import org.springframework.boot.graal.type.Type;
 import org.springframework.boot.graal.type.TypeSystem;
@@ -430,8 +431,7 @@ public class ResourcesHandler {
 		// configType.getRelevantAnnotations();
 		// Then for each of those give me the relevant 'types i have to look around for'
 		
-		Map<HintDescriptor, List<String>> hints = configType.getHints();
-
+		
 		Set<String> missing = ts.resolveCompleteFindMissingTypes(configType);
 		if (!missing.isEmpty()) {
 			// No point continuing with this type, it cannot be resolved against current classpath
@@ -440,43 +440,60 @@ public class ResourcesHandler {
 			return false;
 		}
 		
-		List<String> conditionalTypes = configType.findConditionalOnClassValue();
+		Set<String> missingAnnotationTypes = ts.resolveCompleteFindMissingAnnotationTypes(configType);
+		if (!missingAnnotationTypes.isEmpty()) {
+			// If only the annotations are missing, it is ok to reflect on the existence of the type, it is
+			// just not safe to reflect on the annotations on that type.
+			System.out.println(spaces(depth)+" for "+configType.getName()+" missing annotation types are "+missingAnnotationTypes);
+		}
 		boolean passesTests = true;
-		if (conditionalTypes != null) {
-			for (String lDescriptor : conditionalTypes) {
-				Type t = ts.Lresolve(lDescriptor, true);
-				boolean exists = (t != null);
-				System.out.println(spaces(depth)+"@COC checking existence of "+lDescriptor+"  exists?"+(exists?"yes":"no"));
-				if (!exists) {
-					passesTests = false;
-				} else {
-					try {
-						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-					} catch (NoClassDefFoundError e) {
-						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
+		Set<String> toMakeAccessible = new HashSet<>();
+		Map<HintDescriptor, List<String>> hints = configType.getHints();
+		if (!hints.isEmpty()) {
+			for (Map.Entry<HintDescriptor, List<String>> hint: hints.entrySet()) {
+				HintDescriptor hintDescriptor = hint.getKey();
+				List<String> typeReferences = hint.getValue();
+				System.out.println(spaces(depth)+"Checking compilation hint "+hintDescriptor.getAnnotationChain());
+				for (String typeReference: typeReferences) { // La/b/C;
+					Type t = ts.Lresolve(typeReference, true);
+					boolean exists = (t != null);
+					System.out.println(spaces(depth)+" does "+fromLtoDotted(typeReference)+" exist? "+exists);
+					if (exists) {
+						// TODO should this specify what aspects of reflection are required (methods/fields/ctors/annotations)
+						toMakeAccessible.add(typeReference);
+					} else if (hintDescriptor.isSkipIfTypesMissing()) {
+						passesTests = false;
 					}
 				}
 			}
 		}
 		
-		// @ConditionalOnMissingBean - check the referenced class exists
-		conditionalTypes = configType.findConditionalOnMissingBeanValue();
-		if (conditionalTypes != null) {
-			for (String lDescriptor : conditionalTypes) {
-				Type t = ts.Lresolve(lDescriptor, true);
-				boolean exists = (t != null);
-				System.out.println("= COMB check: "+lDescriptor+" exists? "+(exists?"yes":"no"));
-				if (!exists) {
-					passesTests = false;
-				} else {
-					try {
-						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-					} catch (NoClassDefFoundError e) {
-						System.out.println("Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
-					}
-				}
+		for (String t: toMakeAccessible) {
+			try {
+				reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+			} catch (NoClassDefFoundError e) {
+				System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
 			}
 		}
+		
+//		// @ConditionalOnMissingBean - check the referenced class exists
+//		List<String> conditionalTypes = configType.findConditionalOnMissingBeanValue();
+//		if (conditionalTypes != null) {
+//			for (String lDescriptor : conditionalTypes) {
+//				Type t = ts.Lresolve(lDescriptor, true);
+//				boolean exists = (t != null);
+//				System.out.println(spaces(depth)+"= COMB check: "+lDescriptor+" exists? "+(exists?"yes":"no"));
+//				if (!exists) {
+//					passesTests = false;
+//				} else {
+//					try {
+//						reflectionHandler.addAccess(lDescriptor.substring(1,lDescriptor.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+//					} catch (NoClassDefFoundError e) {
+//						System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(lDescriptor)+" not 	found for configuration "+configType.getName());
+//					}
+//				}
+//			}
+//		}
 		
 		Map<String,List<String>> imports = configType.findImports();
 		if (imports != null) {
