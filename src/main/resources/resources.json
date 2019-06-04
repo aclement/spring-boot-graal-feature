@@ -30,7 +30,6 @@
     {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
     {"pattern": "org/springframework/beans/factory/Aware.class"},
     {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
-    {"pattern": "org/springframework/web/reactive/config/WebFluxConfigurationSupport.class"},
     {"pattern": "org/springframework/context/ApplicationContextAware.class"},
     {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
 
