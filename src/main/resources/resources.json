@@ -3,6 +3,7 @@
     {"pattern": "META-INF/spring.components"},
     {"pattern": "META-INF/spring.factories"},
     {"pattern": "application.properties"},
+    {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     {"pattern": "org/springframework/boot/logging/java/*.properties"},
     
@@ -11,7 +12,6 @@
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
     {"pattern": "org/springframework/boot/logging/java/logging.properties"},
-    {"pattern": "logging.properties"},
     // These next 3 come in when trying to cope with graal#1196
     {"pattern": "org/springframework/context/ApplicationListener.class"},
     {"pattern": "org/springframework/beans/factory/InitializingBean.class"},
@@ -30,14 +30,12 @@
     {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
     {"pattern": "org/springframework/beans/factory/Aware.class"},
     {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
-    {"pattern": "org/springframework/web/reactive/config/DelegatingWebFluxConfiguration.class"},
     {"pattern": "org/springframework/web/reactive/config/WebFluxConfigurationSupport.class"},
     {"pattern": "org/springframework/context/ApplicationContextAware.class"},
     {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
 
     {"pattern": "org/springframework/boot/CommandLineRunner.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"}
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
   ]
 }
 

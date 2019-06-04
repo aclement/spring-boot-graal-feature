@@ -519,6 +519,17 @@ public class ResourcesHandler {
 				reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 				System.out.println("res: "+configType.getName().replace("$", ".")+".class");
 				resourcesRegistry.addResources(configType.getName().replace("$", ".")+".class");
+				// In some cases the superclass of the config needs to be accessible
+				// TODO need this guard? if (isConfiguration(configType)) {
+				System.out.println("Digging into supertypes of "+configType.getName());
+				Type st = configType.getSuperclass();
+				while (st != null && !st.getName().equals("java/lang/Object")) {
+					System.out.println("Adding supertype res/ref "+st.getName());
+					// TODO is reflection needed?
+//					reflectionHandler.addAccess(st.getName().replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					resourcesRegistry.addResources(st.getName().replace("$", ".")+".class");
+					st = st.getSuperclass();
+				}
 			} catch (NoClassDefFoundError e) {
 				// Example:
 				// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter
