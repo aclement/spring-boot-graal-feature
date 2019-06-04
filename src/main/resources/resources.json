@@ -29,6 +29,7 @@
     {"pattern": "org/springframework/context/annotation/Configuration.class"},
     {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
     {"pattern": "org/springframework/beans/factory/Aware.class"},
+    {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
     {"pattern": "org/springframework/web/reactive/config/DelegatingWebFluxConfiguration.class"},
     {"pattern": "org/springframework/web/reactive/config/WebFluxConfigurationSupport.class"},
     {"pattern": "org/springframework/context/ApplicationContextAware.class"},
@@ -36,16 +37,10 @@
 
     {"pattern": "org/springframework/boot/CommandLineRunner.class"},
     {"pattern": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration.GitResourceAvailableCondition.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jackson/JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration.StandardJackson2ObjectMapperBuilderCustomizer.class"},
     {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"},
     {"pattern": "org/springframework/boot/autoconfigure/web/reactive/WebFluxAutoConfiguration.EnableWebFluxConfiguration.class"},
     {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.ConfigurationPropertiesBeanRegistrar.class"},
-    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBindingPostProcessorRegistrar.class"},
     {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
-    {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/function/client/WebClientAutoConfiguration.WebClientCodecsConfiguration.class"},
     {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
   ]
 }

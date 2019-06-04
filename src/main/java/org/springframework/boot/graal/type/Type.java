@@ -48,6 +48,8 @@ import org.springframework.context.annotation.ImportSelector;
  */
 public class Type {
 	
+	public final static String EnableConfigurationPropertiesImportSelector = "Lorg/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector;";
+	
 	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
 	
 	public final static String AtBean = "Lorg/springframework/context/annotation/Bean;";
@@ -837,6 +839,17 @@ public class Type {
 				 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"}
 				));
+		
+		// EnableConfigurationPropertiesImportSelector has
+		// @CompilationHint(skipIfTypesMissing=true, follow=false, name={
+		//	 	"org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar",
+		//	 	"org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar"})
+		proposedAnnotations.put(EnableConfigurationPropertiesImportSelector,
+				new CompilationHint(false,false, new String[] {
+				 	"org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar",
+				 	"org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar"}
+				));
+
 	}
 		
 	private CompilationHint findCompilationHint(Type annotationType) {
