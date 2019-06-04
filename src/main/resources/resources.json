@@ -5,6 +5,7 @@
     {"pattern": "application.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     {"pattern": "org/springframework/boot/logging/java/*.properties"},
+    
     {"pattern": "org/hibernate/validator/internal/engine/ConfigurationImpl.class"},
     {"pattern": "org/hibernate/validator/internal/util/Contracts.class"},
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
@@ -19,33 +20,33 @@
     {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.ExplicitType.class"},
     {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.PooledDataSourceAvailable.class"},
     {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.class"},
+    {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     
-    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/WebFluxAutoConfiguration.EnableWebFluxConfiguration.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
-    // Using . rather than dollar as final separator on next line, $ seems to get chewed up even though \$ is waht I was suppling on command line
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.ConfigurationPropertiesBeanRegistrar.class"},
-    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBindingPostProcessorRegistrar.class"},
     {"pattern": "org/springframework/context/annotation/Role.class"},
-    {"pattern": "org/springframework/boot/CommandLineRunner.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"},
-    {"pattern": "org/springframework/context/EnvironmentAware.class"},
-    {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
-    {"pattern": "org/springframework/beans/factory/Aware.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
-    {"pattern": "org/springframework/web/reactive/config/DelegatingWebFluxConfiguration.class"},
-    {"pattern": "org/springframework/web/reactive/config/WebFluxConfigurationSupport.class"},
-    {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"},
-    {"pattern": "org/springframework/context/ApplicationContextAware.class"},
-    {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
-    {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
-    {"pattern": "org/springframework/context/annotation/Configuration.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/function/client/WebClientAutoConfiguration.WebClientCodecsConfiguration.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"},
     {"pattern": "javax/validation/Validator.class"},
     {"pattern": "org/springframework/context/annotation/Import.class"},
+    {"pattern": "org/springframework/context/EnvironmentAware.class"},
+    {"pattern": "org/springframework/context/annotation/Configuration.class"},
+    {"pattern": "org/springframework/beans/factory/BeanFactoryAware.class"},
+    {"pattern": "org/springframework/beans/factory/Aware.class"},
+    {"pattern": "org/springframework/web/reactive/config/DelegatingWebFluxConfiguration.class"},
+    {"pattern": "org/springframework/web/reactive/config/WebFluxConfigurationSupport.class"},
+    {"pattern": "org/springframework/context/ApplicationContextAware.class"},
+    {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
+
+    {"pattern": "org/springframework/boot/CommandLineRunner.class"},
     {"pattern": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration.GitResourceAvailableCondition.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jackson/JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration.StandardJackson2ObjectMapperBuilderCustomizer.class"}
+    {"pattern": "org/springframework/boot/autoconfigure/jackson/JacksonAutoConfiguration.Jackson2ObjectMapperBuilderCustomizerConfiguration.StandardJackson2ObjectMapperBuilderCustomizer.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/WebFluxAutoConfiguration.EnableWebFluxConfiguration.class"},
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.ConfigurationPropertiesBeanRegistrar.class"},
+    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesBindingPostProcessorRegistrar.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
+    {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/function/client/WebClientAutoConfiguration.WebClientCodecsConfiguration.class"},
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
   ]
 }
 
