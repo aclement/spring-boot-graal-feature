@@ -104,25 +104,6 @@ public class ResourcesHandler {
 		processSpringFactories();
 		processSpringComponents();
 	}
-//	
-//	public void logging() {
-//		try {
-//			InputStream s = this.getClass().getResourceAsStream("/abc.txt");
-//			byte[] bs = new byte[100000];
-//			int i = -1;
-//			byte[] buf = new byte[10000];
-//			int offset=0;
-//			while ((i=s.read(buf))!=-1) {
-//				System.arraycopy(buf, 0, bs, offset, i);
-//				offset+=i;
-//			}
-//			System.out.println("read "+offset+" bytes");
-//			ByteArrayInputStream bais = new ByteArrayInputStream(bs);
-//			Resources.registerResource("org/springframework/boot/logging/java/logging.properties", bais);
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//	}
 	
 	public void processSpringComponents() {
 		Enumeration<URL> springComponents = fetchResources("META-INF/spring.components");
@@ -382,14 +363,20 @@ public class ResourcesHandler {
 					"Spring.factories processing: looking at #" + configs.size() + " configuration references");
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
 				String config = iterator.next();
+				boolean needToAddThem = true;
 				if (!verifyType(config)) {
 					System.out.println("Excluding auto-configuration " + config);
 					System.out.println("= COC failed so just adding class forname access (no methods/ctors)");
 					if (REMOVE_UNNECESSARY_CONFIGURATIONS) {
 						forRemoval.add(config);
-					} else {
-						reflectionHandler.addAccess(config); // no flags as it isn't going to trigger
+						needToAddThem = false;
 					}
+				}
+				if (needToAddThem) {
+					System.out.println("Resource Adding: "+config);	
+					reflectionHandler.addAccess(config); // no flags as it isn't going to trigger
+					ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
+					resourcesRegistry.addResources(config.replace(".", "/").replace("$", ".")+".class");
 				}
 			}
 			configs.removeAll(forRemoval);
@@ -434,7 +421,8 @@ public class ResourcesHandler {
 
 	private boolean processType(Type configType, Set<String> visited, int depth) {	
 		System.out.println(spaces(depth)+"Processing type "+configType.getName());
-		
+		ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
+
 		// This would fetch 'things we care about from a graal point of view'
 		// a list
 		// ConditionalOnClass (annotation instance)
@@ -465,18 +453,46 @@ public class ResourcesHandler {
 				HintDescriptor hintDescriptor = hint.getKey();
 				List<String> typeReferences = hint.getValue();
 				System.out.println(spaces(depth)+"checking @CompilationHint "+h+"/"+hints.size()+" "+hintDescriptor.getAnnotationChain());
-				for (String typeReference: typeReferences) { // La/b/C;
-					Type t = ts.Lresolve(typeReference, true);
-					boolean exists = (t != null);
-					System.out.println(spaces(depth)+" does "+fromLtoDotted(typeReference)+" exist? "+exists);
-					if (exists) {
-						// TODO should this specify what aspects of reflection are required (methods/fields/ctors/annotations)
-						toMakeAccessible.add(typeReference);
-						if (hintDescriptor.isFollow()) {
-							processType(t, visited, depth+1);
+				
+				String[] name = hintDescriptor.getName();
+				if (name != null) {
+					// The CollectionHint included a list of types to worry about in the annotation
+					// itself (e.g. as used on import selector to specify.
+					
+					// TODO interesting that these are resources and not added to reflection - should we differentiate?
+					for (String n: name) {
+						resourcesRegistry.addResources(n.replace(".", "/")+".class");
+					}
+				}
+
+				if (h==1) { // only do this once all hints should have this in common, TODO polish this up...
+				// This handles the case for something like:
+				// ReactiveWebServerFactoryConfiguration$EmbeddedTomcat with ConditionalOnClass
+				Type annotatedType = hintDescriptor.getAnnotationChain().get(0); 
+				try {
+					System.out.println("Handling annotated thingy: "+annotatedType.getName());
+					String t = annotatedType.getDescriptor();
+					reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
+				} catch (NoClassDefFoundError e) {
+					System.out.println(spaces(depth)+"XConditional type "+annotatedType.getName()+" not 	found for configuration "+configType.getName());
+				}
+				}
+				
+				if (typeReferences != null) {
+					for (String typeReference: typeReferences) { // La/b/C;
+						Type t = ts.Lresolve(typeReference, true);
+						boolean exists = (t != null);
+						System.out.println(spaces(depth)+" does "+fromLtoDotted(typeReference)+" exist? "+exists);
+						if (exists) {
+							// TODO should this specify what aspects of reflection are required (methods/fields/ctors/annotations)
+							toMakeAccessible.add(typeReference);
+							if (hintDescriptor.isFollow()) {
+								processType(t, visited, depth+1);
+							}
+						} else if (hintDescriptor.isSkipIfTypesMissing()) {
+							passesTests = false;
 						}
-					} else if (hintDescriptor.isSkipIfTypesMissing()) {
-						passesTests = false;
 					}
 				}
 				h++;
@@ -487,6 +503,8 @@ public class ResourcesHandler {
 			for (String t: toMakeAccessible) {
 				try {
 					reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+					System.out.println("ResourceAdding2: "+t.substring(1,t.length()-1).replace("$", ".")+".class");
+					resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
 				} catch (NoClassDefFoundError e) {
 					System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
 				}
@@ -496,9 +514,11 @@ public class ResourcesHandler {
 		if (passesTests) {
 			try {
 				String configNameDotted = configType.getName().replace("/",".");
-				System.out.println(spaces(depth)+"including auto-configuration "+configNameDotted);
+				System.out.println(spaces(depth)+"including reflective/resource access to "+configNameDotted);
 				visited.add(configType.getName());
 				reflectionHandler.addAccess(configNameDotted,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+				System.out.println("res: "+configType.getName().replace("$", ".")+".class");
+				resourcesRegistry.addResources(configType.getName().replace("$", ".")+".class");
 			} catch (NoClassDefFoundError e) {
 				// Example:
 				// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter

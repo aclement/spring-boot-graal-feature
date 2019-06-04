@@ -23,10 +23,13 @@ public class HintDescriptor {
 	// hints on them (e.g. @Import(Foo) where Foo has @Import(Bar) on it)
 	private boolean follow;
 
-	public HintDescriptor(List<Type> annotationChain, boolean skipIfTypesMissing2, boolean follow) {
+	private String[] name;
+
+	public HintDescriptor(List<Type> annotationChain, boolean skipIfTypesMissing2, boolean follow, String[] name) {
 		this.annotationChain = annotationChain;
 		this.skipIfTypesMissing = skipIfTypesMissing2;
 		this.follow = follow;
+		this.name = name;
 	}
 
 	public List<Type> getAnnotationChain() {
@@ -39,6 +42,10 @@ public class HintDescriptor {
 
 	public boolean isFollow() {
 		return follow;
+	}
+	
+	public String[] getName() {
+		return name;
 	}
 
 }

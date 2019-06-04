@@ -48,6 +48,8 @@ import org.springframework.context.annotation.ImportSelector;
  */
 public class Type {
 	
+	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
+	
 	public final static String AtBean = "Lorg/springframework/context/annotation/Bean;";
 
 	public final static String AtImports = "Lorg/springframework/context/annotation/Import;";
@@ -697,6 +699,13 @@ public class Type {
 	 */
 	public Map<HintDescriptor, List<String>> getHints() {
 		Map<HintDescriptor, List<String>> hints = new LinkedHashMap<>();
+		CompilationHint hint = proposedAnnotations.get(getDescriptor());
+		if (hint !=null) {
+			List<Type> s = new ArrayList<>();
+			s.add(this);
+			hints.put(new HintDescriptor(s, hint.skipIfTypesMissing, hint.follow, hint.name), null);
+		}
+
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an: node.visibleAnnotations) {
 				Type annotationType = typeSystem.Lresolve(an.desc, true);
@@ -723,7 +732,7 @@ public class Type {
 			// Am I a compilation hint?
 			CompilationHint hint = proposedAnnotations.get(an.desc);
 			if (hint !=null) {
-				hints.put(new HintDescriptor(new ArrayList<>(annotationChain), hint.skipIfTypesMissing, hint.follow), collectTypes(an));
+				hints.put(new HintDescriptor(new ArrayList<>(annotationChain), hint.skipIfTypesMissing, hint.follow, hint.name), collectTypes(an));
 			}
 			// check for meta annotation
 			if (node.visibleAnnotations != null) {
@@ -802,6 +811,32 @@ public class Type {
 		//   ConfigurationPropertiesBeanRegistrar.class.getName(),
 		//   ConfigurationPropertiesBindingPostProcessorRegistrar.class.getName() })
 		// proposedAnnotations.put(AtEnableConfigurationProperties, new CompilationHint(false, false));
+		
+		// CacheConfigurationImportSelector has
+		// @CompilationHint(skipIfTypesMissing=true, follow=false, name={
+		// 	"org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.HazelcastCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.InfinispanCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.JCacheCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.CouchbaseCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
+		//	 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"})
+		proposedAnnotations.put(CacheConfigurationImportSelector,
+				new CompilationHint(false,false, new String[] {
+				 	"org.springframework.boot.autoconfigure.cache.GenericCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.EhCacheCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.HazelcastCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.InfinispanCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.JCacheCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.CouchbaseCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.RedisCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
+				 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"}
+				));
 	}
 		
 	private CompilationHint findCompilationHint(Type annotationType) {
@@ -820,11 +855,17 @@ public class Type {
 	static class CompilationHint {
 		boolean follow;
 		boolean skipIfTypesMissing;
+		private String[] name;
+		
+		public CompilationHint(boolean skipIfTypesMissing, boolean follow) {
+			this(skipIfTypesMissing,follow,new String[] {});
+		}
 		
 		// TODO what about whether you need to reflect on ctors/methods/fields?
-		public CompilationHint(boolean skipIfTypesMissing, boolean follow) {
+		public CompilationHint(boolean skipIfTypesMissing, boolean follow, String[] name) {
 			this.skipIfTypesMissing = skipIfTypesMissing;
 			this.follow = follow;
+			this.name = name;
 		}
 	}
 
