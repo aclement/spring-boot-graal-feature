@@ -36,12 +36,8 @@
     {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
 
     {"pattern": "org/springframework/boot/CommandLineRunner.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/info/ProjectInfoAutoConfiguration.GitResourceAvailableCondition.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/web/reactive/WebFluxAutoConfiguration.EnableWebFluxConfiguration.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/validation/PrimaryDefaultValidatorPostProcessor.class"},
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
+    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"},
+    {"pattern": "org/springframework/boot/autoconfigure/condition/SearchStrategy.class"}
   ]
 }
 
