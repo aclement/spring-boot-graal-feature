@@ -30,8 +30,8 @@ native-image \
   --allow-incomplete-classpath \
   --report-unsupported-elements-at-runtime \
   -cp $CP com.example.demo.DemoApplication
-#-DremoveUnusedAutoconfig=true \
 
+# -DremoveUnusedAutoconfig=true \
 mv demo ../../..
 
 printf "\n\nCompiled app (demo)\n"
