@@ -12,16 +12,10 @@
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
     {"pattern": "org/springframework/boot/logging/java/logging.properties"},
-    // These next 3 come in when trying to cope with graal#1196
-    {"pattern": "org/springframework/context/ApplicationListener.class"},
-    {"pattern": "org/springframework/beans/factory/InitializingBean.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceInitializationConfiguration.Registrar.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceInitializerInvoker.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.ExplicitType.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.PooledDataSourceAvailable.class"},
-    {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceAutoConfiguration.PooledDataSourceCondition.class"},
     {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     
+    {"pattern": "org/springframework/context/ApplicationListener.class"},
+    {"pattern": "org/springframework/beans/factory/InitializingBean.class"},
     {"pattern": "org/springframework/context/annotation/Role.class"},
     {"pattern": "javax/validation/Validator.class"},
     {"pattern": "org/springframework/context/annotation/Import.class"},
@@ -33,7 +27,6 @@
     {"pattern": "org/springframework/context/ApplicationContextAware.class"},
     {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
 
-    {"pattern": "org/springframework/boot/CommandLineRunner.class"},
     {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
   ]
 }

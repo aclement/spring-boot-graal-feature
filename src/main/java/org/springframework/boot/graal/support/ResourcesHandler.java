@@ -254,7 +254,25 @@ public class ResourcesHandler {
 				reflectionHandler.addAccess(n,Flag.allDeclaredConstructors, Flag.allDeclaredMethods, Flag.allDeclaredClasses);
 				resourcesRegistry.addResources(t.getName()+".class");
 			}
+			registerHierarchy(baseType, new HashSet<>(), resourcesRegistry);
 		}
+	}
+	
+	public void registerHierarchy(Type t, Set<Type> visited, ResourcesRegistry resourcesRegistry) {
+		if (t == null || t.getName().equals("java/lang/Object") || !visited.add(t)) {
+			return;
+		}
+		String desc = t.getName();
+		System.out.println("Hierarchy registration of "+t.getName());
+		reflectionHandler.addAccess(desc.replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods, Flag.allDeclaredClasses);
+		resourcesRegistry.addResources(desc.replace("$", ".")+".class");			
+		Type s = t.getSuperclass();
+		registerHierarchy(s, visited, resourcesRegistry);
+		Type[] is = t.getInterfaces();
+		for (Type i: is) { 
+			registerHierarchy(i, visited, resourcesRegistry);
+		}
+		// TODO inners of those supertypes/interfaces?
 	}
 
 	/**
@@ -503,7 +521,6 @@ public class ResourcesHandler {
 			for (String t: toMakeAccessible) {
 				try {
 					reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-					System.out.println("ResourceAdding2: "+t.substring(1,t.length()-1).replace("$", ".")+".class");
 					resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
 				} catch (NoClassDefFoundError e) {
 					System.out.println(spaces(depth)+"Conditional type "+fromLtoDotted(t)+" not 	found for configuration "+configType.getName());
