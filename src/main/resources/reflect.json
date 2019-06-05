@@ -159,6 +159,38 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// these 5 are from BaseDefaultCodecs	
+	{
+		"name": "com.fasterxml.jackson.databind.ObjectMapper",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "com.fasterxml.jackson.core.JsonGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "com.fasterxml.jackson.dataformat.smile.SmileFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "com.google.protobuf.Message",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "javax.xml.bind.Binder",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// this one after adding those 5
+	{
+		"name": "com.sun.xml.internal.stream.XMLInputFactoryImpl",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
 	{
 		"name": "org.springframework.context.annotation.AnnotationConfigApplicationContext",
 		"allDeclaredConstructors": true,
