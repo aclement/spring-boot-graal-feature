@@ -484,17 +484,29 @@ public class ResourcesHandler {
 				}
 
 				if (h==1) { // only do this once all hints should have this in common, TODO polish this up...
-				// This handles the case for something like:
-				// ReactiveWebServerFactoryConfiguration$EmbeddedTomcat with ConditionalOnClass
-				Type annotatedType = hintDescriptor.getAnnotationChain().get(0); 
-				try {
-					System.out.println("Handling annotated thingy: "+annotatedType.getName());
-					String t = annotatedType.getDescriptor();
-					reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-					resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
-				} catch (NoClassDefFoundError e) {
-					System.out.println(spaces(depth)+"XConditional type "+annotatedType.getName()+" not 	found for configuration "+configType.getName());
-				}
+					// This handles the case for something like:
+					// ReactiveWebServerFactoryConfiguration$EmbeddedTomcat with ConditionalOnClass
+					// TODO is this too much repetition for certain types?
+					for (Type annotatedType : hintDescriptor.getAnnotationChain()) {
+						try {
+							System.out.println("Handling annotated thingy: "+annotatedType.getName());
+							String t = annotatedType.getDescriptor();
+							reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+							resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
+						} catch (NoClassDefFoundError e) {
+							System.out.println(spaces(depth)+annotatedType.getName()+" not found for configuration "+configType.getName());
+						}
+						
+					}
+//					Type annotatedType = hintDescriptor.getAnnotationChain().get(0); 
+//					try {
+//						System.out.println("Handling annotated thingy: "+annotatedType.getName());
+//						String t = annotatedType.getDescriptor();
+//						reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
+//						resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
+//					} catch (NoClassDefFoundError e) {
+//						System.out.println(spaces(depth)+"XConditional type "+annotatedType.getName()+" not 	found for configuration "+configType.getName());
+//					}
 				}
 				
 				if (typeReferences != null) {

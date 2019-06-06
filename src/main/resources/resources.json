@@ -2,17 +2,18 @@
   "resources": [
     {"pattern": "META-INF/spring.components"},
     {"pattern": "META-INF/spring.factories"},
+    {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     {"pattern": "application.properties"},
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
-    {"pattern": "org/springframework/boot/logging/java/*.properties"},
+    // Does this catch the logging/<eachDirectory>/*.properties?
+    {"pattern": "org/springframework/boot/logging/*.properties"},
+    {"pattern": "org/springframework/boot/logging/*.xml"},
     
     {"pattern": "org/hibernate/validator/internal/engine/ConfigurationImpl.class"},
     {"pattern": "org/hibernate/validator/internal/util/Contracts.class"},
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
-    {"pattern": "org/springframework/boot/logging/java/logging.properties"},
-    {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     
     {"pattern": "org/springframework/context/ApplicationListener.class"},
     {"pattern": "org/springframework/beans/factory/InitializingBean.class"},
@@ -25,9 +26,7 @@
     {"pattern": "org/springframework/beans/factory/Aware.class"},
     {"pattern": "org/springframework/beans/factory/BeanClassLoaderAware.class"},
     {"pattern": "org/springframework/context/ApplicationContextAware.class"},
-    {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"},
-
-    {"pattern": "org/springframework/boot/context/properties/EnableConfigurationProperties.class"}
+    {"pattern": "org/springframework/context/annotation/ImportBeanDefinitionRegistrar.class"}
   ]
 }
 

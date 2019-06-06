@@ -17,11 +17,11 @@ package org.springframework.boot.graal.support;
 
 import java.io.InputStream;
 import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Constructor;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -166,6 +166,8 @@ public class ReflectionHandler {
 		registerLogback();
 	}
 
+	// TODO review - not strictly correct as they may ask with different flags (but right now they don't)
+	public static final Set<String> added = new HashSet<>();
 
 	/**
 	 * Record that reflective access to a type (and a selection of its members based on the flags) should
@@ -181,6 +183,9 @@ public class ReflectionHandler {
 	 * @return the class, if the type was successfully registered for reflective access, otherwise null
 	 */
 	public Class<?> addAccess(String typename, Flag...flags) {
+		if (!added.add(typename)) {
+			return null;
+		}
 		System.out.println("SBG: INFO: Registering reflective access to "+typename);
 		// This can return null if, for example, the supertype of the specified type is not
 		// on the classpath. In a simple app there may be a number of types coming in from

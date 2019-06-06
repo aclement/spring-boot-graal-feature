@@ -133,11 +133,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication$Type",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true,
@@ -148,11 +143,6 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true,
 		"allDeclaredFields": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.AutoConfigureOrder",
@@ -272,11 +262,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnClass",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.context.properties.ConfigurationProperties",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -312,16 +297,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnProperty",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.condition.ConditionalOnBean",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.boot.SpringBootConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredFields": true,
@@ -348,12 +323,6 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
-	// Is this just a parameter of an autowired method in the one above?
-//	{
-//		"name": "org.springframework.web.reactive.config.WebFluxConfigurer",
-//		"allDeclaredConstructors": true,
-//		"allDeclaredMethods": true
-//	},
 	{
 		"name": "org.springframework.web.reactive.config.EnableWebFlux",
 		"allDeclaredConstructors": true,
@@ -366,11 +335,6 @@
 	},
 	{
 		"name": "org.springframework.context.event.EventListenerMethodProcessor",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.context.annotation.Import",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -449,16 +413,6 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
-//	{
-//		"name": "reactor.netty.http.client.HttpClient",
-//		"allDeclaredConstructors": true,
-//		"allDeclaredMethods": true
-//	},
-//	{
-//		"name": "org.springframework.web.reactive.config.WebFluxConfigurationSupport",
-//		"allDeclaredConstructors": true,
-//		"allDeclaredMethods": true
-//	},
 	{
 		"name": "org.springframework.web.reactive.HandlerResult",
 		"allDeclaredConstructors": true,
@@ -487,11 +441,6 @@
 	},
 	{
 		"name": "org.springframework.context.annotation.AnnotationScopeMetadataResolver",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.context.annotation.Conditional",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -662,11 +611,6 @@
 	},
 	{
 		"name": "java.lang.annotation.ElementType",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.condition.OnResourceCondition",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
