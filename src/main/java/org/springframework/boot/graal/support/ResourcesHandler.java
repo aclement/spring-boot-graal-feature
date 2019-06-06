@@ -475,11 +475,10 @@ public class ResourcesHandler {
 				String[] name = hintDescriptor.getName();
 				if (name != null) {
 					// The CollectionHint included a list of types to worry about in the annotation
-					// itself (e.g. as used on import selector to specify.
-					
-					// TODO interesting that these are resources and not added to reflection - should we differentiate?
+					// itself (e.g. as used on import selector to specify.					
 					for (String n: name) {
 						resourcesRegistry.addResources(n.replace(".", "/")+".class");
+						reflectionHandler.addAccess(n,Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
 					}
 				}
 
@@ -498,15 +497,6 @@ public class ResourcesHandler {
 						}
 						
 					}
-//					Type annotatedType = hintDescriptor.getAnnotationChain().get(0); 
-//					try {
-//						System.out.println("Handling annotated thingy: "+annotatedType.getName());
-//						String t = annotatedType.getDescriptor();
-//						reflectionHandler.addAccess(t.substring(1,t.length()-1).replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-//						resourcesRegistry.addResources(t.substring(1,t.length()-1).replace("$", ".")+".class");
-//					} catch (NoClassDefFoundError e) {
-//						System.out.println(spaces(depth)+"XConditional type "+annotatedType.getName()+" not 	found for configuration "+configType.getName());
-//					}
 				}
 				
 				if (typeReferences != null) {
@@ -550,15 +540,7 @@ public class ResourcesHandler {
 				resourcesRegistry.addResources(configType.getName().replace("$", ".")+".class");
 				// In some cases the superclass of the config needs to be accessible
 				// TODO need this guard? if (isConfiguration(configType)) {
-				System.out.println("Digging into supertypes of "+configType.getName());
-				Type st = configType.getSuperclass();
-				while (st != null && !st.getName().equals("java/lang/Object")) {
-					System.out.println("Adding supertype res/ref "+st.getName());
-					// TODO is reflection needed?
-//					reflectionHandler.addAccess(st.getName().replace("/", "."),Flag.allDeclaredConstructors, Flag.allDeclaredMethods);
-					resourcesRegistry.addResources(st.getName().replace("$", ".")+".class");
-					st = st.getSuperclass();
-				}
+				registerHierarchy(configType, new HashSet<>(), resourcesRegistry);
 			} catch (NoClassDefFoundError e) {
 				// Example:
 				// PROBLEM? Can't register Type:org/springframework/boot/autoconfigure/web/servlet/HttpEncodingAutoConfiguration because cannot find javax/servlet/Filter

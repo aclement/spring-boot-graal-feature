@@ -279,7 +279,8 @@ public class TypeSystem {
 	public byte[] find(String slashedTypeName) {
 		String search = slashedTypeName + ".class";
 		try {
-			String packageName = slashedTypeName.substring(0, slashedTypeName.lastIndexOf("/"));
+			int index = slashedTypeName.lastIndexOf("/");
+			String packageName = index==-1?"":slashedTypeName.substring(0, index);
 
 			if (appPackages.containsKey(packageName)) {
 				List<File> list = appPackages.get(packageName);

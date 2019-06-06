@@ -48,6 +48,15 @@ import org.springframework.context.annotation.ImportSelector;
  */
 public class Type {
 	
+	// Spring Security
+	public final static String OAuth2ImportSelector = "Lorg/springframework/security/config/annotation/web/configuration/OAuth2ImportSelector;";
+	
+	public final static String SpringWebMvcImportSelector = "Lorg/springframework/security/config/annotation/web/configuration/SpringWebMvcImportSelector;";
+
+	
+	
+	public final static String ImportSelector ="Lorg/springframework/context/annotation/ImportSelector;";
+	
 	public final static String EnableConfigurationPropertiesImportSelector = "Lorg/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector;";
 	
 	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
@@ -91,6 +100,10 @@ public class Type {
 	 */
 	public String getName() {
 		return node.name;
+	}
+
+	public String getDottedName() {
+		return node.name.replace("/", ".");
 	}
 
 	public Type getSuperclass() {
@@ -707,7 +720,6 @@ public class Type {
 			s.add(this);
 			hints.put(new HintDescriptor(s, hint.skipIfTypesMissing, hint.follow, hint.name), null);
 		}
-
 		if (node.visibleAnnotations != null) {
 			for (AnnotationNode an: node.visibleAnnotations) {
 				Type annotationType = typeSystem.Lresolve(an.desc, true);
@@ -720,7 +732,11 @@ public class Type {
 				}
 			}
 		}
-		return hints == null? Collections.emptyMap():hints;
+		if (implementsImportSelector() && hints.size()==0) {
+			throw new IllegalStateException("No @CompilationHint found for import selector: "+getDottedName());
+		}
+		
+		return hints.size()==0? Collections.emptyMap():hints;
 	}
 	
 	// TODO repeatable annotations...
@@ -849,9 +865,30 @@ public class Type {
 				 	"org.springframework.boot.context.properties.EnableConfigurationPropertiesImportSelector$ConfigurationPropertiesBeanRegistrar",
 				 	"org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar"}
 				));
+		
+		
+		// Spring Security!
+		proposedAnnotations.put(SpringWebMvcImportSelector,
+				new CompilationHint(false, true, new String[] {
+					"org.springframework.web.servlet.DispatcherServlet",
+					"org.springframework.security.config.annotation.web.configuration.WebMvcSecurityConfiguration"
+				}));
+		proposedAnnotations.put(OAuth2ImportSelector,
+				new CompilationHint(false, true, new String[] {
+					"org.springframework.security.oauth2.client.registration.ClientRegistration",
+					"org.springframework.security.config.annotation.web.configuration.OAuth2ClientConfiguration"
+				}));
 
 	}
-		
+	
+	private boolean implementsImportSelector() {
+		return implementsInterface(fromLdescriptorToSlashed(ImportSelector));
+	}
+	
+	private String fromLdescriptorToSlashed(String Ldescriptor) {
+		return Ldescriptor.substring(1,Ldescriptor.length()-1);
+	}
+	
 	private CompilationHint findCompilationHint(Type annotationType) {
 		String descriptor = "L"+annotationType.getName().replace(".", "/")+";";
 		CompilationHint hint = proposedAnnotations.get(descriptor);
