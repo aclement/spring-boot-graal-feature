@@ -57,6 +57,8 @@ public class Type {
 	
 	public final static String ImportSelector ="Lorg/springframework/context/annotation/ImportSelector;";
 	
+	public final static String TransactionManagementConfigurationSelector = "Lorg/springframework/transaction/annotation/TransactionManagementConfigurationSelector;";
+
 	public final static String EnableConfigurationPropertiesImportSelector = "Lorg/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector;";
 	
 	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
@@ -854,6 +856,16 @@ public class Type {
 				 	"org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"}
+				));
+				
+		//  TransactionManagementConfigurationSelector has
+		// @CompilationHint(skipIfTypesMissing=true, follow=true, name={...})
+		proposedAnnotations.put(TransactionManagementConfigurationSelector,
+				new CompilationHint(true, true, new String[] {
+					"org.springframework.context.annotation.AutoProxyRegistrar",
+					"org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration",
+					"org.springframework.transaction.aspectj.AspectJJtaTransactionManagementConfiguration",
+					"org.springframework.transaction.aspectj.AspectJTransactionManagementConfiguration"}
 				));
 		
 		// EnableConfigurationPropertiesImportSelector has
