@@ -59,6 +59,8 @@ public class Type {
 	
 	public final static String TransactionManagementConfigurationSelector = "Lorg/springframework/transaction/annotation/TransactionManagementConfigurationSelector;";
 
+	public final static String AdviceModeImportSelector="Lorg/springframework/context/annotation/AdviceModeImportSelector;";
+
 	public final static String EnableConfigurationPropertiesImportSelector = "Lorg/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector;";
 	
 	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
@@ -878,6 +880,12 @@ public class Type {
 				 	"org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar"}
 				));
 		
+				
+		// Not quite right... this is a superclass of a selector we've already added...
+		proposedAnnotations.put(AdviceModeImportSelector,
+				new CompilationHint(true, true, new String[0]
+				));
+
 		
 		// Spring Security!
 		proposedAnnotations.put(SpringWebMvcImportSelector,

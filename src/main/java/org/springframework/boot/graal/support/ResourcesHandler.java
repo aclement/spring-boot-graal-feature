@@ -549,6 +549,14 @@ public class ResourcesHandler {
 				System.out.println("PROBLEM? Can't register "+configType.getName()+" because cannot find "+e.getMessage());
 			}
 		}
+		
+		// HibernateJpaConfiguration has a supertype also covered with @Configuration - so more than just registering
+		// the hierarchy as accessible, it may contain more config to chase down
+		Type s = configType.getSuperclass();
+		while (s!= null) {
+			processType(s, visited, depth+1);
+			s = s.getSuperclass();
+		}
 
 		// If the outer type is failing a test, we don't need to recurse...
 		if (passesTests) {

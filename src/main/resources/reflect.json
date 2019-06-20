@@ -13,6 +13,64 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// these 3 from AopConfigUtils
+	{
+		"name": "org.springframework.aop.aspectj.annotation.AnnotationAwareAspectJAutoProxyCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.aop.aspectj.AspectJAwareAdvisorAutoProxyCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// supertypes of InfrastructureAdvistorAutoProxyCreator - to combat error:
+	//	Caused by: org.springframework.beans.NotWritablePropertyException: Invalid property 'order' of
+	//  bean class [org.springframework.aop.framework.autoproxy.InfrastructureAdvisorAutoProxyCreator]: Bean property
+	//  'order' is not writable or has an invalid setter method. Does the parameter type
+	// of the setter match the return type of the getter?
+	{
+		"name": "org.springframework.aop.framework.autoproxy.AbstractAdvisorAutoProxyCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.aop.framework.autoproxy.AbstractAutoProxyCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.aop.framework.ProxyProcessorSupport",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.aop.framework.ProxyConfig",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// Should these two be pulled in by annotations on entityManagerFactory method in JpaBaseConfiguration
+	{
+		"name": "javax.persistence.EntityManagerFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.orm.jpa.EntityManagerFactoryBuilder",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+
 	{
 		"name": "org.hibernate.validator.HibernateValidatorConfiguration",
 		"allDeclaredConstructors": true,
