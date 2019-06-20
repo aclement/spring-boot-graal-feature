@@ -16,6 +16,8 @@
     {"pattern": "org/hibernate/validator/internal/util/Contracts.class"},
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
+
+    {"pattern": "org/springframework/boot/autoconfigure/orm/jpa/DataSourceInitializedPublisher.Registrar.class"},
     
     {"pattern": "org/springframework/context/ApplicationListener.class"},
     {"pattern": "org/springframework/beans/factory/InitializingBean.class"},

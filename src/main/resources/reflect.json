@@ -530,6 +530,21 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher$Registrar",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.jpa.HibernateEntityManager",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.orm.jpa.JpaVendorAdapter",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.hibernate.validator.internal.engine.resolver.JPATraversableResolver",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
