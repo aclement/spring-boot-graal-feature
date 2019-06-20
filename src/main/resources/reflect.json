@@ -520,6 +520,16 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.transaction.support.TransactionTemplate",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.transaction.TransactionManagerCustomizers",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.hibernate.validator.internal.engine.resolver.JPATraversableResolver",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
