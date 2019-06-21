@@ -66,7 +66,7 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.orm.jpa.EntityManagerFactoryBuilder",
+		"name": "org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -578,6 +578,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.transaction.support.TransactionTemplate",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -589,6 +594,16 @@
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher$Registrar",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -693,6 +708,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.beans.factory.config.BeanPostProcessor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "java.lang.annotation.ElementType",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -712,9 +732,37 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// jboss logging referenced in hibernate is accessing log4j:
+	{
+		"name": "org.apache.logging.log4j.message.ReusableMessageFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.apache.logging.log4j.message.DefaultFlowMessageFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
 	
+
+	{
+		"name": "org.hibernate.Session",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
 	{
 		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerPostProcessor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true,
+		"allDeclaredFields": true
+	},
+	{
+		"name": "java.util.EventListener",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "java.lang.Class",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
