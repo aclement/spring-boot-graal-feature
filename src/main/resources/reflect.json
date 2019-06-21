@@ -578,6 +578,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.h2.Driver",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
