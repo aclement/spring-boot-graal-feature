@@ -2,6 +2,7 @@
   "resources": [
     {"pattern": "META-INF/spring.components"},
     {"pattern": "META-INF/spring.factories"},
+    {"pattern": "org/springframework/boot/logging/java/logging.properties"},
     {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     {"pattern": "hibernate.properties"},
     {"pattern": "application.yml"},

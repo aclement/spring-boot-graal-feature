@@ -748,7 +748,64 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},	
+	{
+		"name": "org.h2.mvstore.db.MVTableEngine",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "java.sql.Statement",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "java.sql.Statement[]",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
 	
+	{
+		"name": "com.zaxxer.hikari.HikariDataSource",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "com.zaxxer.hikari.HikariConfig",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.hibernate.internal.EntityManagerMessageLogger",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.hibernate.internal.EntityManagerMessageLogger_$logger",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.hibernate.internal.CoreMessageLogger",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.hibernate.internal.CoreMessageLogger_$logger",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	
+	// These 2 from HibernatJpaConfiguration:
+	{
+		"name": "org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
+	{
+		"name": "org.hibernate.service.jta.platform.internal.NoJtaPlatform",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},	
 
 	{
 		"name": "org.hibernate.Session",

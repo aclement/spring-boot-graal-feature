@@ -17,6 +17,7 @@ package org.springframework.boot.graal.support;
 
 import java.io.InputStream;
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Array;
 import java.lang.reflect.Executable;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -80,7 +81,18 @@ public class ReflectionHandler {
 
 		System.out.println("SBG: reflection registering #"+reflectionDescriptor.getClassDescriptors().size()+" entries");
 		for (ClassDescriptor classDescriptor : reflectionDescriptor.getClassDescriptors()) {
-			Class<?> type = rra.resolveType(classDescriptor.getName());
+			Class<?> type = null;
+			String n2 = classDescriptor.getName();
+			if (n2.endsWith("[]")) {
+				System.out.println("ARRAY: "+n2.substring(0,n2.length()-2));
+				type = rra.resolveType(n2.substring(0,n2.length()-2));
+				System.out.println("Array base type resolved as "+type.getName());
+				Object o = Array.newInstance(type, 1);
+				type = o.getClass();
+				System.out.println("Class of array is "+type.getName());
+			} else {
+				type = rra.resolveType(classDescriptor.getName());
+			}
 			if (type == null) {
 				System.out.println("SBG: WARNING: "+RESOURCE_FILE+" included "+classDescriptor.getName()+" but it doesn't exist on the classpath, skipping...");
 				continue;
