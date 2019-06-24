@@ -5,13 +5,15 @@
     {"pattern": "org/springframework/boot/logging/java/logging.properties"},
     {"pattern": "META-INF/services/javax.validation.spi.ValidationProvider"}, // make pattern?
     {"pattern": "hibernate.properties"},
+    {"pattern": "org/hibernate/.*.xsd"},
+    {"pattern": "org/hibernate/.*.dtd"},
     {"pattern": "application.yml"},
     {"pattern": "application.properties"},
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     // Does this catch the logging/<eachDirectory>/*.properties?
-    {"pattern": "org/springframework/boot/logging/*.properties"},
-    {"pattern": "org/springframework/boot/logging/*.xml"},
+    {"pattern": "org/springframework/boot/logging/.*.properties"},
+    {"pattern": "org/springframework/boot/logging/.*.xml"},
     
     {"pattern": "org/hibernate/validator/internal/engine/ConfigurationImpl.class"},
     {"pattern": "org/hibernate/validator/internal/util/Contracts.class"},
