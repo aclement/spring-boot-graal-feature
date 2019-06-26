@@ -115,7 +115,7 @@ public class ResourcesHandler {
 			}
 		} else {
 //			System.out.println("No META-INF/spring.components found");
-			System.out.println("Found no META-INF/spring.components -> fall back to custom scan...");
+			System.out.println("Found no META-INF/spring.components -> generating one...");
 			List<Entry<String, String>> components = scanClasspathForIndexedStereotypes();
 			List<Entry<String,String>> filteredComponents = filterComponents(components);
 			Properties p = new Properties();
@@ -127,7 +127,11 @@ public class ResourcesHandler {
 				ResourcesRegistry resourcesRegistry = ImageSingletons.lookup(ResourcesRegistry.class);
 				resourcesRegistry.addResources(k.replace(".", "/")+".class");
 				processComponent(k, new HashSet<>());
-			}
+            }
+            System.out.println("Computed spring.components is ");
+            System.out.println("vvv");
+            System.out.println(p.toString());
+            System.out.println("^^^");
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				p.store(baos,"");
