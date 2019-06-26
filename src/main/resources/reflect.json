@@ -639,7 +639,13 @@
 		"name": "org.springframework.context.annotation.ImportBeanDefinitionRegistrar",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
+    },
+    {
+		"name": "org.springframework.boot.SpringApplication",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
 	},
+
 	{
 		"name": "org.springframework.boot.admin.SpringApplicationAdminMXBeanRegistrar",
 		"allDeclaredConstructors": true,
