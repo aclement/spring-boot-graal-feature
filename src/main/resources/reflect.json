@@ -24,6 +24,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.condition.OnResourceCondition",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.hibernate.event.spi.ClearEventListener",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true

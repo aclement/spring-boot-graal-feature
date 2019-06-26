@@ -1,0 +1,7 @@
+{
+	"resources": [
+		{
+			"pattern": "com/zaxxer/hikari/HikariDataSource.class"
+		}
+	]
+}
