@@ -642,11 +642,15 @@ public class Type {
 	/**
 	 * @return true if meta annotated with org.springframework.stereotype.Indexed
 	 */
-	public Entry<String,String> isIndexed() {
+	public Entry<String,String> isIndexedOrEntity() {
 		Type indexedType = isMetaAnnotated2("Lorg/springframework/stereotype/Indexed;");
 		if (indexedType != null) {
 			return new AbstractMap.SimpleImmutableEntry<String,String>(this.node.name.replace("/", "."),indexedType.getName().replace("/", "."));
 		} else {
+			indexedType = isMetaAnnotated2("Ljavax/persistence/Entity;");
+			if (indexedType != null) {
+				return new AbstractMap.SimpleImmutableEntry<String,String>(this.node.name.replace("/", "."),"javax.persistence.Entity");
+			}
 			return null;
 		}
 //		public List<String> findConditionalOnClassValue() {

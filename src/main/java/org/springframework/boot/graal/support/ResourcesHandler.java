@@ -129,8 +129,8 @@ public class ResourcesHandler {
 				processComponent(k, new HashSet<>());
             }
             System.out.println("Computed spring.components is ");
-            System.out.println("vvv");
-            System.out.println(p.toString());
+			System.out.println("vvv");
+			p.list(System.out);
             System.out.println("^^^");
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -310,13 +310,16 @@ public class ResourcesHandler {
 		return findDirectories(ts.getClasspath())
 			.flatMap(this::findClasses)
 			.map(this::typenameOfClass)
-			.map(this::isIndexed)
+			.map(this::isIndexedOrEntity)
 			.filter(Objects::nonNull)
 			.collect(Collectors.toList());
 	}
 
-	private Entry<String,String> isIndexed(String slashedClassname) {
-		Entry<String,String> entry = ts.resolveSlashed(slashedClassname).isIndexed();
+	private Entry<String,String> isIndexedOrEntity(String slashedClassname) {
+		Entry<String,String> entry = ts.resolveSlashed(slashedClassname).isIndexedOrEntity();
+//		if (entry != null) {
+//			System.out.println("isIndexed for "+slashedClassname+" returned "+entry);
+//		}
 		return entry;
 	}
 	

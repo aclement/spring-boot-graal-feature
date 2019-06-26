@@ -846,9 +846,72 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// These from DefaultIdentifierGeneratorFactory
+	{
+		"name": "org.hibernate.id.UUIDGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.GUIDGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.UUIDHexGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.Assigned",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.IdentityGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.SelectGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.enhanced.SequenceStyleGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.SequenceHiLoGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.IncrementGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.ForeignGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.SequenceIdentityGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.id.enhanced.TableGenerator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+
 	{
 		"name": "app.main.model.Foo",
 		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
 		"allDeclaredMethods": true
 	},
 	{
@@ -937,6 +1000,45 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+
+	// Because of EntityTuplizerFactory
+	{
+		"name": "org.hibernate.tuple.Tuplizer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.tuple.entity.EntityTuplizer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.tuple.entity.AbstractEntityTuplizer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.tuple.entity.PojoEntityTuplizer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// {
+	// 	"name": "org.hibernate.tuple.entity.DynamicMapEntityTuplizer",
+	// 	"allDeclaredConstructors": true,
+	// 	"allDeclaredMethods": true
+	// },
+	// {
+	// 	"name": "org.hibernate.tuple.entity.EntityMetamodel",
+	// 	"allDeclaredConstructors": true,
+	// 	"allDeclaredMethods": true
+	// },
+	// {
+	// 	"name": "org.hibernate.mapping.PersistentClass",
+	// 	"allDeclaredConstructors": true,
+	// 	"allDeclaredMethods": true
+	// },
+
+
 	{
 		"name": "javax.management.MBeanServer",
 		"allDeclaredConstructors": true,
