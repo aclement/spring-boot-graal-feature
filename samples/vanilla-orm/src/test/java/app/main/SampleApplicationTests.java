@@ -20,6 +20,7 @@ import org.junit.Before;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.web.server.WebHandler;
@@ -28,12 +29,14 @@ import org.springframework.web.server.WebHandler;
  * @author Dave Syer
  *
  */
-@SpringBootTest(properties = "spring.functional.enabled=false")
+@SpringBootTest
+@AutoConfigureWebTestClient
 public class SampleApplicationTests {
 
 	@Autowired
 	private WebHandler webHandler;
 
+	@Autowired
 	private WebTestClient client;
 
 	@Before
