@@ -15,11 +15,8 @@
  */
 package org.springframework.internal.svm;
 
-import java.net.URL;
-
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
-import org.springframework.core.io.Resource;
 
 /**
  * Workaround for
@@ -45,7 +42,7 @@ import org.springframework.core.io.Resource;
 
  * @author Andy Clement
  */
-@TargetClass(value=org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor.class)
+@TargetClass(className="org.hibernate.jpa.boot.internal.PersistenceUnitInfoDescriptor", onlyWith = OnlyPresent.class)
 public final class Target_org_hibernate_jpa_boot_internal_PersistenceUnitInfoDescriptor {
 
 	@Substitute
