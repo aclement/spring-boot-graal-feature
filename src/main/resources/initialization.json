@@ -13,7 +13,8 @@
 ],
 "buildTimeInitialization":
 [
-    {"class": "org.h2.Driver"},
+{"class": "com.sun.jmx.mbeanserver.MXBeanLookup"},
+{"class": "org.h2.Driver"},
 {"package": "io.netty.handler.address"},
 {"class": "io.netty.channel.unix.Errors"},
 {"package": "io.netty.handler.flow"},
@@ -106,7 +107,7 @@
 {"class": "org.springframework.core.annotation.PackagesAnnotationFilter"},
 {"class": "org.springframework.util.StringUtils"},
 {"class": "org.springframework.util.Assert"},
-{"class": "sun.reflect.misc.Trampoline"},
+//{"class": "sun.reflect.misc.Trampoline"},
 {"class": "reactor.netty.ConnectionObserver"},
 {"class": "org.slf4j.helpers.Util"},
 {"class": "org.slf4j.helpers.NOPLoggerFactory"},

@@ -30,8 +30,8 @@ native-image \
 
 mv clr ../../..
 
-printf "\n\nJava exploded jar\n"
-time java -classpath $CP com.example.commandlinerunner.CommandlinerunnerApplication
+#printf "\n\nJava exploded jar\n"
+#time java -classpath $CP com.example.commandlinerunner.CommandlinerunnerApplication
 
 printf "\n\nCompiled app (clr)\n"
 cd ../../..
