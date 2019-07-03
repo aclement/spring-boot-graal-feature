@@ -2,7 +2,7 @@ This is a variant of the commandlinerunner sample that uses maven to drive the n
 
 Ensure you have:
 - `mvn install`ed the root feature project
-- have the graal JDK installed and JAVA_HOME set appropriately (eg. `/Users/aclement/installs/graalvm-ce-19.0.0/Contents/Home`)
+- have the graal JDK installed and JAVA_HOME set appropriately (eg. `/Users/aclement/installs/graalvm-ce-19.1.0/Contents/Home`)
 
 Then you can:
 

@@ -15,26 +15,10 @@
  */
 package org.springframework.boot.graal.support;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Objects;
-import java.util.Properties;
-import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
+import com.oracle.svm.core.configure.ResourcesRegistry;
+import com.oracle.svm.core.jdk.Resources;
+import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
+import com.oracle.svm.hosted.ImageClassLoader;
 import org.graalvm.nativeimage.ImageSingletons;
 import org.graalvm.nativeimage.hosted.Feature.BeforeAnalysisAccess;
 import org.springframework.boot.graal.domain.reflect.ClassDescriptor.Flag;
@@ -45,10 +29,12 @@ import org.springframework.boot.graal.type.MissingTypeException;
 import org.springframework.boot.graal.type.Type;
 import org.springframework.boot.graal.type.TypeSystem;
 
-import com.oracle.svm.core.jdk.Resources;
-import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
-import com.oracle.svm.hosted.ImageClassLoader;
-import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
+import java.io.*;
+import java.net.URL;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class ResourcesHandler {
 
