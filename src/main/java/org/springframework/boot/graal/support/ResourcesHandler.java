@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashSet;
@@ -59,9 +60,12 @@ public class ResourcesHandler {
 	private ReflectionHandler reflectionHandler;
 	
 	private static boolean REMOVE_UNNECESSARY_CONFIGURATIONS;
+	private static List<String> REMOVE_SPECIFIC_CONFIGURATIONS;
 	
 	static {
 		REMOVE_UNNECESSARY_CONFIGURATIONS = Boolean.valueOf(System.getProperty("removeUnusedAutoconfig","false"));
+		String v = System.getProperty("removeSpecificAutoconfigs","");
+		REMOVE_SPECIFIC_CONFIGURATIONS = Arrays.asList(v.split(","));
 		System.out.println("Remove unused config = "+REMOVE_UNNECESSARY_CONFIGURATIONS);
 	}
 
@@ -389,6 +393,11 @@ public class ResourcesHandler {
 			for (Iterator<String> iterator = configs.iterator(); iterator.hasNext();) {
 				String config = iterator.next();
 				boolean needToAddThem = true;
+				if (REMOVE_SPECIFIC_CONFIGURATIONS.contains(config)) {
+					System.out.println("Specifically excluding configuration: "+config);
+					forRemoval.add(config);
+					needToAddThem = false;
+				}
 				if (!verifyType(config)) {
 					System.out.println("Excluding auto-configuration " + config);
 					System.out.println("= COC failed so just adding class forname access (no methods/ctors)");

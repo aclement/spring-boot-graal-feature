@@ -13,7 +13,7 @@
 ],
 "buildTimeInitialization":
 [
-{"class": "com.sun.jmx.mbeanserver.MXBeanLookup"},
+//{"class": "com.sun.jmx.mbeanserver.MXBeanLookup"},
 {"class": "org.h2.Driver"},
 {"package": "io.netty.handler.address"},
 {"class": "io.netty.channel.unix.Errors"},

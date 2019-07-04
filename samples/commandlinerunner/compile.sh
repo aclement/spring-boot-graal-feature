@@ -14,6 +14,7 @@ cd BOOT-INF/classes
 export LIBPATH=`find ../../BOOT-INF/lib | tr '\n' ':'`
 export CP=.:$LIBPATH
 
+
 # Our feature being on the classpath is what triggers it
 export CP=$CP:../../../../../target/spring-boot-graal-feature-0.5.0.BUILD-SNAPSHOT.jar
 
@@ -24,11 +25,13 @@ native-image \
   -H:Name=clr \
   -H:+ReportExceptionStackTraces \
   --no-fallback \
+  -DremoveUnusedAutoconfig=true \
   --allow-incomplete-classpath \
   --report-unsupported-elements-at-runtime \
   -cp $CP com.example.commandlinerunner.CommandlinerunnerApplication
 
 mv clr ../../..
+  #-DremoveSpecificAutoconfigs=org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration \
 
 #printf "\n\nJava exploded jar\n"
 #time java -classpath $CP com.example.commandlinerunner.CommandlinerunnerApplication

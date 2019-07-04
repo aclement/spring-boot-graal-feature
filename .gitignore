@@ -1,5 +1,6 @@
 .settings
 log.txt
+*.log
 target
 .classpath
 .project
