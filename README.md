@@ -1,5 +1,8 @@
 # spring-boot-graal-feature
 
+There is a Graal_19_1_0 branch that is a work-in-progress for supporting Graal 19.1 - when
+it is behaving it will become master.
+
 Pass on the classpath to `native-image` and it will process your Spring Boot application
 as the native image is built:
 
