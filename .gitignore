@@ -1,4 +1,5 @@
 .settings
+.vscode
 log.txt
 *.log
 target
