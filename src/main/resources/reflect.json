@@ -666,6 +666,19 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// vanilla-thymeleaf related, starts here...
+	{
+		"name": "com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.http.converter.FormHttpMessageConverter",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true, // NPE: org.springframework.boot.autoconfigure.http.HttpMessageConverters.extractPartConverters(HttpMessageConverters.java:162)
+		"allDeclaredMethods": true
+	},
+	// ends here...
 	{
 		"name": "org.springframework.boot.autoconfigure.jmx.ParentAwareNamingStrategy",
 		"allDeclaredConstructors": true,

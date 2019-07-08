@@ -11,6 +11,12 @@
     {"pattern": "application.properties"},
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
+    
+    // vvv vanilla-thymeleaf
+    {"pattern": "static/index.html"},
+    {"pattern": "templates/greeting.html"},
+    // ^^^ vanilla-thymeleaf
+
     // Does this catch the logging/<eachDirectory>/*.properties?
     {"pattern": "org/springframework/boot/logging/.*.properties"},
     {"pattern": "org/springframework/boot/logging/.*.xml"},
