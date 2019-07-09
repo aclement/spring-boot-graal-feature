@@ -10,45 +10,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class GreetingController {
 
-    @GetMapping("/greeting")
-    public String greeting(
-            @RequestParam(name = "name", required = false, defaultValue = "World") String name,
-            Model model) {
-        model.addAttribute("greeting", new Greeting(name));
-        return "greeting";
-    }
+	@GetMapping("/greeting")
+	public String greeting(
+			@RequestParam(name = "name", required = false, defaultValue = "World") String name,
+			Model model) {
+		model.addAttribute("greeting", new Greeting(name));
+		return "greeting";
+	}
 
 }
 
 class Greeting {
 
-    private String id = UUID.randomUUID().toString();
+	private String id = UUID.randomUUID().toString();
 
-    private String msg;
+	private String msg;
 
-    @SuppressWarnings("unused")
-    private Greeting() {
-    }
+	@SuppressWarnings("unused")
+	private Greeting() {
+	}
 
-    public Greeting(String msg) {
-        this.msg = msg;
-    }
+	public Greeting(String msg) {
+		this.msg = msg;
+	}
 
-    public String getId() {
-        return id;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getMsg() {
-        return msg;
-    }
+	public String getMsg() {
+		return msg;
+	}
 
-    public void setMsg(String msg) {
-        this.msg = msg;
-    }
+	public void setMsg(String msg) {
+		this.msg = msg;
+	}
 
-    @Override
-    public String toString() {
-        return "Greeting [msg=" + msg + "]";
-    }
+	@Override
+	public String toString() {
+		return "Greeting [msg=" + msg + "]";
+	}
 
 }

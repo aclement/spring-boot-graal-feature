@@ -678,6 +678,27 @@
 		"allDeclaredFields": true, // NPE: org.springframework.boot.autoconfigure.http.HttpMessageConverters.extractPartConverters(HttpMessageConverters.java:162)
 		"allDeclaredMethods": true
 	},
+	{
+		"name": "org.springframework.web.bind.annotation.RequestParam",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true, // Method [public abstract java.lang.String org.springframework.web.bind.annotation.RequestParam.name()] is unsupported for synthesized annotation type [interface org.springframework.web.bind.annotation.RequestParam]
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.thymeleaf.spring5.view.reactive.ThymeleafReactiveView",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.thymeleaf.spring5.expression.Mvc$NonSpring41MvcUriComponentsBuilderDelegate",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.thymeleaf.standard.expression.AdditionExpression",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
 	// ends here...
 	{
 		"name": "org.springframework.boot.autoconfigure.jmx.ParentAwareNamingStrategy",
