@@ -29,6 +29,7 @@ native-image \
   --no-fallback \
   --allow-incomplete-classpath \
   --report-unsupported-elements-at-runtime \
+  --initialize-at-build-time=org.springframework.transaction.annotation.Isolation,org.springframework.transaction.annotation.Propagation,org.springframework.http.HttpStatus \
   -DremoveUnusedAutoconfig=true \
   -cp $CP app.main.SampleApplication
 
