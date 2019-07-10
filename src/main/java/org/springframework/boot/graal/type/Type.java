@@ -59,6 +59,10 @@ public class Type {
 	
 	public final static String TransactionManagementConfigurationSelector = "Lorg/springframework/transaction/annotation/TransactionManagementConfigurationSelector;";
 
+	public final static String SpringDataWebConfigurationSelector = "Lorg/springframework/data/web/config/EnableSpringDataWebSupport$SpringDataWebConfigurationImportSelector;";
+
+	public final static String SpringDataWebQueryDslSelector = "Lorg/springframework/data/web/config/EnableSpringDataWebSupport$QuerydslActivator;";
+
 	public final static String AdviceModeImportSelector="Lorg/springframework/context/annotation/AdviceModeImportSelector;";
 
 	public final static String EnableConfigurationPropertiesImportSelector = "Lorg/springframework/boot/context/properties/EnableConfigurationPropertiesImportSelector;";
@@ -863,7 +867,7 @@ public class Type {
 				 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"}
 				));
-				
+		
 		//  TransactionManagementConfigurationSelector has
 		// @CompilationHint(skipIfTypesMissing=true, follow=true, name={...})
 		proposedAnnotations.put(TransactionManagementConfigurationSelector,
@@ -872,6 +876,19 @@ public class Type {
 					"org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration",
 					"org.springframework.transaction.aspectj.AspectJJtaTransactionManagementConfiguration",
 					"org.springframework.transaction.aspectj.AspectJTransactionManagementConfiguration"}
+				));
+		
+		//  EnableSpringDataWebSupport. TODO: there are others in spring.factories.
+		proposedAnnotations.put(SpringDataWebConfigurationSelector,
+				new CompilationHint(true, true, new String[] {
+					"org.springframework.data.web.config.HateoasAwareSpringDataWebConfiguration",
+					"org.springframework.data.web.config.SpringDataWebConfiguration"}
+				));
+		
+		//  EnableSpringDataWebSupport. TODO: there are others in spring.factories.
+		proposedAnnotations.put(SpringDataWebQueryDslSelector,
+				new CompilationHint(true, true, new String[] {
+					"org.springframework.data.web.config.QuerydslWebConfiguration"}
 				));
 		
 		// EnableConfigurationPropertiesImportSelector has
