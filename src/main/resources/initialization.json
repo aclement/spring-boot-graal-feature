@@ -13,7 +13,10 @@
 ],
 "buildTimeInitialization":
 [
-    {"class": "org.h2.Driver"},
+{"class": "org.springframework.transaction.annotation.Isolation"},
+{"class": "org.springframework.transaction.annotation.Propagation"},
+{"class": "org.springframework.http.HttpStatus"},
+{"class": "org.h2.Driver"},
 {"package": "io.netty.handler.address"},
 {"class": "io.netty.channel.unix.Errors"},
 {"package": "io.netty.handler.flow"},
