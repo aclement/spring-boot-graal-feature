@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.springframework</groupId>
+	<groupId>org.springframework.boot.experimental</groupId>
 	<artifactId>spring-boot-graal-feature</artifactId>
 	<version>0.5.0.BUILD-SNAPSHOT</version>
 	<packaging>jar</packaging>
@@ -18,46 +18,54 @@
 	</properties>
 
 	<dependencies>
-		<!-- these two are only here to support the substrate substitution -->
+		<!-- these are only here to support the substrate substitution -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot</artifactId>
 			<version>2.2.0.M2</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-orm</artifactId>
 			<version>5.2.0.M1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>5.4.2.Final</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.validation</groupId>
 			<artifactId>jakarta.validation-api</artifactId>
 			<version>2.0.1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
-
 
 		<dependency>
 			<groupId>com.oracle.substratevm</groupId>
 			<artifactId>graal-hotspot-library</artifactId>
 			<version>19.0.0</version>
-<scope>provided</scope>
-<optional>true</optional>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-tree</artifactId>
 			<version>7.1</version>
+			<scope>provided</scope>
+			<optional>true</optional>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.12</version>
-<optional>true</optional>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
