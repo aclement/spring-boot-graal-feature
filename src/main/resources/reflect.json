@@ -700,6 +700,58 @@
 		"allDeclaredMethods": true
 	},
 	// ends here...
+	// vanilla-tx vvv
+	{
+		"name": "com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.jdbc.support.SQLErrorCodes",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "java.sql.DatabaseMetaData",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "app.main.EnableTx",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.transaction.TransactionDefinition",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.transaction.annotation.Propagation",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.transaction.annotation.Transactional",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.context.annotation.AdviceMode",
+		"allDeclaredConstructors": true,
+		"allDeclaredFields": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.context.annotation.AutoProxyRegistrar",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// vanilla-tx ^^^
 	{
 		"name": "org.springframework.boot.autoconfigure.jmx.ParentAwareNamingStrategy",
 		"allDeclaredConstructors": true,

@@ -12,6 +12,15 @@
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     
+    // vvv vanilla-tx
+    {"pattern": "org/springframework/boot/CommandLineRunner.class"},
+    {"pattern": "app/main/EnableTx.class"},
+    {"pattern": "org/springframework/context/annotation/AutoProxyRegistrar.class"},
+    {"pattern": "app/main/Finder.class"},
+    {"pattern": "org/springframework/jdbc/support/sql-error-codes.xml"},
+    {"pattern": "schema.sql"},
+    // ^^^ vanilla-tx
+    
     // vvv vanilla-thymeleaf
     {"pattern": "static/index.html"},
     {"pattern": "templates/greeting.html"},
