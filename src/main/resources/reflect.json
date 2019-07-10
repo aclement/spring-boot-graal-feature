@@ -479,6 +479,21 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.web.bind.annotation.PostMapping",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.web.bind.annotation.ResponseBody",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.web.bind.annotation.RequestBody",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.stereotype.Controller",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
