@@ -1052,6 +1052,73 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// vvv vanilla-jpa
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurePackages",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurePackages$BasePackages",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.query.QueryByExampleExecutor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.PagingAndSortingRepository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.CrudRepository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.Repository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.JpaRepository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "app.main.model.FooRepository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.support.EntityManagerBeanDefinitionRegistrarPostProcessor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.orm.jpa.SharedEntityManagerCreator",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.util.JpaMetamodelCacheCleanup",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.config.JpaMetamodelMappingContextFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// ^^^ vanilla-jpa
 	{
 		"name": "org.springframework.orm.jpa.JpaVendorAdapter",
 		"allDeclaredConstructors": true,

@@ -642,7 +642,7 @@ public class Type {
 		}
 		return null;
 	}
-
+	
 	/**
 	 * @return true if meta annotated with org.springframework.stereotype.Indexed
 	 */
@@ -655,8 +655,34 @@ public class Type {
 			if (indexedType != null) {
 				return new AbstractMap.SimpleImmutableEntry<String,String>(this.node.name.replace("/", "."),"javax.persistence.Entity");
 			}
+			Type t = isIndexedInHierarchy();
+			if ( t != null) {
+				// This should catch repositories where the Repository interface is marked @Indexed
+				//app.main.model.FooRepository=org.springframework.data.repository.Repository")
+				return new AbstractMap.SimpleImmutableEntry<String,String>(this.node.name.replace("/","."), t.node.name.replace("/","."));
+			}
 			return null;
 		}
+	}
+	
+	private Type isIndexedInHierarchy() {
+		if (isAnnotated("Lorg/springframework/stereotype/Indexed;")) {
+			return this;
+		}
+		Type[] is = getInterfaces();
+		for (Type i: is) {
+			Type t = i.isIndexedInHierarchy();
+			if (t != null) {
+				return t;
+			}
+		}
+		Type sc = getSuperclass();
+		if (sc!=null) {
+			return sc.isIndexedInHierarchy();
+		}
+		return null;
+	}
+// app.main.model.FooRepository=org.springframework.data.repository.Repository
 //		public List<String> findConditionalOnClassValue() {
 //			if (node.visibleAnnotations != null) {
 //				for (AnnotationNode an : node.visibleAnnotations) {
@@ -672,10 +698,20 @@ public class Type {
 //						}
 ////						for (Object o: values) {
 ////							System.out.println("<> "+o+"  "+(o==null?"":o.ge
-	}
 	
 	private Type isMetaAnnotated2(String Ldescriptor) {
 		return isMetaAnnotated2(Ldescriptor, new HashSet<>());
+	}
+
+	private boolean isAnnotated(String Ldescriptor) {
+		if (node.visibleAnnotations != null) {
+			for (AnnotationNode an: node.visibleAnnotations) {
+				if (an.desc.equals(Ldescriptor)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 	private Type isMetaAnnotated2(String Ldescriptor, Set<String> seen) {

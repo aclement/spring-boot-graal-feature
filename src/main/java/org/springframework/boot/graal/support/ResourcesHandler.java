@@ -131,7 +131,8 @@ public class ResourcesHandler {
             System.out.println("Computed spring.components is ");
 			System.out.println("vvv");
 			p.list(System.out);
-            System.out.println("^^^");
+			System.out.println("^^^");
+			System.out.println(">>> "+p.toString());
 			try {
 				ByteArrayOutputStream baos = new ByteArrayOutputStream();
 				p.store(baos,"");
@@ -139,6 +140,7 @@ public class ResourcesHandler {
 				byte[] bs = baos.toByteArray();
 				ByteArrayInputStream bais = new ByteArrayInputStream(bs);
 				Resources.registerResource("META-INF/spring.components", bais);
+				System.out.println("BAOS: "+new String(bs));
 			} catch (IOException e) {
 				throw new IllegalStateException(e);
 			}
@@ -315,6 +317,11 @@ public class ResourcesHandler {
 			.collect(Collectors.toList());
 	}
 
+	
+// app.main.SampleTransactionManagementConfiguration=org.springframework.stereotype.Component
+// app.main.model.Foo=javax.persistence.Entity
+// app.main.model.FooRepository=org.springframework.data.repository.Repository
+// app.main.SampleApplication=org.springframework.stereotype.Component
 	private Entry<String,String> isIndexedOrEntity(String slashedClassname) {
 		Entry<String,String> entry = ts.resolveSlashed(slashedClassname).isIndexedOrEntity();
 //		if (entry != null) {
