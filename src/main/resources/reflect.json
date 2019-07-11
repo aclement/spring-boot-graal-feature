@@ -788,6 +788,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackages",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.validation.beanvalidation.MethodValidationPostProcessor",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -1054,6 +1059,21 @@
 	},
 	// vvv vanilla-jpa
 	{
+		"name": "javax.persistence.Entity",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "javax.persistence.GeneratedValue",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "javax.persistence.Id",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.autoconfigure.AutoConfigurePackages",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -1115,6 +1135,11 @@
 	},
 	{
 		"name": "org.springframework.data.jpa.repository.config.JpaMetamodelMappingContextFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.support.JpaEvaluationContextExtension",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},

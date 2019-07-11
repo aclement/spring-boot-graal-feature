@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mvn clean install
+../../mvnw clean install
 
 export JAR="demo-0.0.1-SNAPSHOT.jar"
 rm demo

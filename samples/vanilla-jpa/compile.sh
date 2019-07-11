@@ -2,7 +2,7 @@
 export EXECUTABLE_NAME=jpa
 export JAR="vanilla-jpa-0.0.1.BUILD-SNAPSHOT.jar"
 
-mvn -DskipTests clean package
+../../mvnw -DskipTests clean package
 
 rm $EXECUTABLE_NAME
 printf "Unpacking $JAR"
