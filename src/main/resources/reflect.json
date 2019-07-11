@@ -783,16 +783,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackages$Registrar",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
-		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackages",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.validation.beanvalidation.MethodValidationPostProcessor",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -1058,6 +1048,31 @@
 		"allDeclaredMethods": true
 	},
 	// vvv vanilla-jpa
+	{
+		"name": "org.springframework.boot.context.properties.ConfigurationPropertiesScanRegistrar",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.context.properties.ConfigurationPropertiesScan",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackages$Registrar",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackage",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackages",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
 	{
 		"name": "javax.persistence.Entity",
 		"allDeclaredConstructors": true,

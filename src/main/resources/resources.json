@@ -12,6 +12,10 @@
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     
+    // vvv vanilla-jpa
+    {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesScanRegistrar.class"},
+    // ^^^ vanilla-jpa
+
     // vvv vanilla-tx
     {"pattern": "org/springframework/boot/CommandLineRunner.class"},
     {"pattern": "app/main/EnableTx.class"},
