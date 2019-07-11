@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mvn -DskipTests clean package
+../../mvnw -DskipTests clean package
 
 export JAR="vanilla-thymeleaf-0.1.0.jar"
 rm thymeleaf

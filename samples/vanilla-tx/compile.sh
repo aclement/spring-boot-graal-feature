@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-mvn -DskipTests clean package
+../../mvnw -DskipTests clean package
 
 export JAR="vanilla-tx-0.0.1.BUILD-SNAPSHOT.jar"
 rm tx
