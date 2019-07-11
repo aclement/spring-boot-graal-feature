@@ -39,6 +39,7 @@
     {"pattern": "org/hibernate/validator/internal/util/logging/Log.class"},
     {"pattern": "org/hibernate/validator/internal/engine/resolver/TraversableResolvers.class"},
 
+	{"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesScanRegistrar.class"},
     {"pattern": "org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration.Hikari.class"},
     {"pattern": "org/springframework/boot/autoconfigure/orm/jpa/DataSourceInitializedPublisher.Registrar.class"},
     {"pattern": "org/springframework/boot/autoconfigure/orm/jpa/DataSourceInitializedPublisher.class"},

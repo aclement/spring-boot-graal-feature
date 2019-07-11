@@ -1,5 +1,10 @@
 [
 	{
+		"name": "app.main.model.Foo",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "app.main.EnableTx",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true

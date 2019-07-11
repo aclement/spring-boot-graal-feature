@@ -619,6 +619,20 @@
 		"name": "org.springframework.boot.autoconfigure.EnableAutoConfiguration",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
+	},{
+		"name": "org.springframework.beans.factory.config.PropertiesFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.context.properties.ConfigurationPropertiesScan",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackage",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
 	},
 	{
 		"name": "org.springframework.context.event.EventListenerMethodProcessor",
