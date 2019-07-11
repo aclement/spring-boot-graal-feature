@@ -16,9 +16,18 @@
 
 package app.main;
 
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.context.annotation.AdviceMode;
+import org.springframework.context.annotation.AutoProxyRegistrar;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Role;
 import org.springframework.transaction.annotation.AbstractTransactionManagementConfiguration;
 import org.springframework.transaction.annotation.AnnotationTransactionAttributeSource;
@@ -32,14 +41,15 @@ import org.springframework.transaction.interceptor.TransactionInterceptor;
  *
  */
 @Configuration(proxyBeanMethods = false)
-public class SampleTransactionManagementConfiguration
-		extends AbstractTransactionManagementConfiguration {
+@Import(AutoProxyRegistrar.class)
+// Trick the proxy creator into thinking this is @EnableTransactionManagement but without the imports
+@EnableTx(mode = AdviceMode.PROXY, proxyTargetClass = false)
+public class SampleTransactionManagementConfiguration extends AbstractTransactionManagementConfiguration {
 
 	@Bean(name = TransactionManagementConfigUtils.TRANSACTION_ADVISOR_BEAN_NAME)
 	@Role(BeanDefinition.ROLE_INFRASTRUCTURE)
 	public BeanFactoryTransactionAttributeSourceAdvisor transactionAdvisor(
-			TransactionAttributeSource transactionAttributeSource,
-			TransactionInterceptor transactionInterceptor) {
+			TransactionAttributeSource transactionAttributeSource, TransactionInterceptor transactionInterceptor) {
 		BeanFactoryTransactionAttributeSourceAdvisor advisor = new BeanFactoryTransactionAttributeSourceAdvisor();
 		advisor.setTransactionAttributeSource(transactionAttributeSource);
 		advisor.setAdvice(transactionInterceptor);
@@ -65,4 +75,16 @@ public class SampleTransactionManagementConfiguration
 		}
 		return interceptor;
 	}
+
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+@interface EnableTx {
+
+	AdviceMode mode() default AdviceMode.PROXY;
+
+	boolean proxyTargetClass() default false;
+
 }
