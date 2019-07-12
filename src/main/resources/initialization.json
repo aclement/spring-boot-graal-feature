@@ -13,6 +13,12 @@
 ],
 "buildTimeInitialization":
 [
+    {"class": "com.google.protobuf.Extension"},
+    {"class": "com.google.protobuf.ExtensionLite"},
+{"class": "com.google.protobuf.ExtensionRegistry"},
+{"class": "io.netty.handler.codec.http2.CharSequenceMap"},
+{"class": "io.netty.handler.codec.http2.Http2Headers$PseudoHeaderName"},
+{"class": "io.netty.handler.codec.http2.ReadOnlyHttp2Headers"},
 {"class": "org.springframework.transaction.annotation.Isolation"},
 {"class": "org.springframework.transaction.annotation.Propagation"},
 {"class": "org.springframework.http.HttpStatus"},

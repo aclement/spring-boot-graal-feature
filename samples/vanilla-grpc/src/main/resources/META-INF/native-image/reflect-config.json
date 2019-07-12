@@ -1,0 +1,17 @@
+[
+	{
+		"name": "demo.CustomerProtos$Customer",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "demo.GreeterGrpc",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "com.google.protobuf.ExtensionRegistry",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	}
+]
