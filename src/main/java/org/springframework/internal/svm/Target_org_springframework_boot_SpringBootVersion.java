@@ -24,7 +24,7 @@ import com.oracle.svm.core.annotate.TargetClass;
  * 
  * @author Andy Clement
  */
-@TargetClass(value=org.springframework.boot.SpringBootVersion.class)
+@TargetClass(className="org.springframework.boot.SpringBootVersion", onlyWith = OnlyPresent.class)
 public final class Target_org_springframework_boot_SpringBootVersion {
 
 	@Substitute
