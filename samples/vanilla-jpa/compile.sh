@@ -2,7 +2,7 @@
 export EXECUTABLE_NAME=jpa
 export JAR="vanilla-jpa-0.0.1.BUILD-SNAPSHOT.jar"
 
-../../mvnw -DskipTests clean package
+mvn -DskipTests clean package
 
 rm $EXECUTABLE_NAME
 printf "Unpacking $JAR"
@@ -37,6 +37,7 @@ mv $EXECUTABLE_NAME ../../..
 printf "\n\nCompiled app...\n"
 cd ../../..
 #time ./orm -Dhibernate.dialect=org.hibernate.dialect.H2Dialect
+# Do we need the -D on this one?
 time ./$EXECUTABLE_NAME
 # -Dhibernate.dialect=org.hibernate.dialect.H2Dialect
 
