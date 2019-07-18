@@ -69,6 +69,8 @@ public class Type {
 	
 	public final static String CacheConfigurationImportSelector = "Lorg/springframework/boot/autoconfigure/cache/CacheAutoConfiguration$CacheConfigurationImportSelector;";
 	
+	public final static String RabbitConfigurationImportSelector = "Lorg/springframework/amqp/rabbit/annotation/RabbitListenerConfigurationSelector;";
+	
 	public final static String AtBean = "Lorg/springframework/context/annotation/Bean;";
 
 	public final static String AtImports = "Lorg/springframework/context/annotation/Import;";
@@ -902,6 +904,11 @@ public class Type {
 				 	"org.springframework.boot.autoconfigure.cache.CaffeineCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.SimpleCacheConfiguration",
 				 	"org.springframework.boot.autoconfigure.cache.NoOpCacheConfiguration"}
+				));
+		
+		proposedAnnotations.put(RabbitConfigurationImportSelector,
+				new CompilationHint(true,true, new String[] {
+				 	"org.springframework.amqp.rabbit.annotation.RabbitBootstrapConfiguration"}
 				));
 		
 		//  TransactionManagementConfigurationSelector has
