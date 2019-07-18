@@ -10,6 +10,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.support.converter.ClassMapper;
 import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,13 +24,18 @@ public class SampleApplication {
 	}
 
 	@Bean
-	TopicExchange exchange() {
+	TopicExchange input() {
 		return new TopicExchange("input");
 	}
 
 	@Bean
-	Binding binding(Queue queue, TopicExchange exchange) {
-		return BindingBuilder.bind(queue).to(exchange).with("*");
+	TopicExchange output() {
+		return new TopicExchange("output");
+	}
+
+	@Bean
+	Binding binding(Queue queue, @Qualifier("input") TopicExchange exchange) {
+		return BindingBuilder.bind(queue).to(exchange).with("#");
 	}
 
 
