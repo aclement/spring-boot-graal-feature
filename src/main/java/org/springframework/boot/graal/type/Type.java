@@ -15,22 +15,6 @@
  */
 package org.springframework.boot.graal.type;
 
-import java.lang.reflect.Modifier;
-import java.sql.Types;
-import java.util.AbstractMap;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Set;
-import java.util.Stack;
-import java.util.stream.Collectors;
-
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
@@ -38,10 +22,11 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
-import org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
-import org.springframework.context.annotation.ImportSelector;
+
+import java.lang.reflect.Modifier;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.stream.Collectors;
 
 /**
  * @author Andy Clement
@@ -76,6 +61,9 @@ public class Type {
 	public final static String AtConditional = "Lorg/springframework/context/annotation/Conditional;";
 
 	public final static String AtConditionalOnMissingBean = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean;";
+
+	public final static String AtOrder = "Lorg/springframework/core/annotation/Order;";
+
 
 	public final static Type MISSING = new Type(null, null);
 
@@ -815,6 +803,9 @@ public class Type {
 	private static Map<String, CompilationHint> proposedAnnotations = new HashMap<>();
 	
 	static {
+		// @Order(Ordered.LOWEST_PRECEDENCE) has @CompilationHint(skipIfTypesMissing=true, follow=false)
+		proposedAnnotations.put(AtOrder, new CompilationHint(false,false));
+
 		// @ConditionalOnClass has @CompilationHint(skipIfTypesMissing=true, follow=false)
 		proposedAnnotations.put(AtConditionalOnClass, new CompilationHint(true,false));
 		
