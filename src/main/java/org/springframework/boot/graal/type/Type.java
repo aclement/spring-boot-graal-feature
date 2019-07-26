@@ -789,6 +789,11 @@ public class Type {
 		if (values != null) {
 			for (int i=0;i<values.size();i+=2) {
 				if (values.get(i).equals("value")) {
+					if (!(values.get(i + 1) instanceof List)) {
+						// avoid unnecessary codes --> Caused by: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.util.List
+						//	at org.springframework.boot.graal.type.Type.collectTypes(Type.java:792)
+						return new LinkedList<>();
+					}
 					 List<String> importedReferences = ((List<org.objectweb.asm.Type>)values.get(i+1))
 							.stream()
 							.map(t -> t.getDescriptor())
