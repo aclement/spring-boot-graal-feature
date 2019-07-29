@@ -33,10 +33,10 @@ public final class MethodDescriptor extends MemberDescriptor implements Comparab
 	
 	private List<String> parameterTypes; // e.g. char[], java.lang.String, java.lang.Object[]
 
-	MethodDescriptor() {
+	public MethodDescriptor() {
 	}
 	
-	MethodDescriptor(String name, List<String> parameterTypes) {
+	public MethodDescriptor(String name, List<String> parameterTypes) {
 		super(name);
 		this.parameterTypes = parameterTypes;
 	}

@@ -25,11 +25,11 @@ public abstract class MemberDescriptor {
 
 	protected String name;
 	
-	MemberDescriptor() {
+	public MemberDescriptor() {
 		
 	}
 
-	MemberDescriptor(String name) {
+	public MemberDescriptor(String name) {
 		this.name = name;
 	}
 

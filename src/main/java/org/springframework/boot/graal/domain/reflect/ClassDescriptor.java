@@ -48,10 +48,10 @@ public final class ClassDescriptor implements Comparable<ClassDescriptor> {
 		allPublicClasses;
 	}
 
-	ClassDescriptor() {
+	public ClassDescriptor() {
 	}
 
-	ClassDescriptor(String name, List<FieldDescriptor> fields, List<MethodDescriptor> methods, Set<Flag> flags) {
+	public ClassDescriptor(String name, List<FieldDescriptor> fields, List<MethodDescriptor> methods, Set<Flag> flags) {
 		this.name = name;
 		this.fields = fields;
 		this.methods = methods;

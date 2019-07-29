@@ -25,7 +25,7 @@ public final class FieldDescriptor extends MemberDescriptor implements Comparabl
 
 	private boolean allowWrite = false;
 
-	FieldDescriptor(String name, boolean allowWrite) {
+	public FieldDescriptor(String name, boolean allowWrite) {
 		super(name);
 		this.allowWrite = allowWrite;
 	}
