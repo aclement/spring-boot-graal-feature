@@ -15,6 +15,22 @@
  */
 package org.springframework.boot.graal.type;
 
+import java.lang.reflect.Modifier;
+import java.sql.Types;
+import java.util.AbstractMap;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.Stack;
+import java.util.stream.Collectors;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.signature.SignatureReader;
 import org.objectweb.asm.signature.SignatureVisitor;
@@ -22,11 +38,10 @@ import org.objectweb.asm.tree.AnnotationNode;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.InnerClassNode;
 import org.objectweb.asm.tree.MethodNode;
-
-import java.lang.reflect.Modifier;
-import java.util.*;
-import java.util.Map.Entry;
-import java.util.stream.Collectors;
+import org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessorRegistrar;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.context.annotation.ImportSelector;
 
 /**
  * @author Andy Clement
@@ -792,7 +807,7 @@ public class Type {
 					if (!(values.get(i + 1) instanceof List)) {
 						// avoid unnecessary codes --> Caused by: java.lang.ClassCastException: java.lang.Integer cannot be cast to java.util.List
 						//	at org.springframework.boot.graal.type.Type.collectTypes(Type.java:792)
-						return new LinkedList<>();
+						return new ArrayList<>();
 					}
 					 List<String> importedReferences = ((List<org.objectweb.asm.Type>)values.get(i+1))
 							.stream()
