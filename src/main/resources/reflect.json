@@ -1228,6 +1228,32 @@
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
+	// vvv vanilla-grpc
+	{	"name": "io.netty.bootstrap.ServerBootstrap$ServerBootstrapAcceptor",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{	"name": "io.netty.channel.ChannelInboundHandlerAdapter",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{	"name": "io.netty.channel.ChannelHandlerAdapter",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{	"name": "io.netty.channel.ChannelHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{	"name": "io.netty.channel.ChannelInboundHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{	"name": "io.netty.bootstrap.ServerBootstrap$1",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// ^^^ vanilla-grpc
 
 	// Because of EntityTuplizerFactory
 	{
