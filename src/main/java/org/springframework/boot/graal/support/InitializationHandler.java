@@ -36,6 +36,7 @@ public class InitializationHandler {
 			InputStream s = this.getClass().getResourceAsStream("/initialization.json");
 			return InitializationJsonMarshaller.read(s);
 		} catch (Exception e) {
+			e.printStackTrace();
 			return null;
 		}
 	}

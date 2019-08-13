@@ -7,8 +7,8 @@
 {"class": "io.netty.handler.codec.http.websocketx.WebSocket00FrameEncoder"},
 {"class": "io.netty.handler.codec.http2.DefaultHttp2FrameWriter"},
 {"class": "io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler"},
-{"class": "reactor.netty.tcp.TcpClientSecure"},{"package": "io.netty.channel.unix"},
-
+{"class": "reactor.netty.tcp.TcpClientSecure"},
+{"package": "io.netty.channel.unix"},
 {"class": "reactor.netty.http.client.HttpClientSecure"}
 ],
 "buildTimeInitialization":
@@ -16,7 +16,6 @@
 //{"class": "com.sun.jmx.mbeanserver.MXBeanLookup"},
 {"class": "org.h2.Driver"},
 {"package": "io.netty.handler.address"},
-{"class": "io.netty.channel.unix.Errors"},
 {"package": "io.netty.handler.flow"},
 {"package": "io.netty.handler.flush"},
 {"package": "io.netty.handler.ipfilter"},
