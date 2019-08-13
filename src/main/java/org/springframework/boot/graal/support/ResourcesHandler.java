@@ -48,7 +48,7 @@ import org.springframework.boot.graal.type.TypeSystem;
 import com.oracle.svm.core.jdk.Resources;
 import com.oracle.svm.hosted.FeatureImpl.BeforeAnalysisAccessImpl;
 import com.oracle.svm.hosted.ImageClassLoader;
-import com.oracle.svm.hosted.ResourcesFeature.ResourcesRegistry;
+import com.oracle.svm.core.configure.ResourcesRegistry;
 
 public class ResourcesHandler {
 

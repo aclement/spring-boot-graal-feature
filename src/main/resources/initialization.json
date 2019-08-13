@@ -3,7 +3,8 @@
 [
 {"package": "io.netty.handler.codec.http2"},
 {"class": "reactor.netty.tcp.TcpClientSecure"},
-{"class": "reactor.netty.http.client.HttpClientSecure"}
+{"class": "reactor.netty.http.client.HttpClientSecure"},
+{"class": "sun.reflect.misc.Trampoline"}
 ],
 "buildTimeInitialization":
 [
@@ -43,7 +44,6 @@
 {"class": "org.springframework.core.annotation.PackagesAnnotationFilter"},
 {"class": "org.springframework.util.StringUtils"},
 {"class": "org.springframework.util.Assert"},
-{"class": "sun.reflect.misc.Trampoline"},
 {"class": "reactor.netty.ConnectionObserver"},
 {"class": "org.slf4j.helpers.Util"},
 {"class": "org.slf4j.helpers.NOPLoggerFactory"},

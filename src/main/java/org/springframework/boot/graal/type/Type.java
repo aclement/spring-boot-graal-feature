@@ -58,7 +58,7 @@ public class Type {
 	public final static String ImportSelector ="Lorg/springframework/context/annotation/ImportSelector;";
 	
 	public final static String TransactionManagementConfigurationSelector = "Lorg/springframework/transaction/annotation/TransactionManagementConfigurationSelector;";
-
+	
 	public final static String SpringDataWebConfigurationSelector = "Lorg/springframework/data/web/config/EnableSpringDataWebSupport$SpringDataWebConfigurationImportSelector;";
 
 	public final static String SpringDataWebQueryDslSelector = "Lorg/springframework/data/web/config/EnableSpringDataWebSupport$QuerydslActivator;";
