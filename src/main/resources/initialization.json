@@ -13,6 +13,7 @@
 ],
 "buildTimeInitialization":
 [
+    {"class": "org.springframework.boot.validation.MessageInterpolatorFactory"},
     {"class": "com.google.protobuf.Extension"},
     {"class": "com.google.protobuf.ExtensionLite"},
 {"class": "com.google.protobuf.ExtensionRegistry"},
