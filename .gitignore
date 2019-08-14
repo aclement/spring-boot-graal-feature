@@ -8,6 +8,7 @@ unpack
 samples/vanilla-jpa/jpa
 samples/vanilla-orm/orm
 samples/vanilla-grpc/grpc
+samples/vanilla-thymeleaf/thymeleaf
 samples/demo/demo
 samples/commandlinerunner/clr
 .attach_pid*
