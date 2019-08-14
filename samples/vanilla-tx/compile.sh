@@ -26,6 +26,7 @@ native-image \
   --no-server \
   -H:Name=tx \
   -H:+ReportExceptionStackTraces \
+  -H:+TraceClassInitialization \
   --no-fallback \
   --allow-incomplete-classpath \
   -H:EnableURLProtocols=https \
