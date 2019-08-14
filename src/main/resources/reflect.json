@@ -633,6 +633,10 @@
 		"name": "org.springframework.beans.factory.config.PropertiesFactoryBean",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
+	},{
+		"name": "org.springframework.core.io.support.PropertiesLoaderSupport",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.AutoConfigurationPackage",
