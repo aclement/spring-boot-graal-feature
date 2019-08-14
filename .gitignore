@@ -5,3 +5,9 @@ target
 .classpath
 .project
 unpack
+samples/vanilla-jpa/jpa
+samples/vanilla-orm/orm
+samples/vanilla-grpc/grpc
+samples/demo/demo
+samples/commandlinerunner/clr
+.attach_pid*
