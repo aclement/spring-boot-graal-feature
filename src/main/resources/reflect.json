@@ -280,6 +280,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.hibernate.jpa.HibernateEntityManagerFactory",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
