@@ -24,6 +24,7 @@ printf "\n\nCompile\n"
 native-image \
   -Dio.netty.noUnsafe=true \
   --no-server \
+  -H:+TraceClassInitialization \
   -H:Name=demo \
   -H:+ReportExceptionStackTraces \
   --no-fallback \
