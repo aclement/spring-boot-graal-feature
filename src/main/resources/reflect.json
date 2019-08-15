@@ -1072,6 +1072,52 @@
 	},
 	// vvv vanilla-jpa
 	{
+		"name": "java.lang.Throwable",
+		"allDeclaredFields": true,
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.hibernate.internal.SessionImpl",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.query.QueryLookupStrategy$Key",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.support.SimpleJpaRepository",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{ // this one shouldn't be needed (it's a superclass of the one below, which is what the bean definition actually is made of)
+		"name": "org.springframework.data.repository.core.support.TransactionalRepositoryFactoryBeanSupport",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{ // this one shouldn't be needed (it's a superclass of the one below, which is what the bean definition actually is made of)
+		"name": "org.springframework.data.repository.core.support.RepositoryFactoryBeanSupport",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.support.JpaRepositoryFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.core.support.RepositoryFragmentsFactoryBean",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.repository.core.support.PropertiesBasedNamedQueries",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.boot.context.properties.ConfigurationPropertiesScanRegistrar",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
