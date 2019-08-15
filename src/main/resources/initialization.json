@@ -4,10 +4,12 @@
 {"package": "io.netty.handler.codec.http2"},
 {"class": "reactor.netty.tcp.TcpClientSecure"},
 {"class": "reactor.netty.http.client.HttpClientSecure"},
-{"class": "sun.reflect.misc.Trampoline"}
+{"class": "sun.reflect.misc.Trampoline"},
+{"class": "reactor.netty.http.server.HttpServer"}
 ],
 "buildTimeInitialization":
 [
+    {"class": "org.slf4j.helpers.NOPLogger"},
     {"class": "io.netty.handler.codec.http2.ReadOnlyHttp2Headers"},
 {"class": "org.springframework.boot.validation.MessageInterpolatorFactory"},
 {"class": "com.google.protobuf.Extension"},
