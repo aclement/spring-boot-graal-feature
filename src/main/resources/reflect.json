@@ -1532,5 +1532,10 @@
 		"name": "java.lang.annotation.RetentionPolicy",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
-	}
+	},
+	{
+		"name": "org.yaml.snakeyaml.Yaml",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+ 	}
 ]

@@ -1,5 +1,6 @@
 dependency-reduced-pom.xml
 .settings
+.factorypath
 log.txt
 target
 .classpath
