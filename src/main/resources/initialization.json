@@ -5,7 +5,8 @@
 {"class": "reactor.netty.tcp.TcpClientSecure"},
 {"class": "reactor.netty.http.client.HttpClientSecure"},
 {"class": "sun.reflect.misc.Trampoline"},
-{"class": "reactor.netty.http.server.HttpServer"}
+{"class": "reactor.netty.http.server.HttpServer"},
+{"class": "ch.qos.logback.classic.spi.PackagingDataCalculator"}
 ],
 "buildTimeInitialization":
 [

@@ -755,12 +755,6 @@
 		"allDeclaredMethods": true
 	},
 	{
-		"name": "app.main.EnableTx",
-		"allDeclaredConstructors": true,
-		"allDeclaredFields": true,
-		"allDeclaredMethods": true
-	},
-	{
 		"name": "org.springframework.transaction.TransactionDefinition",
 		"allDeclaredConstructors": true,
 		"allDeclaredFields": true,
@@ -1056,6 +1050,11 @@
 	},
 	{
 		"name": "org.springframework.boot.autoconfigure.jdbc.DataSourceProperties",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "org.springframework.data.jpa.repository.config.EnableJpaRepositories",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
 	},
@@ -1529,6 +1528,36 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "io.netty.handler.codec.http.HttpServerCodec",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.CombinedChannelDuplexHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "io.netty.channel.ChannelDuplexHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "reactor.netty.channel.BootstrapHandlers$BootstrapInitializerHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "reactor.netty.channel.ChannelOperationsHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
+		"name": "reactor.netty.http.server.HttpTrafficHandler",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "java.lang.annotation.RetentionPolicy",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
@@ -1537,5 +1566,5 @@
 		"name": "org.yaml.snakeyaml.Yaml",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
- 	}
+	}
 ]

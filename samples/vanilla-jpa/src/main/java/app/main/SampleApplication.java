@@ -28,19 +28,37 @@ public class SampleApplication {
 
 	@Bean
 	public CommandLineRunner runner() {
+		System.err.println("+++++++++++");
 		return args -> {
-			Optional<Foo> foo = entities.findById(1L);
-			if (!foo.isPresent()) {
-				entities.save(new Foo("Hello"));
+			try {
+				System.err.println("****");
+				Optional<Foo> foo = entities.findById(1L);
+				System.err.println("****: " + foo);
+				if (!foo.isPresent()) {
+					entities.save(new Foo("Hello"));
+				}
+			}
+			catch (Exception e) {
+				e.printStackTrace();
 			}
 		};
 	}
 
 	@Bean
 	public RouterFunction<?> userEndpoints() {
-		return route(GET("/"),
-				request -> ok().body(Mono.fromCallable(() -> entities.findById(1L).get()).log()
-						.subscribeOn(Schedulers.elastic()), Foo.class));
+		return route(GET("/"), request -> ok().body(
+				Mono.fromCallable(this::findOne).log().subscribeOn(Schedulers.elastic()),
+				Foo.class));
+	}
+
+	private Foo findOne() {
+		try {
+			return entities.findById(1L).get();
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	public static void main(String[] args) {
