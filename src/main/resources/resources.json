@@ -29,6 +29,11 @@
     {"pattern": "static/index.html"},
     {"pattern": "templates/greeting.html"},
     // ^^^ vanilla-thymeleaf
+    
+    // vvv vanilla-rabbit
+    {"pattern": "rabbitmq-amqp-client.properties"},
+    // ^^^ vanilla-rabbit
+    {"pattern": "META-INF/spring.integration.default.properties"},
 
     // Does this catch the logging/<eachDirectory>/*.properties?
     {"pattern": "org/springframework/boot/logging/.*.properties"},
