@@ -1414,6 +1414,11 @@
 		"allDeclaredMethods": true
 	},
 	{
+		"name": "org.springframework.beans.factory.annotation.Qualifier",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	{
 		"name": "org.springframework.context.annotation.ConfigurationClassPostProcessor",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
