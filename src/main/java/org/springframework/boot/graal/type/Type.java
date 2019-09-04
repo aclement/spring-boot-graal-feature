@@ -52,8 +52,6 @@ public class Type {
 	public final static String OAuth2ImportSelector = "Lorg/springframework/security/config/annotation/web/configuration/OAuth2ImportSelector;";
 	
 	public final static String SpringWebMvcImportSelector = "Lorg/springframework/security/config/annotation/web/configuration/SpringWebMvcImportSelector;";
-
-	
 	
 	public final static String ImportSelector ="Lorg/springframework/context/annotation/ImportSelector;";
 	
@@ -80,6 +78,10 @@ public class Type {
 	public final static String AtConditional = "Lorg/springframework/context/annotation/Conditional;";
 
 	public final static String AtConditionalOnMissingBean = "Lorg/springframework/boot/autoconfigure/condition/ConditionalOnMissingBean;";
+
+	public final static String HypermediaConfigurationImportSelector = "Lorg/springframework/hateoas/config/HypermediaConfigurationImportSelector;";
+
+	public final static String WebStackImportSelector = "Lorg/springframework/hateoas/config/WebStackImportSelector;";
 
 	public final static Type MISSING = new Type(null, null);
 
@@ -956,6 +958,15 @@ public class Type {
 					"org.springframework.security.config.annotation.web.configuration.OAuth2ClientConfiguration"
 				}));
 
+		proposedAnnotations.put(HypermediaConfigurationImportSelector,
+				new CompilationHint(false, true, new String[] {
+						"org.springframework.hateoas.config.HypermediaConfigurationImportSelector"
+				}));
+
+		proposedAnnotations.put(WebStackImportSelector,
+				new CompilationHint(false, true, new String[] {
+						"org.springframework.hateoas.config.WebStackImportSelector"
+				}));
 	}
 	
 	private boolean implementsImportSelector() {
