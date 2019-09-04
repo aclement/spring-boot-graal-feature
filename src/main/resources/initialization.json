@@ -10,6 +10,22 @@
 ],
 "buildTimeInitialization":
 [
+    // vv vanilla-grpc
+    {"class": "io.netty.handler.codec.http2.CharSequenceMap"},
+    {"class": "io.netty.handler.codec.http2.Http2Headers$PseudoHeaderName"},
+    // ^^ vanilla-grpc
+    // These whilst working on the tx sample upgrading to graal 19.2 and boot 2.2.0.m5
+    //{"package": "org.springframework.aop"},
+    {"class": "org.springframework.aop.TargetSource"},
+    {"class":"org.springframework.aop.framework.Advised"},
+    {"class": "org.springframework.aop.Advisor"},
+    {"class": "org.springframework.aop.Advisor$1"},
+    {"class": "org.aopalliance.aop.Advice"},
+    {"class": "org.springframework.boot.CommandLineRunner"},
+    {"class": "app.main.Finder"},
+    {"class": "org.springframework.core.DecoratingProxy"},
+    {"class": "org.springframework.jdbc.datasource.ConnectionProxy"},
+    //
     {"class": "org.slf4j.helpers.NOPLogger"},
     {"class": "io.netty.handler.codec.http2.ReadOnlyHttp2Headers"},
 {"class": "org.springframework.boot.validation.MessageInterpolatorFactory"},

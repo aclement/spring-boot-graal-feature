@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>2.2.0.M2</version>
+		<version>2.2.0.M5</version>
 		<relativePath />
 	</parent>
 	<groupId>com.example</groupId>
@@ -57,7 +57,7 @@
 			<plugin>
 				<groupId>com.oracle.substratevm</groupId>
 				<artifactId>native-image-maven-plugin</artifactId>
-				<version>19.0.0</version>
+				<version>19.2.0</version>
 				<executions>
 					<execution>
 						<goals>

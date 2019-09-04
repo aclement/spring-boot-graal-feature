@@ -167,7 +167,7 @@ public class ReflectionHandler {
 			if (fields != null) {
 				for (FieldDescriptor fieldDescriptor : fields) {
 					try {
-						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite());
+						rra.registerField(type, fieldDescriptor.getName(), fieldDescriptor.isAllowWrite(),fieldDescriptor.isAllowUnsafeAccess());
 					} catch (NoSuchFieldException nsfe) {
 						throw new IllegalStateException("Couldn't find field: " + type.getName()+"."+fieldDescriptor.getName(), nsfe);
 //						System.out.println("SBG: WARNING: skipping reflection registration of field "+type.getName()+"."+fieldDescriptor.getName()+": field not found");

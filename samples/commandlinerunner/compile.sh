@@ -29,6 +29,7 @@ native-image \
   -cp $CP com.example.commandlinerunner.CommandlinerunnerApplication
 
 mv clr ../../..
+#-DremoveUnusedAutoconfig=true \
 
 printf "\n\nJava exploded jar\n"
 time java -classpath $CP com.example.commandlinerunner.CommandlinerunnerApplication

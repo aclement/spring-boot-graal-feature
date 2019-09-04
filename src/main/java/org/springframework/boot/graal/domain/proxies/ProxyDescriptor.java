@@ -18,8 +18,6 @@ package org.springframework.boot.graal.domain.proxies;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Reflection information about a single class.

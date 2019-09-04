@@ -8,10 +8,5 @@
 		"name": "demo.GreeterGrpc",
 		"allDeclaredConstructors": true,
 		"allDeclaredMethods": true
-	},
-	{
-		"name": "com.google.protobuf.ExtensionRegistry",
-		"allDeclaredConstructors": true,
-		"allDeclaredMethods": true
 	}
 ]

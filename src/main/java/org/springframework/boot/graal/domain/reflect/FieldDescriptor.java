@@ -24,14 +24,21 @@ package org.springframework.boot.graal.domain.reflect;
 public final class FieldDescriptor extends MemberDescriptor implements Comparable<FieldDescriptor> {
 
 	private boolean allowWrite = false;
+	
+	private boolean allowUnsafeAccess = false;
 
-	FieldDescriptor(String name, boolean allowWrite) {
+	FieldDescriptor(String name, boolean allowWrite, boolean allowUnsafeAccess) {
 		super(name);
 		this.allowWrite = allowWrite;
+		this.allowUnsafeAccess = allowUnsafeAccess;
 	}
 
 	public boolean isAllowWrite() {
 		return this.allowWrite;
+	}
+	
+	public boolean isAllowUnsafeAccess() {
+		return this.allowUnsafeAccess;
 	}
 
 	@Override
@@ -46,6 +53,7 @@ public final class FieldDescriptor extends MemberDescriptor implements Comparabl
 		boolean result = true;
 		result = result && nullSafeEquals(this.name, other.name);
 		result = result && nullSafeEquals(this.allowWrite, other.allowWrite);
+		result = result && nullSafeEquals(this.allowUnsafeAccess, other.allowUnsafeAccess);
 		return result;
 	}
 
@@ -53,6 +61,7 @@ public final class FieldDescriptor extends MemberDescriptor implements Comparabl
 	public int hashCode() {
 		int result = nullSafeHashCode(this.name);
 		result = 31 * result + nullSafeHashCode(this.allowWrite);
+		result = 31 * result + nullSafeHashCode(this.allowUnsafeAccess);
 		return result;
 	}
 
@@ -61,6 +70,7 @@ public final class FieldDescriptor extends MemberDescriptor implements Comparabl
 		StringBuilder string = new StringBuilder(this.name);
 		buildToStringProperty(string, "name", this.name);
 		buildToStringProperty(string, "allowWrite", this.allowWrite);
+		buildToStringProperty(string, "allowUnsafeAccess", this.allowUnsafeAccess);
 		return string.toString();
 	}
 
@@ -71,6 +81,10 @@ public final class FieldDescriptor extends MemberDescriptor implements Comparabl
 
 	public void setAllowWrite(boolean b) {
 		this.allowWrite = b;
+	}
+	
+	public void setAllowUnsafeAccess(boolean b) {
+		this.allowUnsafeAccess = b;
 	}
 	
 }

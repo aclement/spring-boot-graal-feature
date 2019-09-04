@@ -111,7 +111,8 @@ public class JsonMarshaller {
 	private static FieldDescriptor toFieldDescriptor(JSONObject object) throws Exception {
 		String name = object.getString("name");
 		boolean allowWrite = object.optBoolean("allowWrite");
-		return new FieldDescriptor(name,allowWrite);
+		boolean allowUnsafeAccess = object.optBoolean("allowUnsafeAccess"); // Need to confirm this is right
+		return new FieldDescriptor(name,allowWrite,allowUnsafeAccess);
 	}
 
 	private static MethodDescriptor toMethodDescriptor(JSONObject object) throws Exception {

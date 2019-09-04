@@ -32,6 +32,7 @@ native-image \
   -DremoveUnusedAutoconfig=true \
   -cp $CP hello.Application
 
+
   #--debug-attach \
 mv thymeleaf ../../..
 

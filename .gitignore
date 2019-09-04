@@ -1,5 +1,6 @@
 dependency-reduced-pom.xml
 .settings
+.vscode
 .factorypath
 log.txt
 target

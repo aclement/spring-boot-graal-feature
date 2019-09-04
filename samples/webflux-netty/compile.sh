@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 ../../mvnw clean install
 
-export JAR="demo-0.0.1-SNAPSHOT.jar"
-rm demo
+export JAR="webflux-netty-0.0.1-SNAPSHOT.jar"
+rm webflux-netty
 printf "Unpacking $JAR"
 rm -rf unpack
 mkdir unpack
@@ -25,7 +25,7 @@ native-image \
   -Dio.netty.noUnsafe=true \
   --no-server \
   -H:+TraceClassInitialization \
-  -H:Name=demo \
+  -H:Name=webflux-netty \
   -H:+ReportExceptionStackTraces \
   --no-fallback \
   --allow-incomplete-classpath \
@@ -33,9 +33,9 @@ native-image \
   -cp $CP com.example.demo.DemoApplication
 
 # -DremoveUnusedAutoconfig=true \
-mv demo ../../..
+mv webflux-netty ../../..
 
-printf "\n\nCompiled app (demo)\n"
+printf "\n\nCompiled app (webflux-netty)\n"
 cd ../../..
-time ./demo
+time ./webflux-netty
 

@@ -1,4 +1,11 @@
 [
+	// vv vanilla-grpc
+	{
+		"name": "com.google.protobuf.ExtensionRegistry",
+		"allDeclaredConstructors": true,
+		"allDeclaredMethods": true
+	},
+	// ^^ vanilla-grpc
 	// These two are from CodecConfigurer.properties
 	{
 		"name": "org.springframework.http.codec.support.DefaultClientCodecConfigurer",
