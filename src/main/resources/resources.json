@@ -12,6 +12,9 @@
     {"pattern": "logging.properties"},
     {"pattern": "org/springframework/http/codec/CodecConfigurer.properties"},
     
+    {"pattern": "org/reactivestreams/Publisher.class"},
+    {"pattern": "org/springframework/amqp/rabbit/connection/ChannelProxy.class"},
+    
     // vvv vanilla-jpa
     {"pattern": "org/springframework/boot/context/properties/ConfigurationPropertiesScanRegistrar.class"},
     {"pattern": "META-INF/jpa-named-queries.properties"},
@@ -30,6 +33,11 @@
     {"pattern": "static/index.html"},
     {"pattern": "templates/greeting.html"},
     // ^^^ vanilla-thymeleaf
+    
+    // vvv vanilla-rabbit
+    {"pattern": "rabbitmq-amqp-client.properties"},
+    // ^^^ vanilla-rabbit
+    {"pattern": "META-INF/spring.integration.default.properties"},
 
     // Does this catch the logging/<eachDirectory>/*.properties?
     {"pattern": "org/springframework/boot/logging/.*.properties"},

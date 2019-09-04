@@ -170,7 +170,8 @@
 {"class": "ch.qos.logback.core.ConsoleAppender"},
 {"class": "ch.qos.logback.core.spi.AppenderAttachableImpl"},
 {"class": "ch.qos.logback.classic.BasicConfigurator"},
-{"class": "org.slf4j.MDC"}
+{"class": "org.slf4j.MDC"},
+{"class": "com.rabbitmq.client.SocketChannelConfigurator"}
 // See https://medium.com/graalvm/instant-netty-startup-using-graalvm-native-image-generation-ed6f14ff7692
 ]
 }
