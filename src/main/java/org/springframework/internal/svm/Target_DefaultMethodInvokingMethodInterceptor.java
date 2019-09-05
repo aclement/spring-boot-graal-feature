@@ -16,6 +16,7 @@
 package org.springframework.internal.svm;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.UndeclaredThrowableException;
 
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
@@ -32,9 +33,17 @@ public final class Target_DefaultMethodInvokingMethodInterceptor {
 	@Substitute
 	public Object invoke(MethodInvocation invocation) throws Throwable {
 		Method method = invocation.getMethod();
+		if (!method.isDefault()) {
+			return invocation.proceed();
+		}
 		Object[] arguments = invocation.getArguments();
 		Object proxy = ((ProxyMethodInvocation)invocation).getProxy();
-		return method.invoke(proxy,arguments);
+		try {
+			return method.invoke(proxy,arguments);
+		} catch (UndeclaredThrowableException ute) {
+			System.out.println("UNDECLARED THROWABLE: "+ute.getUndeclaredThrowable());
+			throw ute;
+		}
 	}
 
 }
