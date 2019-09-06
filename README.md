@@ -1,5 +1,15 @@
 # spring-boot-graal-feature
 
+=================
+
+IMPORTANT
+
+THIS PROJECT HAS MOVED TO https://github.com/spring-projects-experimental/spring-graal-feature
+
+MASTER BRANCH AT THAT LOCATION SUPPORTS BOOT 2.2.0.M5 WITH GRAAL 19.2.0
+
+=================
+
 There is a Graal_19_1_0 branch that is a work-in-progress for supporting Graal 19.1 - when
 it is behaving it will become master.
 
