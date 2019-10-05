@@ -4,7 +4,7 @@
 
 IMPORTANT
 
-THIS PROJECT HAS MOVED TO https://github.com/spring-projects-experimental/spring-graal-feature
+THIS PROJECT HAS MOVED TO https://github.com/spring-projects-experimental/spring-graal-native-image
 
 MASTER BRANCH AT THAT LOCATION SUPPORTS BOOT 2.2.0.M5 WITH GRAAL 19.2.0
 
